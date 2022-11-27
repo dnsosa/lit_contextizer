@@ -1,0 +1,586 @@
+x	*~target~of|nmod|target~direct|nsubj|*	<entity2>GIK</entity2>  Is a Direct Target of <entity1>AG</entity1>
+x	*|nsubj|+regulates|dobj|expression|nmod|*~expression~of	<entity1>Lhx1</entity1> regulates expression of <entity2>Vip</entity2>
+x	*|nsubj|+regulate|dobj|*	<entity1>miR-26a/b</entity1> regulate <entity2>Th1</entity2>
+x	*~target~of|nmod|target|nsubj|*	<entity2>ZEB1</entity2> is target of <entity1>ROR</entity1>.
+x	*~regulation~by|nmod|regulation|nmod|*~regulation~of	Regulation of <entity2>TnT</entity2> by <entity1>FAK</entity1>
+x	*~role~in|nmod|role|nmod|*~role~of	Role of <entity2>PTH</entity2> in <entity1>CRS</entity1>
+x	*|nsubj|+regulate|dobj|expression|compound|*	<entity1>HDAC1/2</entity1> regulate <entity2>ATM</entity2> expression
+x	*~effect~of|nmod|effect|nmod|expression~effect~on|compound|*	Effect of <entity1>FGF</entity1> on <entity2>BMP</entity2> expression
+x	*~+regulated~by|nmod|+regulated|nsubjpass|expression|compound|*	<entity2>p11</entity2> expression is regulated by <entity1>A2</entity1>
+x	*|nsubj|+binds|nmod|promoter~+binds~to|compound|*	<entity1>EGR1</entity1> binds to <entity2>B23</entity2> promoter
+x	*~effects~of|nmod|effects|nmod|*~effects~on	Effects of <entity1>PEDF</entity1> on <entity2>AIF</entity2>.
+x	*~+required~for|nmod|+required|nsubjpass|*	<entity2>PERK</entity2> is required for <entity1>CNβ</entity1>
+a	*|nsubj|+increased|dobj|expression|compound|*	<entity1>LMP1</entity1> increased <entity2>TAZ</entity2> expression
+a	*|nsubj|+induces|dobj|expression|nmod|*~expression~of	<entity1>UL76</entity1> induces expression of <entity2>IL-8</entity2>
+a	*|nsubj|+upregulates|dobj|*	<entity1>TNF-α</entity1> upregulates <entity2>CBP</entity2>
+x	*|nsubj|+regulated|dobj|*	<entity1>ATM</entity1> regulated <entity2>PTEN</entity2>
+a	*|nsubj|+increased|dobj|expression|nmod|*~expression~of	<entity1>EGF</entity1> increased the expression of <entity2>MMP1</entity2>.
+a	*|nsubj|+increases|dobj|expression|compound|*	<entity1>OPN</entity1> increases <entity2>BIK</entity2> expression.
+x	*~inhibition~by|nmod|inhibition|nmod|*~inhibition~of	Inhibition of <entity2>aPC</entity2> by <entity1>PCI</entity1>
+x	*~+involved~in|nmod|+involved|nsubjpass|*	<entity2>Mer</entity2> is involved in <entity1>Gas6</entity1>
+x	*~target~of|nmod|target~downstream|nsubj|*	<entity2>C-Jun</entity2> is downstream target of <entity1>JNK</entity1>.
+a	*|nsubj|+increased|dobj|*	<entity1>SS</entity1> increased <entity2>Cx37</entity2>.
+x	*|nsubj|+regulates|nmod|*~+regulates~through	<entity1>Emc</entity1> regulates growth through <entity2>Da</entity2>
+x	*~levels~in|nmod|levels|nmod|*~levels~of	Serum levels of <entity2>IL-17</entity2> in <entity1>vitiligo</entity1>
+x	*~effects~of|nmod|effects|nmod|expression~effects~on|compound|*	Effects of <entity1>AMOG</entity1> on <entity2>L1</entity2> expression
+a	*|nsubj|+upregulates|dobj|expression|compound|*	<entity1>Myc</entity1> upregulates <entity2>GS</entity2> expression
+a	*|nsubj|+induce|dobj|expression|compound|*	<entity1>FoxA2</entity1> can induce <entity2>Arx</entity2> expression
+a	*|nsubj|+induced|dobj|production|compound|*	<entity1>IL-33</entity1> induced <entity2>IL-4</entity2> production
+x	*|compound|genes~expression~of|dep|*	(A) Expression of <entity1>Notch</entity1> target genes (<entity2>HES1</entity2> and HEY1).
+a	*~+upregulated~by|nmod|+upregulated|nsubjpass|*	<entity2>Drp1</entity2> is upregulated by <entity1>p53</entity1>.
+x	*|nmod:npmod|dependent|amod|activation~dependent|compound|*	(B) <entity1>Card9</entity1> dependent <entity2>TAK1</entity2> activation.
+x	*~+regulated~by|nmod|+regulated|nsubjpass|expression|nmod|*~expression~of	Expression of <entity2>p21</entity2> is regulated by <entity1>p53</entity1>.
+x	*|nmod:npmod|dependent|amod|*~dependent	<entity1>cAMP</entity1> dependent <entity2>protein kinase</entity2>
+x	*|nsubj|+induce|dobj|*	<entity1>IL-13</entity1> can induce <entity2>iNOS</entity2>  .
+a	*|nsubj|+stimulates|dobj|*	<entity1>cMYC</entity1> stimulates <entity2>GS</entity2>.
+a	*|compound|induction|nmod|*~induction~of	<entity1>BMP</entity1> induction of <entity2>Dsg4</entity2>
+x	*~+plays~in|nmod|+plays|nsubj|*	<entity2>TRPM8</entity2>  plays a key role in <entity1>COPD</entity1>.
+a	*~+induced~by|nmod|+induced|nsubjpass|expression|compound|*	<entity2>ECRG2</entity2> expression is induced by <entity1>p53</entity1>
+x	*|nsubj|+mediated|dobj|phosphorylation|compound|*	<entity1>CDK5</entity1> mediated <entity2>tau</entity2> phosphorylation
+a	*|nsubj|+increases|dobj|expression|nmod|*~expression~of	<entity1>OPN</entity1> increases expression of <entity2>BIK</entity2>
+a	*|nsubj|+promotes|dobj|*	<entity1>Chk1</entity1> promotes <entity2>TLS</entity2>
+a	*|nsubj|+stimulated|dobj|*	<entity1>IL-10</entity1> stimulated <entity2>M-DC</entity2>
+x	*|nmod:npmod|dependent|amod|phosphorylation~dependent|compound|*	<entity1>IGF-II</entity1> dependent <entity2>Akt</entity2> phosphorylation
+a	*|nsubj|+stimulates|dobj|expression|compound|*	<entity1>AR</entity1> stimulates <entity2>PARG</entity2> expression
+x	*|nsubj|+activates|dobj|pathway|compound|*	<entity1>HN1</entity1> activates <entity2>MYC</entity2> pathway
+x	*|nsubj|+mediated|dobj|*	<entity1>RecA</entity1> mediated <entity2>SERs</entity2>
+a	*|nsubj|+upregulated|dobj|*	<entity1>IFNγ</entity1> upregulated <entity2>SOCS1</entity2>.
+x	*|acl:relcl|+activates|dobj|*	Ephexin5 is a <entity1>GEF</entity1> that activates <entity2>RhoA</entity2>
+x	*|nmod:npmod|dependent|amod|expression~dependent|compound|*	<entity1>FXR</entity1> dependent <entity2>TRPA1</entity2> expression.
+x	*~+activated|nsubj|+phosphorylates|dobj|*	Activated <entity1>PERK</entity1> phosphorylates <entity2>eIF2α</entity2>.
+x	*|nsubj|+stimulated|dobj|phosphorylation|nmod|*~phosphorylation~of	<entity1>Insulin</entity1> stimulated phosphorylation of <entity2>AKT</entity2>
+x	*~response~to|nmod|response|compound|*	<entity2>sFlt-1</entity2> Response to <entity1>Ang II</entity1>
+a	*~+induced~by|nmod|+induced|acl|*	<entity2>Akt</entity2> induced by <entity1>TGF-beta1</entity1>.
+a	*~induction~by|nmod|induction|compound|*	<entity2>CD83</entity2> induction by <entity1>Tax1</entity1>
+x	*|nsubj|+induces|dobj|phosphorylation|nmod|*~phosphorylation~of	<entity1>EGF</entity1> induces phosphorylation of <entity2>hLst2</entity2>
+a	*|nmod:npmod|+induced|dobj|expression|compound|*	<entity1>TNFα</entity1> Induced <entity2>CYP19</entity2> Expression
+a	*|nsubj|+increased|dobj|levels|compound|*	<entity1>OGP</entity1> increased <entity2>HO-1</entity2> levels  .
+a	*|nmod:npmod|+induced|amod|expression~+induced|compound|*	<entity1>BAM8-22</entity1> induced <entity2>EGR-1</entity2> expression via ERK-1/2
+x	*|compound|receptor|dep|*	<entity2>EGFR</entity2>: <entity1>EGF</entity1> receptor;
+a	*~+induced~by|nmod|+induced|acl|expression|compound|*	<entity2>PD-L1</entity2> expression induced by <entity1>EGF</entity1>
+a	*|nsubj|+induced|dobj|activity|compound|*	<entity1>CXCL1</entity1> induced <entity2>ERK</entity2> activity.
+a	*|compound|*~+induced	BCG modulates <entity1>TNF-α</entity1> induced <entity2>p53</entity2>.
+a	*|nsubj|+induced|dobj|upregulation|nmod|*~upregulation~of	<entity1>HBx</entity1> induced the upregulation of <entity2>LASP-1</entity2>.
+a	*|nsubj|+stimulated|dobj|expression|compound|*	B: <entity1>BMP-2</entity1> stimulated <entity2>LIF</entity2> expression.
+x	*|nsubj|+induces|dobj|phosphorylation|compound|*	<entity1>LPS</entity1> induces <entity2>p53</entity2> phosphorylation
+x	*|nsubj|+stimulated|dobj|phosphorylation|compound|*	<entity1>IGF-1</entity1> stimulated <entity2>Akt</entity2> phosphorylation
+x	*|nsubj|+acts|nmod|*~+acts~on	<entity1>PPM-2</entity1> acts on <entity2>DLK-1</entity2>
+x	*|nsubj|+mediated|dobj|induction|nmod|*~induction~of	<entity1>PPARγ</entity1> mediated induction of <entity2>GLUT4</entity2>  
+a	*~induction~by|nmod|induction|nmod|expression~induction~of|compound|*	Induction of <entity2>Id1</entity2> expression by <entity1>LPS</entity1>.
+a	*|compound|*~+activated	<entity1>CLA</entity1> activated <entity2>PPARα</entity2>.
+a	*|compound|stimulation|nmod|*~stimulation~of	Cath <entity1>LL-37</entity1> stimulation of <entity2>mMCs</entity2>
+x	*|nsubj|+induces|nmod|*~+induces~via	<entity1>RhoA</entity1> induces NF-κB via <entity2>PKD1</entity2>.
+a	*|nsubj|+induces|dobj|activation|compound|*	<entity1>ASM</entity1> induces <entity2>AKT</entity2> activation
+a	*~+induced~by|nmod|+induced|nsubjpass|expression|nmod|*~expression~of	Expression of <entity2>FLCN</entity2> is Induced by <entity1>VHL</entity1>
+x	*|nsubj|+increased|dobj|phosphorylation|nmod|*~phosphorylation~of	<entity1>Rac1</entity1> increased phosphorylation of <entity2>FAK</entity2>.
+x	*|nsubj|+induced|nmod|*~+induced~in	<entity1>CGRP</entity1> induced potentiation in the <entity2>ACC</entity2>
+x	*|compound|signaling|nmod|*~signaling~via	<entity1>IL-1</entity1> signaling via <entity2>p38</entity2>
+x	*|nsubj|+induces|nmod|*~+induces~through	<entity1>ET-1</entity1> induces JNK through <entity2>TAK1</entity2>.
+?	*~+activated~by|nmod|+activated|acl|*	Is <entity2>Cdc24</entity2> activated by <entity1>Bem1</entity1>?
+a	*~+induced~by|nmod|+induced|acl|*~expression~of	How is the expression of <entity2>Sox14</entity2> induced by <entity1>EcR-B1</entity1>?
+?	*|nmod:npmod|+induced|dobj|*	Loss of Scribble inhibited <entity1>Myc</entity1> induced <entity2>Rac</entity2>.
+x	*|nmod:npmod|+induced|dobj|phosphorylation|nmod|*~phosphorylation~of	<entity1>TGFβ1</entity1> induced phosphorylation of <entity2>Smad 2/3</entity2>
+a	*~stimulation~by|nmod|stimulation|nmod|*~stimulation~of	Stimulation of <entity2>p53</entity2> by <entity1>JMJD2D</entity1>
+x	*|nmod:npmod|+induced|amod|phosphorylation~+induced|nmod|*~phosphorylation~of	HILI inhibits <entity1>PAK1</entity1> - induced phosphorylation of <entity2>TBCB</entity2>.
+x	*|nmod:npmod|+induced|dobj|phosphorylation|compound|*	TSA inhibited <entity1>Ang II</entity1> induced <entity2>p66shc</entity2> phosphorylation
+x	*~+induced~by|nmod|+induced|acl|phosphorylation|compound|*	<entity2>STAT5</entity2> phosphorylation induced by <entity1>EPO</entity1>
+a	*|nmod:npmod|+induced|dobj|activation|compound|*	RhoU enhances <entity1>EGF</entity1> induced <entity2>JNK</entity2> activation
+a	*|nmod:npmod|+induced|amod|activation~+induced|compound|*	SphK1 mediates <entity1>AC</entity1> induced <entity2>Akt</entity2> activation
+x	*|nsubj|+activates|nmod|*~+activates~through	<entity1>Rab10</entity1> activates RalA through <entity2>Rlf</entity2>
+x	*|nsubj|+activates|nmod|*~+activates~via	<entity1>DAI</entity1> activates NF-κB via <entity2>RIP1</entity2>
+x	*|nsubj|+acts|nmod|*~+acts~via	<entity1>SOCS6</entity1> acts via <entity2>YAP</entity2>
+a	*|nmod:npmod|+induced|dobj|expression|nmod|*~expression~of	PKG II inhibits <entity1>EGF</entity1> induced expression of <entity2>Bcl-2</entity2>.
+a	*~+induced~by|nmod|+induced|acl|*~phosphorylation~of	TCN Inhibits the Phosphorylation of <entity2>IKKβ</entity2> Induced by <entity1>TNF-α</entity1>
+x	*|nsubj|+induced|dobj|signaling|compound|*	<entity1>BMPER</entity1> induced <entity2>BMP</entity2> signaling
+a	*~+induced~by|nmod|+induced|acl|activation|compound|*	B. <entity2>AKT</entity2> activation induced by <entity1>SLC3A1</entity1>.
+a	*|nmod:npmod|+induced|amod|*~+induced	Mrgprs mediate <entity1>SP</entity1> induced <entity2>itch</entity2>.
+a	*|nsubjpass|+known|xcomp|+activate|dobj|*	<entity1>p38</entity1> is known to activate <entity2>MSK1</entity2>  .
+a	*~+stimulated~by|nmod|+stimulated|nsubjpass|*	<entity2>BMI1</entity2> is stimulated by <entity1>p38 MAPK</entity1>.
+a	*~+activated~by|nmod|+activated|acl:relcl|*	One exception was <entity2>Lgr5</entity2> , which was activated by <entity1>MSI2</entity1>.
+a	*|nmod:npmod|+induced|amod|activation~+induced|nmod|*~activation~of	VC inhibited the <entity1>M-CSF</entity1> induced activation of <entity2>ERK</entity2>.
+r	*|nsubj|+inhibits|dobj|expression|compound|*	<entity1>HCP</entity1> inhibits <entity2>TLR4</entity2> expression
+r	*|nsubj|+represses|dobj|*	<entity1>Myc</entity1> represses <entity2>Pten</entity2>
+x	*|nsubj|+regulate|dobj|expression|nmod|*~expression~of	<entity1>MiR-4443</entity1> regulate expression of <entity2>TIMP2</entity2>
+r	*|nsubj|+represses|dobj|expression|compound|*	<entity1>ER</entity1> represses <entity2>Sox9</entity2> expression
+x	*|nsubj|+targeted|dobj|*	<entity1>EGFR</entity1> targeted <entity2>mAbs</entity2>
+r	*|nsubj|+suppresses|dobj|*	<entity1>PGD</entity1> suppresses <entity2>TXNIP</entity2>
+x	*~downstream~of|nmod|downstream|advmod|+acts|nsubj|*	<entity2>Rac</entity2> acts downstream of <entity1>GIT1</entity1>
+r	*|nsubj|+suppresses|dobj|expression|compound|*	<entity1>NCL</entity1> suppresses <entity2>AR</entity2> expression.
+x	*~+targeted~by|nmod|+targeted|nsubjpass|*	<entity2>Fkh2</entity2> is targeted by <entity1>Cbk1</entity1>
+r	*|nsubj|+downregulates|dobj|*	<entity1>OGN</entity1> downregulates <entity2>NF2</entity2>
+x	*|nsubj|+regulated|dobj|expression|nmod|*~expression~of	<entity1>ACP5</entity1> Regulated the Expression of <entity2>p53</entity2>
+x	*|nsubj|+acts|advmod|upstream|nmod|*~upstream~of	<entity1>En</entity1> acts upstream of <entity2>Dpp</entity2>.
+x	*|nsubj|+regulates|dobj|transcription|compound|*	<entity1>p73</entity1> regulates <entity2>G6PD</entity2> transcription
+x	*|nsubj|+modulates|dobj|*	<entity1>RhoH</entity1> modulates <entity2>IL3</entity2>
+x	*~effect~of|nmod|effect|nmod|activity~effect~on|compound|*	Effect of <entity1>MYC</entity1> on <entity2>AR</entity2> Activity
+a	*|nsubj|+promotes|dobj|expression|nmod|*~expression~of	<entity1>BRCA</entity1> promotes expression of <entity2>ESR1</entity2>
+a	*|nsubj|+activates|dobj|expression|compound|*	<entity1>USF1</entity1> activates <entity2>p65</entity2> expression
+a	*|nsubj|+enhances|dobj|expression|compound|*	<entity1>HSM</entity1> enhances <entity2>SOD</entity2> expression
+r	*~+inhibited~by|nmod|+inhibited|nsubjpass|*	<entity2>p27</entity2> is inhibited by <entity1>KLF5</entity1>.
+x	*|nsubj|+modulates|dobj|expression|compound|*	<entity1>CovR</entity1> modulates <entity2>FTF</entity2> expression
+x	*|nsubj|+controls|dobj|*	<entity1>BACH2</entity1> controls <entity2>TCR</entity2>
+x	*~effects~of|nmod|effects|nmod|expression~effects~on|nmod|*~expression~of	Effects of <entity1>FSH</entity1> on expression of <entity2>Inhba</entity2>
+x	*|nsubj|+regulates|dobj|activation|compound|*	<entity1>Rap</entity1> regulates <entity2>Rac</entity2> activation
+a	*|nsubj|+up-regulates|dobj|*	<entity1>AGK</entity1> up-regulates <entity2>IL-8</entity2>
+x	*|dobj|+mediates|nsubj|*	<entity2>JAK2</entity2> mediates <entity1>PRL</entity1>
+r	*~effect~of|nmod|effect~inhibitory|nmod|*~effect~on	Inhibitory effect of <entity1>EAA</entity1> on <entity2>lipase</entity2>.
+a	*|nsubj|+upregulates|dobj|expression|nmod|*~expression~of	<entity1>VEGF</entity1> upregulates expression of <entity2>RhoB</entity2>
+a	*|nsubj|+increased|dobj|activity|compound|*	<entity1>AMPK</entity1> increased <entity2>HAT1</entity2> activity
+x	*~involvement~in|nmod|involvement|nmod|*~involvement~of	Involvement of <entity2>VMP1</entity2> in <entity1>MAM</entity1>
+a	*|nsubj|+up-regulates|dobj|expression|compound|*	<entity1>Dyrk1B</entity1> up-regulates <entity2>E7</entity2> expression
+x	*|nsubj|+affects|dobj|*	<entity1>Prx1</entity1> affects <entity2>LPS</entity2>
+a	*|nsubj|+enhances|dobj|*	<entity1>GrA</entity1> enhances <entity2>LPS</entity2>
+a	*|nsubj|+upregulated|dobj|expression|nmod|*~expression~of	<entity1>NOS1</entity1> upregulated the expression of <entity2>ABCG2</entity2>.
+x	*|compound|target|nsubj|*	<entity2>MS1</entity2> is a <entity1>JNK</entity1> target.
+a	*|nsubj|+increase|dobj|expression|compound|*	<entity1>STL</entity1> and STB increase <entity2>HO-1</entity2> expression.
+x	*~target~of|nmod|target~transcriptional|nsubj|*	<entity2>XLF</entity2> is a transcriptional target of <entity1>WRN</entity1>
+x	*~role~of|nmod|role|nmod|regulation~role~in|nmod|*~regulation~of	Role of <entity1>CagA</entity1> in regulation of <entity2>p53</entity2>
+r	*|nsubj|+down-regulates|dobj|*	<entity1>Snail</entity1> down-regulates <entity2>TEL2</entity2>
+a	*|nsubj|+activates|dobj|transcription|compound|*	<entity1>ILF3</entity1> activates <entity2>uPA</entity2> transcription
+x	*~regulation~by|nmod|regulation|compound|*	<entity2>PLN</entity2> regulation by <entity1>PP1</entity1>
+x	*~+regulated~by|nmod|+regulated|nsubjpass|activity|compound|*	<entity2>HuR</entity2> activity is regulated by <entity1>LKB1</entity1>
+a	*|nsubj|+enhances|dobj|expression|nmod|*~expression~of	<entity1>Foxp1</entity1> enhances expression of <entity2>Gpr132</entity2>
+a	*|nsubj|+upregulate|dobj|expression|compound|*	<entity1>HBx</entity1> and SP1 upregulate <entity2>DKK1</entity2> expression.
+a	*|nsubj|+increases|dobj|levels|compound|*	<entity1>IGF-1</entity1> increases <entity2>TFG</entity2> levels.
+x	*|nsubj|regulator~upstream|nmod|*~regulator~of	<entity1>STIL</entity1> is an upstream regulator of <entity2>PLK4</entity2>
+a	*|nsubj|+promotes|dobj|activation|compound|*	<entity1>SYK</entity1> promotes <entity2>HSC</entity2> activation
+a	*|nsubj|+activates|dobj|expression|nmod|*~expression~of	<entity1>FEZ</entity1> activates expression of <entity2>SMB</entity2> .
+a	*|nsubj|+increase|dobj|expression|nmod|*~expression~of	<entity1>HGF</entity1> Can Increase the Expression of <entity2>NGF</entity2>
+a	*|nsubjpass|+required|nmod|activation~+required~for|nmod|*~activation~of	<entity1>ATF4</entity1> is required for activation of <entity2>ATF6</entity2>
+a	*|nsubj|+stimulated|dobj|activity|compound|*	K29A <entity1>Rim1</entity1> stimulated <entity2>Pif1</entity2> helicase activity
+x	*|nsubj|+regulate|nmod|*~+regulate~through	<entity1>p53</entity1> regulate RB pathway through <entity2>p21</entity2>.
+x	*|nsubj|+mediated|dobj|inhibition|nmod|*~inhibition~of	<entity1>PTK2B</entity1> mediated inhibition of <entity2>TP53</entity2>
+?	*|nsubj|-activate|dobj|*	<entity1>TES</entity1> did not activate <entity2>ANP3</entity2>.
+a	*|nsubj|+up-regulated|dobj|expression|compound|*	<entity1>SAA</entity1> up-regulated <entity2>MMP9</entity2> expression.
+a	*|nsubj|+activates|dobj|transcription|nmod|*~transcription~of	<entity1>Myc</entity1> activates transcription of <entity2>CD133</entity2> .
+x	*~treatment~with|compound|*	Treatment with the <entity2>BCKDK</entity2> inhibitor <entity1>BT2</entity1>
+x	*|compound|genes~expression~of|nmod|*~genes~such	This is supported by increased expression of <entity1>Xbp1</entity1> target genes such as <entity2>BiP</entity2> and CHOP.
+x	*~+activates~through|nmod|+activates|dobj|*	Rab10 activates <entity2>RalA</entity2> through <entity1>Rlf</entity1>
+a	*|appos|agonist|compound|*	The <entity2>Smo</entity2> agonist (<entity1>SAG</entity1>; cat.
+x	*~+regulated~by|nmod|+regulated|acl:relcl|*	Among them is <entity2>NBS1</entity2> ,  that is regulated by <entity1>p53</entity1> .
+x	*|compound|target|appos|*	DLX3 and p53 co-regulate <entity1>p53</entity1> target, <entity2>p21</entity2>
+x	*|nmod:npmod|dependent|amod|activity~dependent|compound|*	Vav regulates <entity1>Egr</entity1> dependent <entity2>Rac1</entity2> activity
+x	*|nsubj|+inhibits|nmod|*~+inhibits~through	<entity1>DJ-1</entity1> inhibits ASK1 through <entity2>Trx1</entity2>
+x	*~+controlled~by|nmod|+controlled|nsubjpass|*	<entity2>AGL36</entity2>  is controlled by <entity1>DEMETER</entity1>
+x	*|nsubj|+mediated|dobj|induction|compound|*	<entity1>TLR9</entity1> mediated <entity2>IDO</entity2> induction
+x	*~effects~of|nmod|effects|dobj|+mediates|nsubj|*	<entity2>IGF-1</entity2> mediates the effects of <entity1>GH</entity1>.
+x	*|compound|signaling|nmod|*~signaling~to	<entity1>TCR</entity1> signaling to <entity2>mTORC1</entity2>
+a	*|nsubj|+induces|dobj|transcription|compound|*	<entity1>XPB</entity1> induces <entity2>C1D</entity2> transcription
+x	*|nsubj|+inhibits|nmod|*~+inhibits~via	<entity1>Npr1</entity1> Inhibits TORC1 via <entity2>Pib2</entity2>
+x	*|nsubj|+induces|nmod|*~+induces~in	<entity1>ELMO1</entity1> induces EMT in <entity2>HCC</entity2>.
+x	*|nsubj|+induced|ccomp|+mediated|nmod|*~+mediated~by	<entity1>HGF</entity1> induced arrest is mediated by <entity2>SHP2</entity2>
+a	*|nsubj|activator|nmod|*~activator~of	<entity1>KIF7</entity1> is activator of <entity2>GLI</entity2>.
+x	*|nsubj|+activate|dobj|signaling|compound|*	<entity1>MMP-2</entity1> and TOM70 activate <entity2>RLR</entity2> signaling.
+x	*|nsubj|+mediates|nmod|*~+mediates~via	<entity1>Hem</entity1> mediates RP2 migration via <entity2>WAVE</entity2>
+a	*|compound|*~induced	2.5. <entity1>TGFβ1</entity1> Induced <entity2>SMURF1</entity2>
+x	*~effects~of|nmod|effects|nsubjpass|+mediated|nmod|*~+mediated~by	Effects of <entity1>TNF-α</entity1> were mediated by <entity2>TNFR1</entity2>
+x	*|nsubj|+activated|dobj|signaling|compound|*	<entity1>BCL11B</entity1> activated <entity2>P73</entity2> signaling in HCC.
+x	*~+stimulated~with|nmod|+stimulated|nsubjpass|*	<entity2>PRP</entity2> was stimulated with <entity1>CRP</entity1> for 5 min.
+x	*~activation~by|nmod|activation|nmod|pathway~activation~of|compound|*	Activation of <entity2>ERK1/2</entity2> pathway by <entity1>KGF</entity1>
+x	*|nsubj|+induces|nmod|manner~+induces~dependent~in|amod|dependent|nmod:npmod|*	<entity1>IL-6</entity1> induces EMT in a <entity2>p53</entity2> dependent manner.
+x	*~activation~via|nmod|activation|nmod|*~activation~of	Activation of <entity2>JNK</entity2> via <entity1>Pyk2</entity1>
+x	*|nsubj|+act|nmod|*~+act~through	<entity1>Lamin B1</entity1> and LBR likely act through <entity2>MAN1</entity2>
+a	*|nsubj|+induce|dobj|activation|compound|*	<entity1>Tim3</entity1> and IL-1β induce <entity2>caspase-3</entity2> activation
+x	*~+activated~by|nmod|+activated|nsubjpass|pathway|compound|*	The <entity2>Notch</entity2> pathway is activated by <entity1>TOR</entity1>
+a	*|acl:relcl|+activate|dobj|*	AhR can also activate <entity1>RelA</entity1>, which can activate <entity2>IL-6</entity2>.
+x	*~activation~through|nmod|activation|nmod|*~activation~of	A , activation of <entity2>ERK</entity2> through <entity1>RGS12</entity1>.
+x	*|compound|–|compound|axis|compound|*	<entity1>C3a</entity1>–<entity2>C3aR</entity2> Axis
+x	*~response~to|compound|*	BV-2 Microglia Releases TNF-α in Response to <entity2>ALS</entity2> <entity1>IgG</entity1>
+x	*|nsubj|+activate|nmod|*~+activate~via	<entity1>RASSF1A</entity1> can activate Bax via <entity2>MOAP-1</entity2>.
+a	*|nmod:npmod|+induced|dobj|activity|compound|*	PTEN decreased <entity1>LPS</entity1> induced <entity2>Akt</entity2> activity.
+x	*|nsubj|+induce|nmod|*~+induce~via	<entity1>BCAA</entity1> induce ROS production via <entity2>mTORC1</entity2>.
+x	*|nsubj|+induce|nmod|*~+induce~through	<entity1>Gp120</entity1> can induce IFNβ and ISRE genes through <entity2>TLR2</entity2>
+x	*~response~to|nmod|response|nmod|*~response~of	Response of <entity2>GH</entity2> to <entity1>SMS</entity1> 201-995 Fig. 2.
+x	*~activation~by|nmod|activation|nmod|signaling~activation~of|compound|*	Activation of <entity2>ATM</entity2> signaling by <entity1>UFL1</entity1>
+a	*|nsubj|activator~potent|nmod|*~activator~of	<entity1>IL-6</entity1> is a potent activator of <entity2>STAT3</entity2>.
+x	*|nmod:npmod|independent|amod|activation~independent|nmod|*~activation~of	<entity1>PrlR</entity1> independent activation of <entity2>Stat5</entity2>
+x	*|acl|+acting|nmod|*~+acting~on	<entity1>NGF</entity1> acting on <entity2>trkA</entity2> has many effects.
+x	*~receptor~for|nmod|receptor|compound|*	<entity2>RAGE</entity2> receptor for <entity1>AGE</entity1>
+x	*~+induced~by|nmod|+induced|nmod|*~+induced~via	MTHFD2 expression is induced by <entity1>mTORC1</entity1> via <entity2>ATF4</entity2>  .
+x	*|compound|signaling|nsubjpass|+mediated|nmod|*~+mediated~by	<entity1>DNAM-1</entity1> signaling is mediated by <entity2>Fyn</entity2> and PKCη
+x	*|nsubj|+inhibits|advcl|+targeting|dobj|*	<entity1>miR-144</entity1> inhibits ESCC by targeting <entity2>TIGAR</entity2>
+x	*|nsubj|+cleaves|dobj|*	<entity1>GrM</entity1> cleaves <entity2>VWF</entity2>
+x	*|nsubj|+regulates|advcl|+targeting|dobj|*	<entity1>miR-210</entity1> regulates IL-6 by targeting <entity2>NR1D2</entity2>
+x	*~gene~of|nmod|gene~direct|nsubj|*	<entity2>RORγ</entity2> is a direct target gene of <entity1>E2A</entity1>
+r	*|nsubj|+downregulates|dobj|expression|compound|*	<entity1>Akt</entity1> downregulates <entity2>Bid</entity2> expression.
+x	*~downstream~of|nmod|downstream|advmod|+functions|nsubj|*	<entity2>PAK1</entity2> functions downstream of <entity1>Raf</entity1>.
+x	*|nsubj|+cleave|dobj|*	<entity1>Caspase-3</entity1> can cleave <entity2>cGAS</entity2>.
+r	*|nsubj|+inhibits|dobj|activation|compound|*	<entity1>AR</entity1> inhibits <entity2>AMPK</entity2> activation
+r	*~repression~by|nmod|repression|nmod|*~repression~of	Repression of <entity2>Nrf2</entity2> by <entity1>Keap1</entity1>
+r	*~downregulation~by|nmod|downregulation|nmod|*~downregulation~of	Downregulation of <entity2>SOCS2</entity2> by <entity1>p53</entity1>
+x	*|nsubj|+regulates|dobj|phosphorylation|compound|*	<entity1>Lic</entity1> regulates <entity2>JNK</entity2> phosphorylation
+r	*~+downregulated~by|nmod|+downregulated|nsubjpass|*	<entity2>AIM2</entity2> is downregulated by <entity1>HBx</entity1>
+a	*|nsubj|+enhances|dobj|activity|compound|*	<entity1>PTN</entity1> enhances <entity2>CDK5</entity2> activity
+r	*~inhibition~by|nmod|inhibition|compound|*	<entity2>FXa</entity2> inhibition by <entity1>TFPI</entity1>
+a	*|nsubj|+increases|dobj|activity|compound|*	<entity1>NCS1</entity1> increases <entity2>Akt</entity2> activity
+x	*|nsubj|+affects|dobj|expression|compound|*	<entity1>ERα</entity1> affects <entity2>CSE</entity2> expression
+x	*~role~of|nmod|role|nmod|activation~role~in|compound|*	Role of <entity1>IFN</entity1> in <entity2>IDO</entity2> activation.
+x	*|nsubj|+mediates|dobj|activation|compound|*	<entity1>p53</entity1> mediates <entity2>Bak</entity2> activation
+a	*|nsubj|regulator~positive|nmod|*~regulator~of	<entity1>HEN4</entity1>  is a positive regulator of <entity2>FLC</entity2>
+a	*|nsubj|+promotes|dobj|activity|compound|*	<entity1>EGFR</entity1> promotes <entity2>Yki</entity2> activity
+x	*|nsubj|able|xcomp|+phosphorylate|dobj|*	<entity1>TAK1</entity1> is able to phosphorylate <entity2>IKK</entity2>
+x	*|nsubj|+promotes|dobj|phosphorylation|nmod|*~phosphorylation~of	<entity1>RACK1</entity1> promotes phosphorylation of <entity2>MCM7</entity2>
+x	*|nsubj|+regulate|nmod|*~+regulate~via	<entity1>FNIP1/2</entity1> regulate AMPK via <entity2>FLCN</entity2>
+x	*|nsubj|+act|nmod|*~+act~on	   <entity1>PD-L1</entity1> and PD-L2 both act on <entity2>PD-1</entity2>.
+x	*|compound|signaling|dobj|+mediates|nsubj|*	<entity2>HNE</entity2> mediates <entity1>AKT</entity1> signaling.
+x	*|nsubj|+utilizes|dobj|*	<entity1>TLR3</entity1> utilizes <entity2>Trif</entity2>.
+a	*|nsubj|+promotes|dobj|activation|nmod|*~activation~of	<entity1>TIM</entity1> promotes the activation of <entity2>MYC</entity2>
+x	*~effect~of|nmod|effect|dobj|+mediates|nsubj|*	<entity2>Akt</entity2> mediates the effect of <entity1>R-Ras</entity1>
+a	*|nsubj|+regulates|advcl|+activating|dobj|*	<entity1>HES1</entity1> regulates apoptosis by activating <entity2>PARP1</entity2>.
+x	*~action~of|nmod|action|nmod|*~action~on	The action of <entity1>thrombin</entity1> on <entity2>fibrinogen</entity2>.
+x	*~+regulated~by|nmod|+regulated|nsubjpass|activity|nmod|*~activity~of	Activity of <entity2>HSF1</entity2> is regulated by <entity1>SF3B1</entity1>
+x	*~+mediated~by|nmod|+mediated|nsubjpass|activation|compound|*	<entity2>AKT</entity2> activation is mediated by <entity1>FAK</entity1>.
+a	*|nsubj|+activates|dobj|kinase|compound|*	<entity1>APRIL</entity1> activates <entity2>ERK1/2</entity2> MAP kinase
+x	*|nsubj|+promotes|nmod|activation~+promotes~through|nmod|*~activation~of	<entity1>S100A6</entity1> promotes EMT through activation of <entity2>β-catenin</entity2>
+x	*|nsubj|+activate|nmod|*~+activate~through	<entity1>mGluRs</entity1> can activate ERK2 through <entity2>PKC</entity2>.
+x	*|nsubj|+increases|nmod|*~+increases~via	<entity1>gp120</entity1> increases I A  via <entity2>CXCR4</entity2>
+x	*~activation~via|nmod|activation|compound|*	<entity2>CaMKII</entity2> activation via <entity1>Epac</entity1>
+x	*~+regulated~by|nmod|+regulated|nmod|*~+regulated~via	MYC is regulated by <entity1>CIP2A</entity1> via <entity2>PP2A</entity2>.
+a	*|nsubj|+triggers|dobj|*	<entity1>OC2</entity1>  triggers <entity2>ACSL5</entity2>  in GC cells
+x	*|nsubj|+promote|nmod|*~+promote~through	<entity1>IL-36α</entity1> may promote neutrophil recruitment through <entity2>CXCL1</entity2>
+x	*|nmod:npmod|independent|amod|activation~independent|compound|*	<entity1>SHOC2</entity1> independent <entity2>ERK</entity2> activation requires CRAF.
+x	*~+responds~to|nmod|+responds|nsubj|*	<entity2>PAQR3</entity2> responds to <entity1>adiponectin</entity1>.
+x	*|dep|ligands~levels~of|compound|*	Kidney RNA levels of <entity2>ACKR2</entity2> ligands <entity1>CCL2</entity1> and CCL5 and their receptors.
+x	*|nsubj|+act|nmod|*~+act~via	This proved that <entity1>EPO</entity1> could act on RGCs via <entity2>EPOR</entity2>  .
+x	*|compound|–|compound|signaling|compound|*	<entity1>HPSE</entity1>–<entity2>VEGF</entity2> signaling
+x	*~effects~of|nmod|effects|nsubjpass|+mediated|nmod|*~+mediated~through	Effects of <entity1>BaP</entity1> on PTGS2 are mediated through <entity2>AHR</entity2>.
+a	*~+stimulated~by|nmod|+stimulated|acl|*	(B) I Na  of WT and mutant <entity2>α-ENaC</entity2> stimulated by <entity1>CAP2</entity1>.
+a	*|nsubj|+stimulates|advcl|+activating|dobj|*	<entity1>LPS</entity1> stimulates PRP4 by activating <entity2>TLR4</entity2> and JNK.
+a	*|nsubj|+induced|dobj|internalization|compound|*	Notably, <entity1>TGF-β1</entity1> also induced <entity2>LRP5</entity2> internalization.
+x	*~+induced~by|nmod|+induced|nmod|*~+induced~through	c-Jun is induced by <entity1>GnRH</entity1> through <entity2>p38</entity2> and JNK.
+x	*|nsubj|+binds|nmod|domain~+binds~extracellular~to|nmod|*~domain~of	<entity1>WNT9B</entity1> binds to the extracellular domain of <entity2>PKD1</entity2>
+x	*|nsubj|+exerts|dep|*	<entity1>C5a</entity1> exerts its effect through its receptors: <entity2>C5aR</entity2> and C5L2.
+x	*|compound|receptor~expression~of|dep|*	Expression of <entity1>VEGF</entity1> receptor (<entity2>VEGFR-1</entity2> and VEGFR-2) seems less specific.
+x	*~receptor~for|nmod|receptor~+identified~as|nmod|+identified|nsubjpass|*	<entity2>NRP2</entity2> is identified as a receptor for <entity1>TGF-β1</entity1>.
+x	*|nsubj|+exerts|advcl|+binding|nmod|*~+binding~to	<entity1>IL-6</entity1> exerts its effect by binding to <entity2>IL-6 receptor</entity2> (IL6R).
+x	*~receptor~for|nmod|receptor~primary|nsubj|*	<entity2>CCR5</entity2> is the primary receptor for <entity1>CCL4</entity1>.
+x	*|compound|signal|nmod|*~signal~through	<entity1>IP-10p</entity1> Signal through <entity2>CXCR3</entity2>
+x	*~+activated~by|nmod|+activated|nmod|*~+activated~through	DDB2 was activated by <entity1>HDAC1</entity1> through <entity2>BRCA1</entity2>.
+x	*~binding~of|nmod|binding|nmod|receptors~binding~to|dep|*	Binding of <entity1>CXCL8</entity1> to chemokine receptors <entity2>CXCR1</entity2> and CXCR2
+x	*|compound|receptor|compound|*~expression~of	IL-5 induces the expression of the <entity1>eotaxin</entity1> receptor <entity2>CCR3</entity2> on eosinophils.
+x	*~receptor~for|nmod|receptor~major|nsubj|*	<entity2>TLR4</entity2> is the major receptor for <entity1>LPS</entity1>.
+x	*|compound|receptor~+mediated~by|appos|*	In this study, protection was mediated by the <entity1>S1P</entity1> 2  receptor, <entity2>ERK1/2</entity2> and STAT3.
+x	*|compound|*~antagonist~of	154 as an antagonist of the <entity1>AR</entity1> <entity2>NTD</entity2>
+x	*|nsubj|ligand~known|nmod|*~ligand~for	The only known ligand for <entity2>c-Met</entity2> is <entity1>HGF</entity1>.
+x	*|acl:relcl|+signals|nmod|*~+signals~through	The major mediator of tumor angiogenesis is <entity1>VEGF</entity1>, which signals mainly through <entity2>VEGFR-2</entity2>.
+a	*~stimulation~with|nmod|stimulation|compound|*	<entity2>EPHA2</entity2> stimulation with <entity1>ephrin-A1</entity1>
+x	*|nsubj|+activates|advcl|+binding|nmod|*~+binding~to	<entity1>IL-33</entity1> activates ILC2s by binding to the <entity2>IL-33R</entity2>.
+x	*~receptor~for|nmod|receptor~specific|nsubj|*	<entity2>IL-7R</entity2> is a specific receptor for <entity1>IL-7</entity1>.
+x	*~receptor~for|nmod|receptor~main|nsubj|*	<entity2>TLR4</entity2> is the main receptor for <entity1>LPS</entity1>.
+x	*|compound|stimulation~+recruited~upon|nmod|+recruited|nmod|*~+recruited~to	TRAF3 is recruited to <entity2>IL-17R</entity2> upon <entity1>IL-17</entity1> stimulation.
+x	*~receptor~for|nmod|receptor~high-affinity|nsubj|*	<entity2>IL-13Rα2</entity2> is a high-affinity receptor for <entity1>IL-13</entity1>, but it does not signal.
+x	*|compound|receptor~main|nsubj|*	<entity2>PAR-1</entity2> is the main <entity1>thrombin</entity1> receptor.
+x	*~receptor~for|nmod|receptor|acl:relcl|*	HCMV also encodes <entity2>US28</entity2> that is a receptor for <entity1>RANTES</entity1>.
+x	*~receptor~for|nmod|receptor~high|nsubj|*	<entity2>CD25</entity2> is high affinity receptor for <entity1>IL-2</entity1>.
+x	*~binding~of|nmod|binding~+activated~by|nmod|*~binding~to	Both PKA and PKC signal transduction pathways may be activated by binding of <entity1>PTH</entity1> to <entity2>PTH1R</entity2>.
+a	*~activation~by|nmod|activation|nmod|receptor~activation~of|appos|*	Activation of erythropoietin receptor (<entity2>EPOR</entity2>) by <entity1>EPO</entity1>.
+x	*|nsubj|+regulates|dobj|signaling|compound|*	<entity1>ERG</entity1> regulates <entity2>p53</entity2> signaling
+x	*|nsubj|+regulate|dobj|activity|compound|*	<entity1>HDAC2</entity1> can regulate <entity2>AKT</entity2> activity.
+x	*|nsubj|+regulates|dobj|pathway|compound|*	<entity1>NCALD</entity1> Regulates <entity2>JNK</entity2> Pathway
+x	*|nsubjpass|+involved|nmod|regulation~+involved~in|nmod|*~regulation~of	<entity1>CLU</entity1> is involved in the regulation of <entity2>Aβ</entity2>.
+x	*|nsubj|+regulates|dobj|transcription|nmod|*~transcription~of	<entity1>JNK</entity1> regulates transcription of <entity2>NLaz</entity2>.
+x	*|nsubj|+regulates|dobj|activity|nmod|*~activity~of	<entity1>Smo</entity1> regulates the activity of <entity2>KCC2</entity2>
+r	*|nsubj|+downregulated|dobj|*	<entity1>miR-3147</entity1> downregulated <entity2>Smad4</entity2>.
+x	*|nsubjpass|+shown|xcomp|+regulate|dobj|*	<entity1>Runx2</entity1> has been shown to regulate <entity2>OC</entity2>.
+a	*|nsubj|+up-regulated|dobj|*	<entity1>M-CSF</entity1> up-regulated <entity2>IL-20</entity2> in HSCs
+r	*~regulation~by|nmod|regulation~negative|nmod|*~regulation~of	Negative regulation of <entity2>PDX-1</entity2> by <entity1>SSTR5</entity1>
+a	*~+upregulated~by|nmod|+upregulated|nsubjpass|expression|compound|*	<entity2>GARP</entity2> expression is upregulated by <entity1>IFNγ</entity1>
+x	*|nsubj|+regulates|dobj|function|compound|*	<entity1>NAT10</entity1> regulates <entity2>p53</entity2> function
+x	*|compound|regulation|nmod|expression~regulation~of|compound|*	<entity1>CRC</entity1> Regulation of <entity2>ETH</entity2> Expression
+x	*|nmod:npmod|dependent|amod|regulation~dependent|nmod|*~regulation~of	<entity1>Keap1</entity1> dependent regulation of <entity2>Nrf2</entity2>
+x	*|nsubj|+mediated|dobj|regulation|nmod|*~regulation~of	<entity1>CD5</entity1> mediated Regulation of <entity2>CSK</entity2>
+x	*~role~of|nmod|role|nmod|regulation~role~in|compound|*	Role of <entity1>ERK</entity1> in <entity2>Egr2</entity2> Regulation
+x	*|nsubj|+mediated|dobj|upregulation|nmod|*~upregulation~of	<entity1>INO80</entity1> mediated upregulation of <entity2>p21</entity2>
+r	*|nsubj|+down-regulates|dobj|expression|compound|*	<entity1>Lyn</entity1> down-regulates <entity2>Kit</entity2> expression
+r	*|appos|regulator~negative|nmod|*~regulator~of	<entity1>MDM2</entity1>, a negative regulator of <entity2>p53</entity2>
+x	*~regulation~by|nmod|regulation~transcriptional|nmod|*~regulation~of	Transcriptional regulation of <entity2>LKB1</entity2> by <entity1>p53</entity1>
+a	*~up-regulation~by|nmod|up-regulation|nmod|*~up-regulation~of	Up-regulation of <entity2>ANG2</entity2> by <entity1>TNF-α</entity1>.
+a	*|nsubj|+upregulate|dobj|expression|nmod|*~expression~of	E.  <entity1>c-Myc</entity1> could upregulate the expression of <entity2>hTERT</entity2>.
+x	*~role~of|nmod|role|nmod|regulation~role~in|nmod|expression~regulation~of|compound|*	Role of <entity1>Ahr</entity1> in regulation of <entity2>Smoc2</entity2> expression
+x	*|nsubj|+regulate|dobj|levels|compound|*	<entity1>DRD2</entity1> regulate <entity2>CB1R</entity2> levels
+x	*~+regulated~by|nmod|+regulated|acl|*	<entity2>SCF</entity2>, Regulated by <entity1>HIF-1α</entity1>,
+r	*~down-regulation~by|nmod|down-regulation|nmod|*~down-regulation~of	Down-regulation of <entity2>Ace2</entity2> by <entity1>Amn1</entity1>
+x	*|nsubj|+regulates|dobj|phosphorylation|nmod|*~phosphorylation~of	<entity1>β3</entity1> regulates phosphorylation of <entity2>VASP</entity2>.
+a	*|nsubj|+induced|dobj|upregulation|compound|*	( A ) <entity1>Aβ</entity1> induced <entity2>REDD1</entity2> upregulation.
+x	*|nsubj|regulator|nmod|*~regulator~of	<entity1>HEXIM</entity1> is a regulator of <entity2>Ci</entity2>.
+x	*|nsubj|+regulates|nmod|manner~+regulates~dependent~in|amod|dependent|nmod:npmod|*	<entity1>YY2</entity1> regulates p21 in a <entity2>p53</entity2> dependent manner
+r	*|nsubj|+downregulates|dobj|expression|nmod|*~expression~of	<entity1>IDO</entity1> Downregulates Expression of <entity2>CD4</entity2>
+x	*|nsubj|+regulates|dobj|levels|nmod|*~levels~of	<entity1>WRN</entity1> regulates mRNA levels of <entity2>XLF</entity2>.
+x	*|nsubj|+induced|ccomp|+regulates|nsubj|*	<entity2>Ahnak</entity2> regulates <entity1>TGFβ</entity1> induced EMT
+a	*|nsubj|+up-regulates|dobj|expression|nmod|*~expression~of	<entity1>H-ras</entity1> up-regulates expression of <entity2>BNIP3</entity2>.
+r	*|nsubj|+induced|dobj|downregulation|nmod|*~downregulation~of	<entity1>Linc00441</entity1> induced a downregulation of <entity2>RB1</entity2>
+x	*~gene~of|nmod|gene~downstream|nsubj|*	<entity2>Osx</entity2> is a downstream gene of <entity1>Runx2</entity1>.
+x	*~downstream~of|nmod|downstream|advmod|+activated|nsubjpass|*	<entity2>Myc</entity2> is activated downstream of <entity1>ERK</entity1>.
+x	*~targets~of|nmod|targets~downstream|nsubj|*	<entity2>REEP1/2</entity2> are downstream targets of <entity1>p53</entity1>
+x	*~downstream~of|nmod|downstream|advmod|*	<entity2>Src</entity2> downstream of <entity1>HER2</entity1> and uPAR
+a	*|nsubj|+up-regulate|dobj|expression|compound|*	<entity1>FGF9</entity1> Can Up-Regulate <entity2>SOX9</entity2> Expression
+a	*|nsubj|+up-regulate|dobj|*	In T cell, <entity1>T-bet</entity1> can up-regulate <entity2>IFN-γ</entity2>.
+?	*|nsubj|+induced|dobj|up-regulation|nmod|*~up-regulation~of	<entity1>Wnt3a</entity1> induced up-regulation of <entity2>EphB4</entity2> in patient MSCs.
+a	*~+up-regulated~by|nmod|+up-regulated|nsubjpass|expression|compound|*	<entity2>NMI</entity2> expression is up-regulated by <entity1>IFN-γ</entity1>  .
+a	*|nsubj|+up-regulate|dobj|expression|nmod|*~expression~of	<entity1>p53</entity1> can up-regulate the expression of <entity2>NDRG2</entity2>.
+?	*|nsubj|+mediated|dobj|up-regulation|nmod|*~up-regulation~of	<entity1>MIF</entity1> mediated Up-regulation of <entity2>Sox6</entity2>
+a	*~+up-regulated~by|nmod|+up-regulated|nsubjpass|expression|nmod|*~expression~of	A, the expression of <entity2>mEZH2</entity2> is up-regulated by <entity1>HBx</entity1>.
+a	*~+upregulated~by|nmod|+upregulated|nsubjpass|expression|nmod|*~expression~of	Expression of <entity2>S100A2</entity2>  is upregulated by <entity1>p53</entity1>.
+?	*|nmod:npmod|dependent|amod|upregulation~dependent|nmod|*~upregulation~of	<entity1>HIF-1α</entity1> dependent upregulation of <entity2>LRRK2</entity2>.
+a	*~upregulation~by|nmod|upregulation|compound|*	<entity2>CCL2</entity2> upregulation by <entity1>S100B</entity1>.
+?	*|nsubj|+mediated|dobj|upregulation|compound|*	<entity1>EGFR</entity1> mediated <entity2>PD-L1</entity2> upregulation
+a	*|nsubj|+induced|dobj|upregulation|nmod|expression~upregulation~of|compound|*	<entity1>LPS</entity1> induced Upregulation of <entity2>CHL1</entity2> Expression
+x	*|nsubj|+upregulates|nmod|*~+upregulates~via	<entity1>LPA</entity1> upregulates Skp2 via <entity2>Gα 12</entity2> .
+x	*|compound|receptor~upregulation~of|appos|*	Infection by IAV induces the upregulation of <entity1>ANXA1</entity1> receptor, <entity2>FPR2</entity2>  .
+r	*|nsubj|+decreased|dobj|expression|compound|*	<entity1>BCc1</entity1> decreased <entity2>CD44</entity2> expression
+r	*|nsubj|+decreased|dobj|expression|nmod|*~expression~of	(A) <entity1>SPHK1</entity1> decreased the expression of <entity2>CDH1</entity2>.
+r	*|nsubj|+decreases|dobj|expression|compound|*	<entity1>Lcn2</entity1> decreases <entity2>Bax</entity2> expression.
+x	*|nsubjpass|+downregulated|advcl|+upregulated|nsubjpass|*	<entity2>LDHA</entity2> is upregulated, while <entity1>LDHB</entity1> is downregulated.
+x	*|nsubjpass|+upregulated|advcl|+downregulated|nsubjpass|*	<entity1>LDHA</entity1> is upregulated, while <entity2>LDHB</entity2> is downregulated.
+x	*~+downregulated~in|nmod|+downregulated|nsubjpass|*	<entity2>PBLD</entity2> is downregulated in <entity1>HCC</entity1>
+r	*|nsubj|+downregulated|dobj|expression|compound|*	<entity1>MSC</entity1> downregulated <entity2>FoxO1</entity2> expression
+x	*|nsubjpass|+upregulated|parataxis|+downregulated|nsubjpass|*	<entity2>A20</entity2> was downregulated, whereas <entity1>UCH-L1</entity1> was upregulated in LN.
+x	*|nsubjpass|+downregulated|parataxis|+upregulated|nsubjpass|*	<entity1>A20</entity1> was downregulated, whereas <entity2>UCH-L1</entity2> was upregulated in LN.
+r	*|nsubj|+downregulate|dobj|*	<entity1>miR-193a</entity1> could downregulate <entity2>FAK</entity2>.
+r	*|nsubj|+downregulated|dobj|expression|nmod|*~expression~of	<entity1>SNRPN</entity1> downregulated the expression of <entity2>Nr4a1</entity2>.
+r	*|nsubj|+downregulate|dobj|expression|compound|*	<entity1>TNF-α</entity1> can downregulate <entity2>PTX3</entity2> expression.
+r	*~+downregulated~by|nmod|+downregulated|nsubjpass|expression|compound|*	<entity2>IRF-1</entity2> expression is downregulated by <entity1>miR-23a</entity1>.
+r	*|nsubj|+downregulates|dobj|activity|compound|*	<entity1>Him</entity1>  Downregulates <entity2>Mef2</entity2> Activity
+x	*|dobj|+downregulated|advcl|+upregulated|dobj|*	Moreover, HMA upregulated <entity2>p21</entity2> and p27, while it downregulated <entity1>p53</entity1> and Akt.
+x	*|dobj|+upregulated|advcl|+downregulated|dobj|*	Moreover, HMA upregulated <entity1>p21</entity1> and p27, while it downregulated <entity2>p53</entity2> and Akt.
+x	*~expression~of|nmod|expression|nsubjpass|+upregulated|advcl|+downregulated|nsubjpass|*	Additionally, expression of <entity1>PAK6</entity1> is upregulated when <entity2>Eg5</entity2> is downregulated or inhibited.
+x	*|nsubjpass|+downregulated|advcl|+upregulated|nsubjpass|expression|nmod|*~expression~of	Additionally, expression of <entity2>PAK6</entity2> is upregulated when <entity1>Eg5</entity1> is downregulated or inhibited.
+x	*|compound|expression|nsubjpass|+downregulated|advcl|+upregulated|nsubjpass|*	Colletively, <entity1>miR-16</entity1> expression was downregulated while <entity2>SALL4</entity2> was upregulated in GC.
+x	*|nsubjpass|+downregulated|advcl|+upregulated|nsubjpass|expression|compound|*	While <entity1>E-cadherin</entity1> is downregulated, <entity2>vimentin</entity2> expression is upregulated during EMT.
+x	*~expression~of|nmod|expression|nsubjpass|+downregulated|advcl|+upregulated|nsubjpass|*	As shown in , the expression of <entity1>Bcl-2</entity1> was downregulated, while <entity2>Bax</entity2> was upregulated.
+x	*|nsubjpass|+up-regulated|advcl|+down-regulated|nsubjpass|*	<entity1>SOX9</entity1>  was up-regulated while <entity2>OPN</entity2>  was down-regulated.
+x	*|nsubjpass|+down-regulated|advcl|+up-regulated|nsubjpass|*	<entity2>SOX9</entity2>  was up-regulated while <entity1>OPN</entity1>  was down-regulated.
+r	*~+down-regulated~by|nmod|+down-regulated|nsubjpass|*	<entity2>Nrf2</entity2> was down-regulated by <entity1>ENC1</entity1>
+r	*|nsubj|+down-regulated|dobj|*	<entity1>ENC1</entity1> down-regulated <entity2>Nrf2</entity2>.
+r	*|nsubj|+down-regulated|dobj|expression|compound|*	<entity1>ERα</entity1> Down-Regulated <entity2>BNIP3</entity2> Expression
+r	*|nsubj|+down-regulates|dobj|expression|nmod|*~expression~of	<entity1>TTP</entity1> down-regulates the expression of <entity2>Lin28</entity2>
+x	*|nsubjpass|+up-regulated|parataxis|+down-regulated|nsubjpass|*	<entity1>c-Myc</entity1> was up-regulated, whereas <entity2>p21</entity2> and p27 were down-regulated.
+x	*|nsubjpass|+down-regulated|parataxis|+up-regulated|nsubjpass|*	<entity2>c-Myc</entity2> was up-regulated, whereas <entity1>p21</entity1> and p27 were down-regulated.
+r	*|nsubj|+down-regulate|dobj|*	<entity1>US18</entity1> and US20 down-regulate <entity2>MICA</entity2>
+r	*|nsubj|+down-regulated|dobj|expression|nmod|*~expression~of	<entity1>AngII</entity1> down-regulated the expression of <entity2>Sirt1</entity2>  .
+r	*|nsubj|+down-regulate|dobj|expression|compound|*	<entity1>IL-2</entity1> can down-regulate <entity2>GRAIL</entity2> expression  .
+x	*|compound|*~down-regulation~of	 (A) Down-regulation of <entity1>p75</entity1> <entity2>NTR</entity2>  by siRNA.
+r	*|nsubj|+induced|dobj|down-regulation|nmod|*~down-regulation~of	<entity1>Tollip</entity1> induced down-regulation of <entity2>MARCH1</entity2>.
+?	*|nsubj|+mediated|dobj|down-regulation|nmod|*~down-regulation~of	<entity1>L-asparaginase</entity1> mediated down-regulation of <entity2>Mcl-1</entity2>
+x	*~down-regulation~in|nmod|down-regulation|nmod|*~down-regulation~of	Down-regulation of <entity2>miR-452</entity2> in <entity1>HCC</entity1>
+r	*|nsubj|+induced|dobj|down-regulation|compound|*	<entity1>Epo</entity1> induced <entity2>EpoR</entity2> down-regulation.
+x	*|compound|*~downregulation~of	Downregulation of <entity1>p18</entity1> <entity2>INK4c</entity2>  at senescence
+x	*~downregulation~in|nmod|downregulation|nmod|*~downregulation~of	Downregulation of <entity2>CLDN3</entity2>  in <entity1>HCC</entity1>
+x	*~downregulation~of|nmod|downregulation|nmod|*~downregulation~in	Downregulation of <entity1>CLDN3</entity1>  in <entity2>HCC</entity2>
+x	*|nsubj|+mediated|dobj|downregulation|nmod|*~downregulation~of	<entity1>LMP1</entity1> mediated downregulation of <entity2>ID3</entity2>.
+r	*~downregulation~by|nmod|downregulation|compound|*	<entity2>PTPN2</entity2> downregulation by <entity1>miR-210</entity1>.
+r	*~downregulation~by|nmod|downregulation|nmod|expression~downregulation~of|compound|*	Downregulation of <entity2>T-bet</entity2> expression by <entity1>OCH</entity1>.
+?	*|nmod:npmod|dependent|amod|downregulation~dependent|nmod|*~downregulation~of	<entity1>AR</entity1> dependent downregulation of <entity2>hsp70-1</entity2> by DL3
+r	*|nsubj|+induced|dobj|downregulation|compound|*	<entity1>SDF-1</entity1> induced <entity2>CXCR4</entity2> downregulation
+x	*~downregulation~of|nmod|downregulation|appos|*	(C) Downregulation of <entity1>Fzd4</entity1> / <entity2>Fzd4s</entity2>  by Fzd4 -morpholino injection.
+x	*|compound|receptor~downregulation~of|appos|*	One explanation for Didox effects could be downregulation of the surface <entity1>IL-33</entity1> receptor, <entity2>ST2</entity2>.
+r	*|nsubj|+suppressed|dobj|expression|compound|*	<entity1>HBx</entity1> suppressed <entity2>DLL3</entity2> expression.
+x	*|nsubj|+suppresses|advcl|+targeting|dobj|*	<entity1>MiR-150</entity1> Suppresses Ang2 by Targeting <entity2>EGR2</entity2>
+r	*|nsubj|+suppresses|dobj|expression|nmod|*~expression~of	<entity1>FOXN3</entity1> Suppresses Expression of <entity2>MYC</entity2>
+r	*|nsubj|+suppressed|dobj|*	<entity1>MiR-9</entity1> suppressed <entity2>FGF8</entity2> .
+x	*|dobj|+suppressed|nsubj|*	<entity2>MiR-9</entity2> suppressed <entity1>FGF8</entity1> .
+r	*~suppression~by|nmod|suppression|nmod|*~suppression~of	Suppression of <entity2>pan1-4</entity2> by <entity1>prk1</entity1>
+r	*|nsubj|+suppress|dobj|*	<entity1>miR-203</entity1> suppress <entity2>GAS41</entity2>.
+r	*|nsubj|+suppressed|dobj|expression|nmod|*~expression~of	 <entity1>METTL3</entity1> suppressed the expression of <entity2>RDM1</entity2>.
+r	*|nsubj|+suppress|dobj|expression|compound|*	<entity1>DANCR</entity1> could suppress <entity2>KLF6</entity2> expression
+r	*|nsubj|+suppresses|dobj|activity|compound|*	<entity1>MIF</entity1> suppresses <entity2>p53</entity2> activity.
+r	*~+suppressed~by|nmod|+suppressed|nsubjpass|*	<entity2>MGMT</entity2> is suppressed by <entity1>p53</entity1>.
+x	*|nsubj|+suppressed|advcl|+targeting|dobj|*	<entity1>MiR-375</entity1> suppressed 5-FU resistance by targeting <entity2>FOXM1</entity2>.
+r	*~+suppressed~by|nmod|+suppressed|nsubjpass|expression|compound|*	<entity2>GnRH</entity2> expression is suppressed by <entity1>LIF</entity1>.
+x	*|nsubj|+induced|ccomp|+suppresses|nsubj|*	<entity2>GRHL2</entity2> suppresses <entity1>TGF-β</entity1> induced EMT
+x	*|nsubj|+suppresses|ccomp|+induced|nsubj|*	<entity1>GRHL2</entity1> suppresses <entity2>TGF-β</entity2> induced EMT
+r	*|compound|suppression|nmod|*~suppression~of	<entity1>Notch</entity1> suppression of <entity2>p53</entity2>
+x	*~suppression~of|nmod|suppression|compound|*	<entity2>Notch</entity2> suppression of <entity1>p53</entity1>
+x	*|nsubj|+suppresses|dobj|signaling|compound|*	<entity1>CSA</entity1> suppresses <entity2>Notch</entity2> signaling
+x	*|nsubj|+induced|ccomp|+suppressed|nsubj|*	<entity2>Pin1</entity2> suppressed <entity1>LPS</entity1> induced inflammation
+x	*|nsubj|+suppressed|ccomp|+induced|nsubj|*	<entity1>Pin1</entity1> suppressed <entity2>LPS</entity2> induced inflammation
+?	*|nsubj|+suppress|dobj|expression|nmod|*~expression~of	<entity1>PTIP</entity1> might suppress the expression of <entity2>miR-655</entity2>.
+x	*|nsubj|+mediated|dobj|suppression|nmod|*~suppression~of	<entity1>DNMT1</entity1> mediated HPV-16 E6 suppression of <entity2>miR-23b</entity2>
+r	*|nsubj|+suppresses|dobj|production|compound|*	<entity1>PP2A</entity1> suppresses <entity2>IL-2</entity2> production
+x	*|compound|production|dobj|+suppresses|nsubj|*	<entity2>PP2A</entity2> suppresses <entity1>IL-2</entity1> production
+r	*|nsubj|+suppresses|dobj|transcription|compound|*	<entity1>RARα</entity1> suppresses <entity2>MMP2</entity2> transcription.
+r	*|nsubj|+suppresses|dobj|activation|compound|*	<entity1>HO-1</entity1> suppresses <entity2>c-Src</entity2> activation
+r	*~suppression~by|nmod|suppression|nmod|expression~suppression~of|compound|*	Suppression of <entity2>p27</entity2> expression by <entity1>UCA1</entity1>
+x	*|compound|*~suppression~of	Transcriptional suppression of <entity1>STAT3</entity1> target gene <entity2>Skp2</entity2>
+r	*|nsubj|+suppressed|dobj|production|compound|*	(d) <entity1>miR-603</entity1> suppressed <entity2>IGF1</entity2> production.
+x	*|compound|production|dobj|+suppressed|nsubj|*	(d) <entity2>miR-603</entity2> suppressed <entity1>IGF1</entity1> production.
+r	*|nsubj|+suppress|dobj|activity|compound|*	<entity1>NFIB</entity1> and YBX1 suppress <entity2>ESR1</entity2> activity
+x	*|nsubj|+suppresses|nmod|*~+suppresses~via	<entity1>CNTF</entity1> suppresses TH via <entity2>gp130</entity2>
+r	*|nsubj|+suppresses|dobj|activity|nmod|*~activity~of	<entity1>GRHL2</entity1> suppresses the HAT activity of <entity2>p300</entity2>.
+x	*|nsubj|+suppresses|nmod|*~+suppresses~through	<entity1>MEK</entity1> Suppresses PAX3 through <entity2>SKI</entity2>
+r	*~suppression~by|nmod|suppression|compound|*	<entity2>DUSP4</entity2> suppression by <entity1>TNF-α</entity1>
+?	*~effect~of|nmod|effect~suppressive|nmod|*~effect~on	Suppressive effect of <entity1>IL-4</entity1> on <entity2>IL-13</entity2> induced genes in mouse lung.
+r	*|compound|production|dobj|+suppress|nsubj|*	<entity2>TET2</entity2> can suppress the <entity1>IL-6</entity1> production  .
+r	*|appos|suppressor|compound|*	<entity1>DACH1</entity1>: a <entity2>CYP11B2</entity2> suppressor
+x	*|compound|suppressor|appos|*	<entity2>DACH1</entity2>: a <entity1>CYP11B2</entity1> suppressor
+r	*~suppression~by|nmod|suppression|nmod|activity~suppression~of|compound|*	Suppression of <entity2>p53</entity2> activity by <entity1>Siva1</entity1>
+r	*|nsubj|+suppresses|dobj|function|compound|*	(A) <entity1>GRHL2</entity1> suppresses <entity2>AP1</entity2> function.
+?	*|nmod:npmod|dependent|amod|suppression~dependent|nmod|*~suppression~of	One possible mechanism may be the <entity1>KLF8</entity1> dependent suppression of <entity2>KLF5</entity2>.
+x	*|nsubj|+suppresses|nmod|manner~+suppresses~dependent~in|amod|dependent|nmod:npmod|*	<entity1>ABRO1</entity1> suppresses cell growth in a <entity2>p53</entity2> dependent manner.
+r	*|nsubj|+suppressed|dobj|production|nmod|*~production~of	<entity1>p53</entity1> significantly suppressed the production of <entity2>IL-6</entity2> in FLS
+x	*~production~of|nmod|production|dobj|+suppressed|nsubj|*	<entity2>p53</entity2> significantly suppressed the production of <entity1>IL-6</entity1> in FLS
+r	*|nsubj|suppressor|nmod|*~suppressor~of	<entity1>UCA1</entity1> is a suppressor of <entity2>BRG1</entity2>
+x	*|nsubj|-suppress|dobj|*	 <entity1>wakl4</entity1>  does not suppress <entity2>lrx1</entity2> .
+x	*|dobj|-suppress|nsubj|*	 <entity2>wakl4</entity2>  does not suppress <entity1>lrx1</entity1> .
+x	*|nsubj|+suppress|nmod|*~+suppress~through	<entity1>BMP</entity1> suppress IRS-progenitors through <entity2>IDs</entity2>
+x	*|nsubj|+suppressed|nmod|*~+suppressed~via	<entity1>LCA</entity1> suppressed mTOR signaling activation via <entity2>Rheb</entity2>.
+x	*|nsubj|+suppresses|advcl|+activating|dobj|*	<entity1>SIRT1</entity1> suppresses Aβ production by activating <entity2>ADAM10</entity2>
+x	*|nsubj|+induced|ccomp|+suppressed|nsubjpass|expression|compound|*	<entity1>LPS</entity1> induced <entity2>p22phox</entity2> expression was suppressed by DHT ( Figure ).
+x	*~suppression~of|nmod|suppression|nsubj|+induced|dobj|expression|compound|*	(B) Suppression of <entity1>TGF-β1</entity1> induced <entity2>αSMA</entity2> expression with DAraf  siRNAs.
+x	*~suppression~in|nmod|suppression|nmod|expression~suppression~of|compound|*	Suppression of <entity2>BAX</entity2> expression by TIMP1 in <entity1>rd1</entity1>  retina.
+x	*|nsubj|+suppressed|dobj|proliferation|nmod|*~proliferation~of	<entity1>MiR-346</entity1> suppressed proliferation of <entity2>HCC</entity2> by targeting SMYD3
+x	*~proliferation~of|nmod|proliferation|dobj|+suppressed|nsubj|*	<entity2>MiR-346</entity2> suppressed proliferation of <entity1>HCC</entity1> by targeting SMYD3
+x	*~+suppressed~in|nmod|+suppressed|dobj|*	IL-27 suppressed <entity2>GM-CSF</entity2> in <entity1>Th1</entity1>, but not Th17 cells.
+x	*|dobj|+suppress|nsubj|cells|compound|*	<entity2>IL-17</entity2> producing CD4 +  T cells suppress <entity1>CD8</entity1> +  T cell function
+x	*|compound|cells|nsubj|+suppress|dobj|*	<entity1>IL-17</entity1> producing CD4 +  T cells suppress <entity2>CD8</entity2> +  T cell function
+x	*~+suppressed~by|nmod|+suppressed|dobj|production|compound|*	Indeed, Δ 9 -THC suppressed <entity2>IgM</entity2> antibody production by <entity1>CD40L</entity1> activated mouse B cells  .
+x	*|compound|production|dobj|+suppressed|nmod|*~+suppressed~by	Indeed, Δ 9 -THC suppressed <entity1>IgM</entity1> antibody production by <entity2>CD40L</entity2> activated mouse B cells  .
+x	*~suppression~by|nmod|suppression|nsubj|dependent|nmod|*~dependent~on	Suppression of tumorigenesis by <entity1>BAP1</entity1> is dependent on <entity2>PTEN</entity2>.
+x	*|nsubj|+induced|advcl|+suppressing|dobj|*	<entity1>miR-223</entity1> induced cisplatin resistance by suppressing <entity2>FBXW7</entity2>.
+x	*~suppression~of|nmod|suppression|nsubj|+induced|dobj|*	As expected, suppression of <entity1>EglN1</entity1>, but not EglN2 or EglN3, induced <entity2>HIF1α</entity2>  .
+x	*~suppressor~of|compound|*	SUppressor of <entity2>mkk1</entity2> <entity1>mkk2</entity1> , 2-1
+x	*|compound|*~suppressor~of	SUppressor of <entity1>mkk1</entity1> <entity2>mkk2</entity2> , 2-1
+x	*|dobj|+suppressing|advcl|capable|nsubj|*	Recently, it was demonstrated that <entity2>CD4</entity2> +  CD25 +  were capable of suppressing <entity1>CD8</entity1> +  activation in vitro  .
+x	*|nmod:npmod|+induced|amod|expression~suppression~+induced~of|compound|*	Spry suppression of <entity1>FGF</entity1> induced <entity2>Prox1</entity2> expression
+x	*|nsubj|+suppress|dobj|proliferation|nmod|*~proliferation~of	Indeed <entity1>CD4+CD25</entity1>+ Tregs can suppress T cell proliferation of both <entity2>CD4</entity2>+   and CD8+ T cells  .
+x	*~proliferation~of|nmod|proliferation|dobj|+suppress|nsubj|*	Indeed <entity2>CD4+CD25</entity2>+ Tregs can suppress T cell proliferation of both <entity1>CD4</entity1>+   and CD8+ T cells  .
+x	*~+suppress~by|nmod|+suppress|dobj|*	EAE-induced lung CD11b +  cells effectively suppress <entity2>CD8</entity2> +  T cell activation by <entity1>iNOS</entity1>.
+x	*~+suppress~by|nmod|+suppress|dobj|production|compound|*	TCDD-CD4 +  cells suppress <entity2>IL-2</entity2> production by responder <entity1>CD4</entity1> +  T cells.
+x	*|compound|production|dobj|+suppress|nmod|*~+suppress~by	TCDD-CD4 +  cells suppress <entity1>IL-2</entity1> production by responder <entity2>CD4</entity2> +  T cells.
+x	*|dobj|+suppress|nmod|*~+suppress~by	EAE-induced lung CD11b +  cells effectively suppress <entity1>CD8</entity1> +  T cell activation by <entity2>iNOS</entity2>.
+x	*~+suppresses~by|nmod|+suppresses|dobj|activation|compound|*	A.  RASSF1A suppresses <entity2>TOR</entity2> activation by <entity1>Rheb</entity1>.
+x	*~+suppresses~by|nmod|+suppresses|dobj|production|compound|*	C5a suppresses <entity2>TNF-α</entity2> production by <entity1>LPS</entity1> stimulated human PMNs .
+x	*|compound|production|dobj|+suppresses|nmod|*~+suppresses~by	C5a suppresses <entity1>TNF-α</entity1> production by <entity2>LPS</entity2> stimulated human PMNs .
+a	*|nsubj|+increases|dobj|*	<entity1>DLL4</entity1> Increases <entity2>IL-2</entity2>
+x	*|dobj|+increases|nsubj|*	<entity2>DLL4</entity2> Increases <entity1>IL-2</entity1>
+?	*|nsubj|+increased|dobj|levels|nmod|*~levels~of	<entity1>CLP</entity1> increased plasma levels of <entity2>CCL5</entity2>.
+x	*~+increased~in|nmod|+increased|nsubjpass|*	<entity2>CRY1</entity2> was increased only in <entity1>SAT</entity1>.
+x	*|nsubjpass|+increased|nmod|*~+increased~in	<entity1>CRY1</entity1> was increased only in <entity2>SAT</entity2>.
+x	*~+increased~in|nmod|+increased|nsubjpass|expression|compound|*	<entity2>HEY2</entity2> expression is increased in <entity1>HCC</entity1>
+x	*|compound|expression|nsubjpass|+increased|nmod|*~+increased~in	<entity1>HEY2</entity1> expression is increased in <entity2>HCC</entity2>
+x	*|compound|*~increase~in	b  Increase in <entity1>RNA-Pol</entity1> <entity2>Ser-5p</entity2> by GAF over-expression.
+x	*~increase~in|compound|*	b  Increase in <entity2>RNA-Pol</entity2> <entity1>Ser-5p</entity1> by GAF over-expression.
+x	*|nsubj|+increased|dobj|phosphorylation|compound|*	<entity1>Wnt5a</entity1> increased <entity2>p65</entity2> phosphorylation.
+x	*~expression~of|nmod|expression|dobj|+increase|nsubj|*	<entity2>HGF</entity2> Can Increase the Expression of <entity1>NGF</entity1>
+x	*|nsubjpass|+increased|advcl|+decreased|nsubjpass|*	<entity2>ACSL1</entity2> is decreased, while <entity1>ACSL5</entity1> is also increased.
+x	*|nsubjpass|+decreased|advcl|+increased|nsubjpass|*	<entity1>ACSL1</entity1> is decreased, while <entity2>ACSL5</entity2> is also increased.
+?	*|compound|treatment|nsubj|+increased|dobj|expression|compound|*	<entity1>CsA</entity1> treatment increased <entity2>HO-1</entity2> expression
+x	*|nsubj|+decreased|advcl|+increased|nsubj|*	That is, as <entity2>CD44</entity2> increased, <entity1>GLT-1</entity1> decreased.
+x	*|nsubj|+increased|advcl|+decreased|nsubj|*	That is, as <entity1>CD44</entity1> increased, <entity2>GLT-1</entity2> decreased.
+a	*|nsubj|+increased|dobj|mrna|compound|*	<entity1>TNF-α</entity1> increased <entity2>AhR</entity2> mRNA  .
+x	*|compound|mrna|dobj|+increased|nsubj|*	<entity2>TNF-α</entity2> increased <entity1>AhR</entity1> mRNA  .
+a	*~overexpression~of|nmod|overexpression|nsubj|+increased|dobj|expression|nmod|*~expression~of	Overexpression of <entity1>GATA1</entity1> increased expression of <entity2>AGGF1</entity2>.
+x	*~expression~in|nmod|expression~+increased|nmod|*~expression~of	Increased expression of <entity2>CSIG</entity2> in <entity1>HCC</entity1>
+x	*~expression~of|nmod|expression~+increased|nmod|*~expression~in	Increased expression of <entity1>CSIG</entity1> in <entity2>HCC</entity2>
+x	*~effect~of|nmod|effect|nmod|*~effect~on	Effect of <entity1>SDPR</entity1> on <entity2>EMT</entity2>
+a	*~+induced~by|nmod|+induced|nsubjpass|*	<entity2>NGP</entity2> is induced by <entity1>LPS</entity1>.
+a	*|nsubj|+induced|dobj|expression|nmod|*~expression~of	<entity1>BMP</entity1> induced expression of <entity2>Id3</entity2>
+x	*|nsubjpass|+correlated|nmod|*~+correlated~with	<entity1>TDH3</entity1>  was correlated with <entity2>PDC1</entity2> .
+x	*|compound|phosphorylation|nmod|*~phosphorylation~of	<entity1>MPS1</entity1> phosphorylation of <entity2>MAD1</entity2>
+a	*~induction~by|nmod|induction|nmod|*~induction~of	Induction of <entity2>p53</entity2> by <entity1>RKIP</entity1>
+x	*|nmod:npmod|dependent|amod|phosphorylation~dependent|nmod|*~phosphorylation~of	<entity1>ATM</entity1> dependent phosphorylation of <entity2>MOF</entity2>
+x	*~phosphorylation~by|nmod|phosphorylation|compound|*	<entity2>Abl</entity2> phosphorylation by <entity1>Src</entity1>
+x	*~levels~in|nmod|levels|compound|*	<entity2>LIF</entity2> Levels in <entity1>NPC</entity1>
+x	*~expression~of|nmod|expression|nmod|*~expression	Gene Expression of  <entity1>SOD2</entity1>  and  <entity2>CAT</entity2>
+x	*|nsubj|+mediated|dobj|activation|compound|*	<entity1>EGF</entity1> mediated <entity2>ERK</entity2> activation
+x	*~levels~of|nmod|levels|appos|*	Levels of <entity1>IL-6</entity1>, <entity2>VEGF</entity2>
+x	*|nsubj|+mediated|dobj|activation|nmod|*~activation~of	<entity1>Btk</entity1> mediated activation of <entity2>Plcg1</entity2>
+a	*|nmod:npmod|dependent|amod|activation~dependent|nmod|*~activation~of	<entity1>p53</entity1> dependent activation of <entity2>AKT</entity2>
+x	*~expression~by|nmod|expression|nmod|*~expression~of	Expression of <entity2>OPN</entity2> and OCN by <entity1>HGF</entity1>
+x	*~expression~by|nmod|expression|compound|*	( C ) <entity2>US6</entity2> expression by <entity1>TR3</entity1>.
+x	*|compound|*~level~of	The level of <entity1>IL-6</entity1> (<entity2>Cat</entity2>.
+a	*|nsubj|+induces|dobj|production|compound|*	<entity1>Pez</entity1> induces <entity2>TGFβ</entity2> production
+?	*|nsubj|+induced|dobj|secretion|compound|*	<entity1>PPD</entity1> induced <entity2>IFN-γ</entity2> secretion
+x	*~binding~of|nmod|binding|nmod|promoter~binding~to|compound|*	Binding of <entity1>Klf5</entity1> to <entity2>Dmp1</entity2> promoter.
+x	*~gene~of|nmod|gene|nsubj|*	<entity2>PSA</entity2> is a target gene of <entity1>AR</entity1>.
+x	*|compound|binding|nmod|promoter~binding~to|compound|*	<entity1>c-Myb</entity1> binding to <entity2>Sema5A</entity2> promoter.
+x	*|nsubj|+regulated|dobj|expression|compound|*	<entity1>AR</entity1> regulated <entity2>PSA</entity2> expression.
+r	*|nsubj|+inhibited|dobj|*	<entity1>miR-106a</entity1> inhibited <entity2>LPS</entity2>
+x	*|compound|regulation|nmod|*~regulation~of	<entity1>Kr</entity1> regulation of <entity2>hb</entity2>
+a	*|nsubj|+promotes|dobj|expression|compound|*	<entity1>ID4</entity1> promotes <entity2>AR</entity2> expression
+x	*~effect~of|nmod|effect|nmod|expression~effect~on|nmod|*~expression~of	Effect of <entity1>CAPE</entity1> on expression of <entity2>MUC2</entity2>.
+x	*~regulation~by|nmod|regulation|nmod|expression~regulation~of|compound|*	Regulation of <entity2>KYNU</entity2> Expression by <entity1>AhR</entity1>
+x	*~downstream~of|nmod|downstream|nsubj|*	<entity2>ERK</entity2> is downstream of <entity1>MEK</entity1>.
+a	*|nsubj|+upregulated|dobj|expression|compound|*	<entity1>KLF4</entity1> upregulated <entity2>BIK</entity2> expression.
+x	*|nsubj|upstream|nmod|*~upstream~of	<entity1>AP-1</entity1> is upstream of <entity2>Yki</entity2>.
+a	*~upregulation~by|nmod|upregulation|nmod|*~upregulation~of	Upregulation of <entity2>IKK2</entity2> by <entity1>TRAF1</entity1>.
+a	*|nsubj|+induce|dobj|expression|nmod|*~expression~of	<entity1>FAK</entity1> can induce the expression of <entity2>KLF8</entity2>.
+a	*|nsubj|+enhanced|dobj|expression|compound|*	<entity1>IRF-1</entity1> enhanced <entity2>CD38</entity2> expression
+x	*|nsubj|+activates|dobj|signaling|compound|*	<entity1>CsA</entity1> Activates <entity2>JNK</entity2> Signaling
+x	*|acl|+combined|nmod|*~+combined~with	<entity1>Neu</entity1>  combined with either <entity2>IL-15</entity2> (DC Ad.
+x	*|nsubj|+mediated|dobj|expression|compound|*	<entity1>ER</entity1> mediated <entity2>Vav1</entity2> expression.
+a	*|nsubjpass|+shown|xcomp|+activate|dobj|*	 <entity1>MMP-3</entity1> was shown to activate <entity2>TNF-α</entity2>.
+x	*|nsubj|+induced|ccomp|+mediates|nsubj|*	<entity2>RhoG</entity2> mediates <entity1>HGF</entity1> induced invasion.
+a	*~+up-regulated~by|nmod|+up-regulated|nsubjpass|*	<entity2>AXIN2</entity2> is up-regulated by <entity1>ERG</entity1>.
+?	*|nsubj|+enhanced|dobj|*	<entity1>SIRT1</entity1> enhanced <entity2>NaF</entity2> induced autophagy
+x	*~effector~of|nmod|effector~downstream|nsubj|*	<entity2>MYC</entity2> is a downstream effector of <entity1>EGFR</entity1>
+x	*|nmod:npmod|dependent|amod|expression~dependent|nmod|*~expression~of	<entity1>EZH2</entity1> dependent expression of <entity2>TET1</entity2>
+x	*|nmod:npmod|dependent|amod|induction~dependent|nmod|*~induction~of	<entity1>ATF4</entity1> dependent induction of <entity2>IRE1α</entity2>.
+x	*|nmod:npmod|+induced|amod|phosphorylation~+induced|compound|*	TRPV1 enhances <entity1>NGF</entity1> induced <entity2>Akt</entity2> phosphorylation.
+x	*|nsubj|+activate|dobj|pathway|compound|*	<entity1>TNF-α</entity1> could activate <entity2>p38</entity2> pathway  .
+a	*|nsubj|+induced|dobj|production|nmod|*~production~of	<entity1>IL-18</entity1> induced production of <entity2>IFN-γ</entity2>
+a	*|nsubj|+stimulated|dobj|expression|nmod|*~expression~of	<entity1>HBx</entity1> stimulated the expression of <entity2>MyD88</entity2>.
+a	*|nsubj|+induced|dobj|mrna|compound|*	<entity1>TACI</entity1> induced <entity2>AID</entity2> mRNA
+a	*|nsubj|+stimulate|dobj|*	<entity1>IL-6</entity1> can stimulate <entity2>STAT3</entity2>  .
+a	*|nsubj|+induces|dobj|production|nmod|*~production~of	<entity1>CLEC-2</entity1> induces production of <entity2>TNFα</entity2>
+x	*|nmod:npmod|+induced|amod|expression~+induced|nmod|*~expression~of	Moreover, <entity1>SP</entity1> induced mast cell expression of <entity2>CRHR-1</entity2>  .
+a	*|nsubj|+induces|dobj|activation|nmod|*~activation~of	<entity1>JNK</entity1> induces activation of <entity2>Bim</entity2>
+x	*|nmod:npmod|+mediated|amod|activation~+mediated|compound|*	CR-31 augments <entity1>TRAIL</entity1> mediated <entity2>caspase</entity2> activation.
+x	*~target~of|nmod|target~downstream|appos|*	<entity2>Sclerostin</entity2>, a downstream target of <entity1>BMPR1A</entity1>
+?	*|nsubj|+induced|amod|*~+induced	<entity1>PspA</entity1> induced <entity2>PD-L1</entity2> regulates apoptosis
+x	*|compound|*~downstream	<entity1>FTO</entity1> downstream <entity2>mTORC1</entity2> influences obesity
+x	*|nmod:npmod|mediated|amod|activation~mediated|nmod|*~activation~of	<entity1>BAFF-R</entity1> Mediated Activation of <entity2>Akt</entity2> and GSK3β
+a	*|nsubj|+increased|dobj|production|compound|*	<entity1>HB-EGF</entity1> increased <entity2>VEGF</entity2> production.
+x	*|nmod:npmod|+mediated|dobj|activation|compound|*	<entity1>TRAF6</entity1> mediated <entity2>AKT</entity2> activation
+a	*|nsubj|+stimulated|dobj|production|compound|*	<entity1>SP</entity1> stimulated <entity2>CINC-1</entity2> production
+x	*|nsubj|+induced|nmod|*~+induced~via	<entity1>DACH1</entity1> induced apoptosis via <entity2>p53</entity2>.
+a	*|nmod:npmod|+induced|dobj|activation|nmod|*~activation~of	<entity1>EGF</entity1> induced activation of <entity2>EGFR</entity2>
+x	*|nsubj|+inhibit|advcl|+targeting|dobj|*	<entity1>miR-100</entity1> can inhibit MSC-osteogenesis by targeting <entity2>BMPR2</entity2> .
+x	*~regulation~by|nmod|regulation~direct|nmod|*~regulation~of	Direct regulation of <entity2>Ase1</entity2> by <entity1>Cdc14</entity1>
+x	*~target~of|nmod|target~+identified~as|nmod|+identified|dobj|*	We identified <entity2>BCL11A</entity2> as a target of <entity1>miR-146a</entity1>.
+x	*|nsubj|+regulated|advcl|+targeting|dobj|*	<entity1>miR-149</entity1> regulated NB progression by targeting <entity2>BCL2</entity2>.
+r	*|nsubj|+decreases|dobj|expression|nmod|*~expression~of	<entity1>LRIG1</entity1> decreases expression of <entity2>ErbB3</entity2>
+x	*|nsubj|+promote|advcl|+targeting|dobj|*	<entity1>Sirt3</entity1> may promote tumor progression by targeting <entity2>Ku70</entity2>
+x	*|nsubj|+modulated|dobj|expression|compound|*	<entity1>Aβ</entity1> modulated <entity2>Per2</entity2> expression.
+x	*|nsubj|+targets|dobj|mrna|compound|*	<entity1>miR-9</entity1> targets <entity2>HDAC4</entity2> mRNA.
+x	*|nsubj|+affected|dobj|expression|compound|*	<entity1>TNF-α</entity1> and IL-1β affected <entity2>GHR</entity2> expression.
+x	*|nsubjpass|+bound|nmod|promoter~+bound~to|compound|*	<entity1>KLF5</entity1> is bound to <entity2>BAFF</entity2> promoter.
+x	*|nsubj|+modulate|dobj|expression|nmod|*~expression~of	<entity1>CXCL16</entity1> and ADAM10 modulate the expression of <entity2>ACTN4</entity2>
+r	*|nsubj|+inhibited|dobj|activation|compound|*	<entity1>Cx30</entity1> inhibited <entity2>Cdc42</entity2> activation.
+x	*|nsubjpass|+involved|advcl|+targeting|dobj|*	<entity1>miR-615</entity1> is involved in OS progression through targeting <entity2>HK2</entity2>
+x	*|nsubj|+has|nmod|expression~+has~on|compound|*	<entity1>IFNγ</entity1> has no effect on <entity2>MMP-9</entity2> expression.
+x	*~downstream~of|nmod|downstream|advmod|+lies|nsubj|*	<entity2>ERK</entity2> lies downstream of <entity1>ErbB2</entity1>.
+x	*|nsubj|+regulated|dobj|transcription|compound|*	HPV16 <entity1>E6/E7</entity1> regulated <entity2>GSK3β</entity2> transcription
+a	*|nsubj|+increased|dobj|activity|nmod|*~activity~of	<entity1>BaP</entity1> increased the activity of <entity2>PLA2</entity2>.
+x	*~target~for|nmod|target~direct|nsubj|*	<entity2>Cby</entity2> is a direct target for <entity1>Foxj1</entity1>
+x	*|nsubjpass|+found|xcomp|+target|dobj|*	<entity1>miR-363</entity1> was found to directly target <entity2>LATS2</entity2>.
+x	*|nsubj|+modulates|advcl|+targeting|dobj|*	<entity1>miR-126</entity1> modulates LOC stemness by targeting <entity2>KLF-8</entity2>.
+x	*|nmod:npmod|mediated|amod|regulation~mediated|nmod|*~regulation~of	<entity1>ERK</entity1> Mediated Regulation of <entity2>NHE1</entity2>
+x	*|nsubj|+controls|dobj|activation|compound|*	<entity1>Lipin-2</entity1> controls <entity2>caspase-1</entity2> activation
+a	*|nsubj|+transactivate|dobj|*	<entity1>PAR1</entity1> can also transactivate <entity2>PAR2</entity2>  .
+x	*~target~of|nmod|target~direct|xcomp|+shown|nsubjpass|*	<entity2>EGFR</entity2> is shown to be a direct target of <entity1>miR-7</entity1>.
+r	*|nsubj|+decreased|dobj|mrna|compound|*	<entity1>CsA</entity1> decreased <entity2>PGC-1α</entity2> mRNA by 67%  .
+a	*~overexpression~of|nmod|overexpression|nsubj|+activates|dobj|*	Overexpression of <entity1>sFRP1</entity1> activates <entity2>Rac1</entity2>
+x	*~+involved~by|nmod|+involved|nsubjpass|*	<entity2>Lad1</entity2> is involved in ERK5 activation by <entity1>EGF</entity1>
+x	*|nsubj|+promote|dobj|phosphorylation|nmod|*~phosphorylation~of	<entity1>TFEB</entity1> can promote the phosphorylation of <entity2>Akt</entity2>  .
+x	*|compound|signaling|dobj|+mediate|nsubj|*	Both <entity2>Egfr</entity2> and Axl mediate <entity1>HBEGF</entity1> signaling
+a	*|nsubj|+upregulates|dobj|levels|compound|*	<entity1>MALAT1</entity1> upregulates <entity2>ZEB2</entity2> levels
+?	*|nmod:npmod|dependent|amod|increase~dependent|nmod|expression~increase~in|compound|*	<entity1>Nox-2</entity1> dependent increase in <entity2>Dnmt1</entity2> expression.
+x	*~response~to|nmod|response~+required~in|nmod|+required|nsubjpass|*	<entity2>HIF-1β</entity2> is required for full NF-κB activity in response to <entity1>TNF-α</entity1>.
+x	*~cleavage~by|nmod|cleavage|nmod|*~cleavage~of	Cleavage of <entity2>SP-D</entity2> by <entity1>NE</entity1>
+x	*|nsubj|+controls|dobj|expression|compound|*	<entity1>Epo</entity1> controls <entity2>Lyn</entity2> expression.
+x	*|nsubj|+promotes|advcl|+targeting|dobj|*	<entity1>SIRT6</entity1> promotes GG-NER by targeting <entity2>DDB2</entity2>
+r	*|nsubj|+inhibit|dobj|expression|compound|*	<entity1>TGF-β1</entity1> and MT inhibit <entity2>IDO</entity2> expression
+x	*|compound|signaling~+involved~in|nmod|+involved|nsubjpass|*	Is <entity2>RNF4</entity2> Involved in <entity1>ATM</entity1> Signaling?
+x	*~activation~in|nmod|activation|nmod|*~activation~of	Activation of <entity2>c-ABL</entity2> in <entity1>ALS</entity1>
+x	*|nsubjpass|+involved|nmod|activation~+involved~in|compound|*	(B) <entity1>PKC</entity1> is involved in <entity2>Nrf2</entity2> activation.
+x	*|compound|effects|nmod|*~effects~on	<entity1>PTHrP</entity1> effects on <entity2>ERK</entity2>
+x	*|nsubjpass|+involved|nmod|activation~+involved~in|nmod|*~activation~of	<entity1>Dof1</entity1>  is involved in the activation of <entity2>PEPc</entity2>  .
+r	*~inactivation~by|nmod|inactivation|nmod|*~inactivation~of	Inactivation of <entity2>OAT</entity2> by <entity1>FCP</entity1>
+x	*|nsubj|+regulates|dep|*	<entity1>miR-208a</entity1> regulates Myh7b / <entity2>miR-499</entity2>
+x	*|nsubj|+mediates|dobj|phosphorylation|nmod|*~phosphorylation~of	<entity1>RAI16</entity1> mediates PKA phosphorylation of <entity2>HSP70</entity2>
+x	*|nsubj|+mediates|dobj|activation|nmod|*~activation~of	<entity1>HER2</entity1> mediates activation of <entity2>GLI2</entity2>
+a	*|nsubjpass|+reported|xcomp|+activate|dobj|*	<entity1>miR-34a</entity1> was reported to activate <entity2>p53</entity2>  .
+x	*~dependent~on|nmod|dependent|nsubj|activation|compound|*	<entity2>p53</entity2> Activation Is Dependent on <entity1>iNOS</entity1>.
+x	*|acl:relcl|+regulates|dobj|*	RSK phosphorylates <entity1>YB-1</entity1>, which regulates <entity2>CD44</entity2> and CD49f.
+?	*|nmod:npmod|dependent|nsubj|activation|compound|*	<entity2>ERK</entity2> activation is <entity1>RAF</entity1> dependent

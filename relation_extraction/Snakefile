@@ -1,0 +1,112 @@
+
+import os
+
+localrules: final_files
+
+assert os.getenv('MODE') in ['full','test'], "Must set environmental variable MODE to full or test"
+
+if os.getenv('MODE') == 'full':
+	source_dir = os.getenv('BIOTEXT')
+	assert source_dir and os.path.isdir(source_dir), "For full run, must set environmental variable BIOTEXT to directory with BIOTEXT BioC XML files"
+	source_dir = source_dir.rstrip('/')
+	work_dir = 'working'
+elif os.getenv('MODE') == 'test':
+	source_dir = 'test_data'
+	work_dir = 'test_working'
+
+
+deppath_files = [ '%s/deppaths/%s' % (work_dir,f.replace('.bioc.xml','.tsv')) for f in os.listdir(source_dir) ]
+deppath_bioc_files = [ '%s/deppaths_bioc/%s' % (work_dir,f) for f in os.listdir(source_dir) ]
+filter_bioc_files = [ '%s/deppaths_bioc_filtered/%s' % (work_dir,f) for f in os.listdir(source_dir) ]
+
+final_files = [ '%s/with_citation_distances/%s' % (work_dir,f) for f in os.listdir(source_dir) ]
+
+matrix_files,embedding_files,countdeppath_files = [],[],[]
+if os.path.isdir("%s/split" % work_dir):
+	matrix_files = [ '%s/matrix/%s' % (work_dir,f) for f in os.listdir("%s/split" % work_dir) if f.endswith('.tsv')  ]
+	embedding_files = [ '%s/embeddings/%s' % (work_dir,f) for f in os.listdir("%s/split" % work_dir) if f.endswith('.tsv')  ]
+	countdeppath_files = [ '%s/deppath_counts/%s' % (work_dir,f) for f in os.listdir("%s/split" % work_dir) if f.endswith('.tsv')  ]
+
+rule final_files:
+	input: final_files
+
+rule parse_tsv:
+	input: '%s/{f}.bioc.xml' % source_dir
+	output: '%s/deppaths/{f}.tsv' % work_dir
+	shell: "python parseForDepPaths.py --inBioC {input} --mode tsv --outFile {output}"
+
+rule parse_complete:
+	input: deppath_files
+	output: '%s/deppaths/complete' % work_dir
+	shell: "touch {output}"
+
+rule parse_bioc:
+	input: '%s/{f}.bioc.xml' % source_dir
+	output: '%s/deppaths_bioc/{f}.bioc.xml' % work_dir
+	shell: "python parseForDepPaths.py --inBioC {input} --mode bioc --outFile {output}"
+
+rule parse_bioc_complete:
+	input: deppath_bioc_files
+	output: '%s/deppaths_bioc/complete' % work_dir
+	shell: "touch {output}"
+
+rule filter_bioc:
+	input: '%s/deppaths_bioc/{f}.bioc.xml' % work_dir
+	output: '%s/deppaths_bioc_filtered/{f}.bioc.xml' % work_dir
+	shell: "python filterForWantedDepPaths.py --inBioc {input} --annotations annotations.Gene_Gene.tsv --entityTypes Gene,Gene --outBioc {output}"
+
+rule filter_bioc_complete:
+	input: filter_bioc_files
+	output: '%s/deppaths_bioc_filtered/complete' % work_dir
+	shell: "touch {output}"
+
+rule contextualize:
+	input: '%s/deppaths_bioc_filtered/{f}.bioc.xml' % work_dir
+	output: '%s/with_context/{f}.bioc.xml' % work_dir
+	shell: "python ../context_terms/extractContextTerms.py --inBioc {input} --context ../context_terms/contexts.tsv --outBioc {output}"
+
+rule add_metadata:
+	input: '%s/with_context/{f}.bioc.xml' % work_dir
+	output: '%s/with_metadata/{f}.bioc.xml' % work_dir
+	shell: "python ../metadata/integrateMetadataIntoDocs.py --inBioc {input} --outBioc {output} --db ../metadata/metadata.db"
+
+rule add_citation_distances:
+	input: '%s/with_metadata/{f}.bioc.xml' % work_dir
+	output: '%s/with_citation_distances/{f}.bioc.xml' % work_dir
+	shell: "python addCitationDistances.py --inBioc {input} --outBioc {output}"
+
+rule split:
+	input: deppath_files
+	output: '%s/split/complete' % work_dir
+	shell: "python splitData.py --inDir %s/deppaths --outDir %s/split && touch {output}" % (work_dir,work_dir)
+
+rule matrixify:
+	input: '%s/split/{f}.tsv' % work_dir
+	output: '%s/matrix/{f}.tsv' % work_dir
+	shell: "python makeMatrix.py --inFile {input} --outFile {output}"
+
+rule matrixify_complete:
+	input: matrix_files
+	output: '%s/matrix/complete' % work_dir
+	shell: "touch {output}"
+
+rule embeddify:
+	input: '%s/matrix/{f}.tsv' % work_dir
+	output: '%s/embeddings/{f}.tsv' % work_dir
+	shell: "python calcEmbeddings.py --inFile {input} --outFile {output}"
+
+rule embeddify_complete:
+	input: embedding_files
+	output: '%s/embeddings/complete' % work_dir
+	shell: "touch {output}"
+
+rule countdeppath:
+	input: '%s/split/{f}.tsv' % work_dir
+	output: '%s/deppath_counts/{f}.tsv' % work_dir
+	shell: "python countDepPaths.py --inFile {input} --outFile {output}"
+
+rule countdeppath_complete:
+	input: countdeppath_files
+	output: '%s/deppath_counts/complete' % work_dir
+	shell: "touch {output}"
+
