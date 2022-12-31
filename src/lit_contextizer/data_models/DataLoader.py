@@ -25,14 +25,11 @@ from lit_contextizer.data_models.constants import CON_TERMS_LEXICON_PATH, CT_TER
 relationships_file = "../input/opensource_gene_gene_sign_contradictions_svo_w_license_strict_w_entity_locations.csv"
 full_texts_file = "../input/annotated_documents.json"
 section_mapper_master_file = "/Users/dnsosa/Desktop/AltmanLab/bai/biotext/full_texts/dan_query_docs_pmids.bioc.xml"
-#pubmed_annotated_texts_file = f"/Users/dnsosa/Desktop/AltmanLab/bai/Stanford-Collab/notebooks/pmc_00001000.bioc.xml"
-#pubmed_annotated_texts_dir = f"/oak/stanford/groups/rbaltman/jlever/bai-stanford-collab/relation_extraction/working/with_metadata"
-#pubmed_annotated_texts_dir = f"/oak/stanford/groups/rbaltman/jlever/bai-stanford-collab/relation_extraction/working/with_citation_distances"
-pubmed_annotated_texts_dir = f"/oak/stanford/groups/rbaltman/jlever/bai-stanford-collab/relation_extraction/working/with_tidy_citation_distances"
+
+BIOCXML_DIR_DEFAULT = f"/oak/stanford/groups/rbaltman/jlever/bai-stanford-collab/relation_extraction/working/with_tidy_citation_distances"
 pubmed_jake_relationships_out_filename = f"/oak/stanford/groups/rbaltman/dnsosa/bai_lit_context/Stanford-Collab/output/all_pubmed_relations_citationDist.tsv"
-### pubmed_annotated_texts_dir = f"/Users/dnsosa/Desktop/AltmanLab/bai/Stanford-Collab/notebooks/jake_papers"
 # TODO: Need to check this filepath!
-biocxml_out_dir = "/oak/stanford/groups/rbaltman/dnsosa/bai_lit_context/Stanford-Collab/biocxml_out"
+BIOCXML_OUT_DIR_DEFAULT = "/oak/stanford/groups/rbaltman/dnsosa/bai_lit_context/Stanford-Collab/biocxml_out"
 
 # Suppress warnings
 pd.options.mode.chained_assignment = None
@@ -63,7 +60,7 @@ class DataLoader:
         self.pubmed_ppi_features_df = None
 
     def parse_pubmed_full_texts(self,
-                                in_dir: str = pubmed_annotated_texts_dir,
+                                in_dir: str = BIOCXML_DIR_DEFAULT,
                                 load_max=float("inf")):
         """
         Load the BioCXML file containing annotated PubMed files provided by Jake.
@@ -74,6 +71,10 @@ class DataLoader:
         df_list = []  # list to become DF
         total_paper_count = 0
 
+        # Try the default dir in Sherlock if none provided
+        if in_dir is None:
+            in_dir = BIOCXML_DIR_DEFAULT
+
         for in_file in sorted(os.listdir(in_dir)):
             if not in_file.startswith("pmc"):
                 continue
@@ -82,7 +83,6 @@ class DataLoader:
 
             with open(os.path.join(in_dir, in_file), 'rb') as f:
 
-                #parser = bioc.BioCXMLDocumentReader(f)
                 parser = bioc.biocxml.load(f)
 
                 for doc in parser.documents:
@@ -501,6 +501,8 @@ class DataLoader:
 
         all_section_names = set()
         all_subsection_names = set()
+        if biocxml_out_dir is None:
+            biocxml_out_dir = BIOCXML_OUT_DIR_DEFAULT
 
         # Convert list of document passages into one long full text string.
         def full_text_from_doc(doc):  # NOTE this could be a helper function in utilities
@@ -620,8 +622,8 @@ class DataLoader:
 
         return all_section_names, all_subsection_names
 
-    def extract_features_from_all_pubmed_ppis(self, all_res_combined, biocxml_dir: str = pubmed_annotated_texts_dir,
-                                              biocxml_out_dir: str = biocxml_out_dir,
+    def extract_features_from_all_pubmed_ppis(self, all_res_combined, biocxml_dir: str = BIOCXML_DIR_DEFAULT,
+                                              biocxml_out_dir: str = BIOCXML_OUT_DIR_DEFAULT,
                                               context_type: str = None,
                                               lexicon_filename: str = None):
         """
@@ -634,6 +636,12 @@ class DataLoader:
         :param lexicon_filename: filename of lexicon of context terms we're filtering in
         """
 
+        if biocxml_dir is None:
+            biocxml_dir = BIOCXML_DIR_DEFAULT
+
+        if biocxml_out_dir is None:
+            biocxml_out_dir = BIOCXML_OUT_DIR_DEFAULT
+
         if lexicon_filename is not None:
             con_terms_lexicon_filename = lexicon_filename
         else:
@@ -641,6 +649,8 @@ class DataLoader:
                 con_terms_lexicon_filename = CT_TERMS_LEXICON_PATH
             elif context_type == "tissues":
                 con_terms_lexicon_filename = TISSUE_TERMS_LEXICON_PATH
+            elif context_type == "combined":
+                con_terms_lexicon_filename = CON_TERMS_LEXICON_PATH
             else:
                 print("No lexicon file input. No preference for CTs and tissues. Using both together")
                 con_terms_lexicon_filename = CON_TERMS_LEXICON_PATH
@@ -661,8 +671,8 @@ class DataLoader:
         return self.pubmed_ppi_features_df
 
     def output_section_names(self, all_res_combined, section_names_out_dir: str,
-                             biocxml_dir: str = pubmed_annotated_texts_dir,
-                             biocxml_out_dir: str = biocxml_out_dir,
+                             biocxml_dir: str = BIOCXML_DIR_DEFAULT,
+                             biocxml_out_dir: str = BIOCXML_OUT_DIR_DEFAULT,
                              con_terms_lexicon_filename: str = CON_TERMS_LEXICON_PATH):
         """
         Extract features from the pile of PMC papers intersected with PPI relations for distant supervision.
@@ -673,6 +683,12 @@ class DataLoader:
         :param biocxml_out_dir: directory where written biocxml files for specific papers are located
         :param con_terms_lexicon_filename: filename of lexicon of context terms we're filtering in
         """
+        if biocxml_dir is None:
+            biocxml_dir = BIOCXML_DIR_DEFAULT
+
+        if biocxml_out_dir is None:
+            biocxml_out_dir = BIOCXML_OUT_DIR_DEFAULT
+
         # First create the paper pile. The two returns are sets of tuples of section names and PMCIDs
         all_section_names, all_subsection_names = self.generate_paper_pile_from_relation_subset(all_res_combined,
                                                                                                 biocxml_dir, biocxml_out_dir,
