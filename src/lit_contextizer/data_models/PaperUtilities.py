@@ -5,15 +5,20 @@
 import errno
 import os
 from os import path
+
 import bioc
 
-import numpy as np
-import pandas as pd
-from lit_contextizer.data_models.constants import BACKGROUND_SYNS_PATH, METHODS_SYNS_PATH, RESULTS_SYNS_PATH, DISCCONC_SYNS_PATH
 from lit_contextizer.data_models.Extractable import Context, Extractable, Relation
 from lit_contextizer.data_models.Paper import Paper
 from lit_contextizer.data_models.Utilities import drop_the_s
-from rapidfuzz import process, fuzz
+from lit_contextizer.data_models.constants import BACKGROUND_SYNS_PATH, DISCCONC_SYNS_PATH, METHODS_SYNS_PATH, \
+    RESULTS_SYNS_PATH
+
+import numpy as np
+
+import pandas as pd
+
+from rapidfuzz import fuzz, process
 
 local_biocxml_dir = "/Users/dnsosa/Desktop/AltmanLab/bai/biotext/full_texts/PM_files"
 
@@ -42,13 +47,12 @@ def extract_features(paper_pile,
     :param mesh_headings_in_pmc: if True, MeSH headings are expected to be found in the PMC file (not just PMID)
     :param biocxmls_pmc_dir: directory where the relevant full text files are located
     :param biocxmls_pubmed_dir: directory where the relevant pubmed (abstract only) files are located
-    :param annotated_connects: if not None, expect a list of tuples containing the (paper_id, rel_sent, con_word) that were in annotations)
+    :param annotated_connects: if not None, expect list of tuples (paper_id, rel_sent, con_word) that were in annots
     :param no_cell_line: if True, do not include contexts labeled as CellLine (noisy) for extracting features
     :param stop_count: max number of features to extract
     :param is_enrique: flag if we're working with the ENA corpus
     :return: DataFrame of all extracted features
     """
-
     ct = 0
 
     # Build pandas DF here
@@ -63,7 +67,8 @@ def extract_features(paper_pile,
             # Note this conditional gets the right files in the cases of val extractions I believe
 
             if is_enrique:
-                biocxml_file = os.path.join("/Users/dnsosa/Desktop/AltmanLab/bai/biotext/full_texts", f"{paper.get_pmcid()}.biocxml")
+                home_dir = "/Users/dnsosa/Desktop/AltmanLab/bai/biotext/full_texts"
+                biocxml_file = os.path.join(home_dir, f"{paper.get_pmcid()}.biocxml")
             else:
                 biocxml_file = os.path.join(biocxmls_pmc_dir, f"{paper.get_pmcid()}.biocxml")
 
@@ -71,21 +76,19 @@ def extract_features(paper_pile,
                 full_text_in_sections = []
                 sec_mapper = {}
                 with open(biocxml_file, 'rb') as f:
-                    #parser = bioc.BioCXMLDocumentReader(f)
-                    #document = parser.__next__()
+
                     collection = bioc.biocxml.load(f)
                     document = collection.documents[0]
 
                     for sec_idx, sec in enumerate(document.passages):
                         full_text_in_sections.append(sec.text)
                         # Get the name of the section
-                        if sec.infons['section'] != 'article':  # 'article' means body of text, we want to catch title/abstract
+                        if sec.infons['section'] != 'article':  # 'article' = body of text, we want title/abstract
                             sec_type = sec.infons['section']
                         else:  # get the name of the section e.g. methods, results
                             sec_type = sec.infons['subsection']
                         sec_text_remove_extra_periods = sec.text.replace("et al.", "et al").replace("ig. ", "ig ")
                         sent_list = [s + "." for s in sec_text_remove_extra_periods.split(". ") if s]
-                        # TODO: I think this works, but should double check. Corroborate with DataLoader
                         for sent in sent_list:
                             sec_mapper[sent] = (sec_idx, sec_type)
 
@@ -185,19 +188,14 @@ def extract_features(paper_pile,
                                 elif os.path.isfile(os.path.join(biocxmls_pubmed_dir, f"PM{my_pmid}.biocxml")):
                                     pmid_file = os.path.join(biocxmls_pubmed_dir, f"PM{my_pmid}.biocxml")
                                 else:
-                                    print(f"File not for pmid {my_pmid}.biocxml or PM{my_pmid}.biocxml in directory {biocxmls_pubmed_dir}.")
+                                    print(f"File not for pmid {my_pmid}.biocxml or PM{my_pmid}.biocxml in directory "
+                                          f"{biocxmls_pubmed_dir}.")
                                     raise FileNotFoundError(errno.ENOENT, os.strerror(errno.ENOENT),
                                                             os.path.join(biocxmls_pubmed_dir, f"{my_pmid}.biocxml"))
 
                                 mesh_containing_file = pmid_file
 
-                            #with open(mesh_containing_file, 'rb') as f:
-                            #    parser = bioc.BioCXMLDocumentReader(f)
-                            #    doc = parser.__next__()
-
                             with open(mesh_containing_file, 'rb') as f:
-                                # parser = bioc.BioCXMLDocumentReader(f)
-                                # doc = parser.__next__()
                                 collection = bioc.biocxml.load(f)
                                 doc = collection.documents[0]
 
@@ -215,8 +213,9 @@ def extract_features(paper_pile,
 
                     # Annotated info in case of val
                     if annotated_connects is not None:
-                        ## print((paper_id, rel.get_text().rstrip(), con.get_text().lower()))
-                        row['annotation'] = ((paper_id, rel.get_text().rstrip(), con.get_text().lower()) in annotated_connects)
+                        rel_text = rel.get_text().rstrip()
+                        con_text = con.get_text().lower()
+                        row['annotation'] = ((paper_id, rel_text, con_text) in annotated_connects)
 
                     rows.append(row)
 
@@ -234,12 +233,11 @@ def extract_features(paper_pile,
                     min_sent_dist = min(sent_dists.values())
                 closest_terms = [k.get_text() for k, v in sent_dists.items() if v == min_sent_dist]  # allows for ties
 
-                # TODO: maybe this is vectorizable? Add in code implemented in Panads
                 for con in paper.get_context_list():
                     is_closests[con] = (con.get_text() in closest_terms)
 
                 r_closest_c[rel] = is_closests
-                # Note, presently not doing anything with those dictionaries of dictionaries. That's kind of ok....
+                # Note, presently not doing anything with those dictionaries of dictionaries.
 
             if ct == stop_count:
                 break
@@ -277,16 +275,15 @@ def num_mentions(paper: Paper, in_context: Context):
     :return: number of mentions
     """
     # Note: no ontology-based normalization or anything at this point
-    # TODO: More sophisticated normalization?
     mention_ct = 0
     for ctx in paper.get_context_list():
-        if drop_the_s(ctx.get_text()) == drop_the_s(in_context.get_text()):  #dropping the s is me being paranoid
+        if drop_the_s(ctx.get_text()) == drop_the_s(in_context.get_text()):  # Drop the s, double checking
             mention_ct += 1
 
     return mention_ct
 
 
-def get_sent_idx(extractable: Extractable, text_in_sents, sent_sent_idxs, threshold = 80):
+def get_sent_idx(extractable: Extractable, text_in_sents, sent_sent_idxs, threshold=80):
     """
     Get sentence index of an extractable in the full text in sentences using memoization for efficiency.
 
@@ -306,7 +303,7 @@ def get_sent_idx(extractable: Extractable, text_in_sents, sent_sent_idxs, thresh
     return sent_sent_idxs[in_sent], sent_sent_idxs
 
 
-def get_sec_info(extractable: Extractable, sec_mapper, sent_sec_info, threshold = 80):
+def get_sec_info(extractable: Extractable, sec_mapper, sent_sec_info, threshold=80):
     """
     Get sentence info of an extractable in the full text in sentences, memoize the results.
 

@@ -2,19 +2,24 @@
 
 # -*- coding: utf-8 -*-
 
-import os
 from os import path
+
 import bioc
-import en_core_web_sm
-import matplotlib.pyplot as plt
-import networkx as nx
-import numpy as np
-import pandas as pd
-# from fuzzywuzzy import fuzz
-from lit_contextizer.data_models.constants import BACKGROUND_SYNS_PATH, METHODS_SYNS_PATH, RESULTS_SYNS_PATH, DISCCONC_SYNS_PATH
+
 from lit_contextizer.data_models.Extractable import Context, Extractable, Relation
 from lit_contextizer.data_models.Sentence import Sentence
-from rapidfuzz import process, fuzz
+from lit_contextizer.data_models.constants import BACKGROUND_SYNS_PATH, DISCCONC_SYNS_PATH, METHODS_SYNS_PATH, \
+    RESULTS_SYNS_PATH
+
+import matplotlib.pyplot as plt
+
+import networkx as nx
+
+import numpy as np
+
+import pandas as pd
+
+from rapidfuzz import fuzz, process
 
 local_biocxml_dir = "/Users/dnsosa/Desktop/AltmanLab/bai/biotext/full_texts/PM_files"
 
@@ -33,7 +38,6 @@ class Paper:
         self.abstract = abstract
         self.full_text = full_text
         self.full_text_in_sections = []
-        # TODO: Make sure PMID is being incorporated
         self.pmcid = pmcid
         self.pmid = pmid  # NOTE: PMID is used for section mapper
         self.doi = doi
@@ -51,13 +55,10 @@ class Paper:
         self.relations = []
 
         self.sec_mapper = {}
-        # self.load_sec_mapper()
+        self.load_sec_mapper()
 
     def load_sec_mapper(self):
-        """
-        Load BioCXML file into a dictionary representation to enable quick querying of section info by sentence.
-        """
-        # TODO: Should this try to call Jake's API at this point? Or assume docs are already loaded
+        """Load BioCXML file into a dictionary representation to enable quick querying of section info by sentence."""
         biocxml_file = f"{local_biocxml_dir}/{self.pmcid}.biocxml"
 
         if path.exists(biocxml_file):
@@ -70,15 +71,15 @@ class Paper:
                 for sec_idx, sec in enumerate(document.passages):
                     self.full_text_in_sections.append(sec.text)
                     # Get the name of the section
-                    if sec.infons['section'] != 'article':  # 'article' means body of text, we want to catch title/abstract
+                    if sec.infons['section'] != 'article':  # 'article' means body of text. Want to catch title/abs
                         sec_type = sec.infons['section']
                     else:  # get the name of the section e.g. methods, results
                         sec_type = sec.infons['subsection']
-                    sent_list = [s+"." for s in sec.text.split(". ") if s]
+                    sent_list = [s + "." for s in sec.text.split(". ") if s]
                     for sent in sent_list:
                         self.sec_mapper[sent] = (sec_idx, sec_type)
         else:
-            print(f"BiocXML file: {biocxml_file} could not be opened. No section mapper loaded when creating the Paper object for {self.pmcid}.")
+            print(f"BiocXML file: {biocxml_file} couldn't be opened. No section mapper loaded for Paper {self.pmcid}.")
 
         return None
 
@@ -123,9 +124,8 @@ class Paper:
 
         # Get the text of the sentence object
         in_sent_text = in_sentence.get_text()
-        # Compare it against all the section information that was extracted--find the closest match that's above threshold
+        # Compare against all the section information that was extracted--find the closest match that's above threshold
         found_sent, score, idx = process.extractOne(in_sent_text, list(self.sec_mapper.keys()), scorer=fuzz.ratio)
-        #TODO: Consider return types in certain conditionals
 
         # No really good sentence was found for some reason
         if score < threshold:  # arbitrary
@@ -137,7 +137,7 @@ class Paper:
     def get_section_type(self, extractable: Extractable) -> str:
         """
         Given a sentence, find the section type it's from.
-        
+
         :param in_sentence: Sentence being queried for
         :return: string representation of the sentence type if available (e.g. "methods and materials", "results")
         """
@@ -247,7 +247,7 @@ class Paper:
         sent_dist_list = list(map(lambda cont: self.sentence_distance(cont, relation), self.context_list))
         cont_text_list = list(map(lambda cont: cont.get_text(), self.context_list))
 
-        if None not in sent_dist_list:  # TODO: Understand why Nones occur here
+        if None not in sent_dist_list:
             closest_idx = sent_dist_list.index(min(sent_dist_list))
             # Note in returning this way, it will look if ANY sentence containing the context word is the closest
             return cont_text_list[closest_idx] == context.get_text()
@@ -257,6 +257,7 @@ class Paper:
     def calculate_pmi(self, context: Context, relation: Relation):
         """
         Calculate section-level PMI score of a pair of concepts in one full text doc.
+
         :param context: Context object whose text will be used to calculate section-level PMI
         :param relation: Relation object whose two entities will be used to calculate section-level PMI
         :return ( PMI(entity1, context_word), PMI(entity2, context_word) )
@@ -282,7 +283,7 @@ class Paper:
                 elif not found_entity and not found_cont:
                     no_entity_no_cont += 1
 
-            # TODO: Consider return vaules in cases of no co-occurrence
+            # TODO: Consider return values in cases of no co-occurrence
             if entity_and_cont == 0:
                 pmis.append(float("-inf"))
             if (entity_and_cont + entity_no_cont) == 0:
@@ -290,7 +291,9 @@ class Paper:
             if (entity_and_cont + cont_no_entity) == 0:
                 pmis.append(float("-inf"))
             else:
-                pmi_entity_cont = np.log2(entity_and_cont) - np.log2((entity_and_cont + entity_no_cont) * (entity_and_cont + cont_no_entity))
+                term1 = np.log2(entity_and_cont)
+                term2 = np.log2((entity_and_cont + entity_no_cont) * (entity_and_cont + cont_no_entity))
+                pmi_entity_cont = term1 - term2
                 pmis.append(pmi_entity_cont)
 
             entity_and_conts.append(entity_and_cont)

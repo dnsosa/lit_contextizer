@@ -6,10 +6,11 @@ Note that Extractables will only exist in the context of the paper that "holds" 
 
 # -*- coding: utf-8 -*-
 
-import pandas as pd
-
 from biothings_client import get_client
+
 from lit_contextizer.data_models.constants import DENGUE_PPIS_PATH
+
+import pandas as pd
 
 
 def create_dengue_corpus(dengue_filename: str = DENGUE_PPIS_PATH):

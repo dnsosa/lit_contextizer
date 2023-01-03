@@ -15,3 +15,7 @@ METHODS_SYNS_PATH = os.path.join(RESOURCES, 'methods_synonyms.csv')
 RESULTS_SYNS_PATH = os.path.join(RESOURCES, 'results_synonyms.csv')
 DISCCONC_SYNS_PATH = os.path.join(RESOURCES, 'disc_conc_synonyms.csv')
 DENGUE_PPIS_PATH = os.path.join(RESOURCES, 'dengue_ppi_paras.csv')
+
+LOCAL_HOME = "/Users/dnsosa/Desktop/AltmanLab/"
+ENA_VAL_DIR = os.path.join(LOCAL_HOME, "bai/Stanford-Collab/input/ENA_validation_data")
+ALL_GROUNDINGS_PATH = os.path.join(ENA_VAL_DIR, "/BioContext_corpus/corpus_data/all_groundings.tsv")

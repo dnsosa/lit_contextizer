@@ -12,7 +12,8 @@ from lit_contextizer.data_models.Sentence import Sentence
 class Extractable:
     """An abstract representation of an extractable event from a larger textual context."""
 
-    def __init__(self, text: str, paper_doi: str, paper_pmcid: str, paper_pmid: str, start_idx: int, end_idx: int, sent_idx: int, sentence: Sentence):
+    def __init__(self, text: str, paper_doi: str, paper_pmcid: str, paper_pmid: str, start_idx: int, end_idx: int,
+                 sent_idx: int, sentence: Sentence):
         """
         Construct an extractable.
 

@@ -3,19 +3,21 @@
 # -*- coding: utf-8 -*-
 
 import re
+import string
 
 import en_core_web_sm
-import numpy as np
-import string
-import pandas as pd
+
 from lit_contextizer.data_models.Extractable import Context
 from lit_contextizer.data_models.MLStripper import MLStripper
 from lit_contextizer.data_models.Paper import Paper
 from lit_contextizer.data_models.Sentence import Sentence
+from lit_contextizer.data_models.constants import ALL_GROUNDINGS_PATH
+
+import numpy as np
+
+import pandas as pd
 
 nlp = en_core_web_sm.load()
-
-all_groundings_path = f"/Users/dnsosa/Desktop/AltmanLab/bai/Stanford-Collab/input/ENA_validation_data/BioContext_corpus/corpus_data/all_groundings.tsv"
 
 
 def two_common(a, b, c):
@@ -37,7 +39,7 @@ def two_common(a, b, c):
         return None
 
 
-def load_all_groundings(all_groundings_file: str = all_groundings_path):
+def load_all_groundings(all_groundings_file: str = ALL_GROUNDINGS_PATH):
     """
     Load groundings from the ENA dataset.
 
@@ -71,7 +73,7 @@ def load_all_groundings(all_groundings_file: str = all_groundings_path):
 
 def generate_pairs_features_df(paper_dict: dict):
     """
-    Generate dataframe of pairs of (context, relation) from a paper pile with corresponding features to be used for classification.
+    Generate DF of pairs of (con, rel) from a paper pile with corresponding features to be used for classification.
 
     :param paper_dict: A paper pile from which to generate all pairs of (cont, rel) and extract some features
     :return: data frame of relation by contexts with distances
@@ -187,24 +189,25 @@ def fix_xml(in_str: str):
     # Less than tag
     parsed_in_str = re.sub(r'<(?!entity)(?!\/entity)(?!root)(?!\/root)', r'\&lt;', parsed_in_str)
     # Greater than tag
-    parsed_in_str = re.sub(r'>(?<!<\/entity>)(?<!root>)(?<!entity reference>)(?=[^<]*<entity[^<>]*>)', r'\&gt;', parsed_in_str)
+    gt_regex = r'>(?<!<\/entity>)(?<!root>)(?<!entity reference>)(?=[^<]*<entity[^<>]*>)'
+    parsed_in_str = re.sub(gt_regex, r'\&gt;', parsed_in_str)
     # Remove entity reference tags
     parsed_in_str = re.sub(r'<entity reference>', '', parsed_in_str)
     return parsed_in_str
 
 
 def drop_the_s(in_word):
-    """Simple form of normalizing plural with singular by looking for an s and dropping it--should catch most things."""
+    """Normalize plural with singular by looking for an s and dropping it (simple)--should catch most things."""
     return re.sub("s$", "", in_word)
 
 
 def singularize_list(in_list):
-    """Simple form of making plural list into singulars by dropping s with drop_the_s."""
+    """Normalize plural list into singulars by dropping s with drop_the_s."""
     return [f"{drop_the_s(item)}" for item in in_list]
 
 
 def pluralize_list(in_list):
-    """Simple form of making list of mixed number items into plural forms"""
+    """Normalize mixed number items into plural forms."""
     return [f"{drop_the_s(item)}s" for item in in_list]
 
 
