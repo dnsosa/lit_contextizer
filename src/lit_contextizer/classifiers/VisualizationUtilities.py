@@ -3,27 +3,32 @@ Collection of functions for visualizing results.
 """
 
 # -*- coding: utf-8 -*-
-import os
-
 import itertools
+import os
+from collections import Counter
+
 import matplotlib
 import matplotlib.pyplot as plt
+
+from matplotlib_venn import venn3
+
 import networkx as nx
+
 import numpy as np
+
 import pandas as pd
+
 import seaborn as sns
 
-from collections import Counter
-from matplotlib_venn import venn3
-from sklearn.model_selection import train_test_split
 from sklearn import metrics
-from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
 from sklearn.inspection import permutation_importance
-from sklearn.svm import SVC
-from sklearn.neural_network import MLPClassifier
-from sklearn.utils import resample
+from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import ConfusionMatrixDisplay
+from sklearn.model_selection import train_test_split
+from sklearn.neural_network import MLPClassifier
+from sklearn.svm import SVC
+from sklearn.utils import resample
 
 
 def generate_analysis_figs(in_df,
@@ -57,18 +62,6 @@ def generate_analysis_figs(in_df,
                                           is_closest_cont_by_sent=in_df_grp['is_closest_cont_by_sent'].transform(max),
                                           # Here in case of plurals issue
                                           any_con_fp=in_df_grp['is_con_fp'].transform(max),
-                                          #any_rel_title=in_df_grp['norm_rel_sec'].transform(
-                                          #    lambda x: x.eq('title').any()),
-                                          #any_rel_abstract=in_df_grp['norm_rel_sec'].transform(
-                                          #    lambda x: x.eq('abstract').any()),
-                                          #any_rel_background=in_df_grp['norm_rel_sec'].transform(
-                                          #    lambda x: x.eq('background').any()),
-                                          #any_rel_methods=in_df_grp['norm_rel_sec'].transform(
-                                          #    lambda x: x.eq('methods').any()),
-                                          #any_rel_results=in_df_grp['norm_rel_sec'].transform(
-                                          #    lambda x: x.eq('results').any()),
-                                          #any_rel_disc_conc=in_df_grp['norm_rel_sec'].transform(
-                                          #    lambda x: x.eq('disicussion and conclusion').any()),
                                           any_con_title=in_df_grp['norm_con_sec'].transform(
                                               lambda x: x.eq('title').any()),
                                           any_con_abstract=in_df_grp['norm_con_sec'].transform(

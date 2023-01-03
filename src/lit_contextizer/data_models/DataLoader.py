@@ -6,30 +6,23 @@ import io
 import json
 import os
 import re
+from functools import reduce
 from xml.sax import SAXParseException, make_parser  # noqa: S406
 
 import bioc
-import pandas as pd
 
-from biothings_client import get_client
-from functools import reduce
 from lit_contextizer.data_models.Extractable import Relation
 from lit_contextizer.data_models.Paper import Paper
-from lit_contextizer.data_models.Sentence import Sentence
-from lit_contextizer.data_models.Utilities import create_contexts, drop_the_s, fix_xml, generate_pairs_features_df,\
-    load_all_groundings, singularize_and_pluralize_list, two_common
-from lit_contextizer.data_models.Xml2PseudoJson import Xml2PseudoJson
 from lit_contextizer.data_models.PaperUtilities import extract_features, in2str
-from lit_contextizer.data_models.constants import CON_TERMS_LEXICON_PATH, CT_TERMS_LEXICON_PATH, TISSUE_TERMS_LEXICON_PATH
+from lit_contextizer.data_models.Sentence import Sentence
+from lit_contextizer.data_models.Utilities import create_contexts, drop_the_s, fix_xml, load_all_groundings, \
+    singularize_and_pluralize_list, two_common
+from lit_contextizer.data_models.Xml2PseudoJson import Xml2PseudoJson
+from lit_contextizer.data_models.constants import BIOCXML_DIR_DEFAULT, BIOCXML_OUT_DIR_DEFAULT, \
+    CON_TERMS_LEXICON_PATH, CT_TERMS_LEXICON_PATH, FULL_TEXTS_FILE, RELATIONSHIPS_FILE, TISSUE_TERMS_LEXICON_PATH
 
-relationships_file = "../input/opensource_gene_gene_sign_contradictions_svo_w_license_strict_w_entity_locations.csv"
-full_texts_file = "../input/annotated_documents.json"
-section_mapper_master_file = "/Users/dnsosa/Desktop/AltmanLab/bai/biotext/full_texts/dan_query_docs_pmids.bioc.xml"
 
-BIOCXML_DIR_DEFAULT = f"/oak/stanford/groups/rbaltman/jlever/bai-stanford-collab/relation_extraction/working/with_tidy_citation_distances"
-pubmed_jake_relationships_out_filename = f"/oak/stanford/groups/rbaltman/dnsosa/bai_lit_context/Stanford-Collab/output/all_pubmed_relations_citationDist.tsv"
-# TODO: Need to check this filepath!
-BIOCXML_OUT_DIR_DEFAULT = "/oak/stanford/groups/rbaltman/dnsosa/bai_lit_context/Stanford-Collab/biocxml_out"
+import pandas as pd
 
 # Suppress warnings
 pd.options.mode.chained_assignment = None
@@ -136,7 +129,8 @@ class DataLoader:
                                     print(f"TOO MANY ENTITIES PARSED IN SENTENCE: {sen}")
 
                                 if 'distance_to_nearest_sentence_with_citation' in rel.infons:
-                                    row["distance_to_nearest_sentence_with_citation"] = rel.infons['distance_to_nearest_sentence_with_citation']
+                                    row["distance_to_nearest_sentence_with_citation"] =\
+                                        rel.infons['distance_to_nearest_sentence_with_citation']
 
                                 df_list.append(row)
 
@@ -148,12 +142,16 @@ class DataLoader:
                 break
 
         self.all_pubmed_relations_df = pd.DataFrame(df_list)
-        self.all_pubmed_relations_df["entity1_entrez"] = self.all_pubmed_relations_df["entity1"].map(self.annot_id2entrez)
-        self.all_pubmed_relations_df["entity1_entrez"] = self.all_pubmed_relations_df["entity1_entrez"].apply(lambda x: x.split(';'))
+        self.all_pubmed_relations_df["entity1_entrez"] = self.all_pubmed_relations_df["entity1"].\
+            map(self.annot_id2entrez)
+        self.all_pubmed_relations_df["entity1_entrez"] = self.all_pubmed_relations_df["entity1_entrez"].\
+            apply(lambda x: x.split(';'))
         self.all_pubmed_relations_df = self.all_pubmed_relations_df.explode("entity1_entrez").reset_index(drop=True)
 
-        self.all_pubmed_relations_df["entity2_entrez"] = self.all_pubmed_relations_df["entity2"].map(self.annot_id2entrez)
-        self.all_pubmed_relations_df["entity2_entrez"] = self.all_pubmed_relations_df["entity2_entrez"].apply(lambda x: x.split(';'))
+        self.all_pubmed_relations_df["entity2_entrez"] = self.all_pubmed_relations_df["entity2"].\
+            map(self.annot_id2entrez)
+        self.all_pubmed_relations_df["entity2_entrez"] = self.all_pubmed_relations_df["entity2_entrez"].\
+            apply(lambda x: x.split(';'))
         self.all_pubmed_relations_df = self.all_pubmed_relations_df.explode("entity2_entrez").reset_index(drop=True)
 
         def make_keys(x):
@@ -161,7 +159,6 @@ class DataLoader:
             return '_'.join(sorted_entrez)
 
         self.all_pubmed_relations_df['combined_entities_key'] = self.all_pubmed_relations_df.apply(make_keys, axis=1)
-        # self.all_pubmed_relations_df.to_csv(pubmed_jake_relationships_out_filename, sep='\t')
 
         # Remove XML tags on protein/gene entities
         self.all_pubmed_relations_df['rel'] = self.all_pubmed_relations_df['rel'].str.replace('<[^<]+>', "",
@@ -174,14 +171,13 @@ class DataLoader:
                                     min_conf: float = 0):
         """
         Query papers containing specific PPIs and context mentions.
-        
+
         :param context_list: list of contexts to query
         :param ppi_network_path: file path of ppi network
         :param min_conf: minimum confidence score for PPIs
         """
-
         def make_keys2(x):
-            sorted_entrez = sorted([str(int(x['Gene1'])), str(int(x['Gene2']))])  # Note this is alphabetically sorted, NOT like an int
+            sorted_entrez = sorted([str(int(x['Gene1'])), str(int(x['Gene2']))])  # alphabet sorted, NOT like an int
             return '_'.join(sorted_entrez)
 
         ppinet_df = pd.read_csv(ppi_network_path, sep='\t')
@@ -212,7 +208,7 @@ class DataLoader:
         # Still need to now be able to process and extract features from those papers in the paper pile.......
 
     def parse_annotated_full_texts(self,
-                                   in_file: str = full_texts_file,
+                                   in_file: str = FULL_TEXTS_FILE,
                                    load_max=float("inf"),
                                    cell_type_only: bool = False):
         """
@@ -223,7 +219,6 @@ class DataLoader:
         :param in_keys: set of keys for which to parse annotated full text and extract context mentions
         :param cell_type_only: if True, only extract contexts that are of type cell type.
         """
-
         # Read in the raw records
         with open(in_file) as doc_json_file:
             count = 0
@@ -282,12 +277,6 @@ class DataLoader:
                     # Parse the XML -- resulting dictionary of events is now in handler.event_dict
                     parser.parse(in_xml)
 
-                    # Create a Spacy document based on the text available (abstract or full text), no annots
-                    if 'text' in record['plain_text'].keys():
-                        plain_text = record['plain_text']['text']
-                    else:
-                        plain_text = record['plain_text']['abstract']
-
                     if cell_type_only:
                         just_ct_events = {}
                         for event in handler.event_dict:
@@ -319,7 +308,7 @@ class DataLoader:
 
         return None
 
-    def parse_relationships_file(self, in_file: str = relationships_file, load_max=float("inf")):
+    def parse_relationships_file(self, in_file: str = RELATIONSHIPS_FILE, load_max=float("inf")):
         """
         Load the relationships file. This file contains protein-protein interactions and indications of polarity.
 
@@ -380,8 +369,6 @@ class DataLoader:
         :param conservative_join: if True, look only at pairs where all annotators annotated a specific event
         :return: (df of all annotators' annotation pairs, indications of annotator identified (con,rel) pairs)
         """
-        # TODO: Why so many NaN sentence distances
-
         pd.set_option('display.max_colwidth', -1)
 
         paper_ids = ["PMC2156142", "PMC3032653", "PMC3135394", "PMC3198449", "PMC3233644", "PMC3461631", "PMC4052680",
@@ -417,11 +404,11 @@ class DataLoader:
             with open(ena_sentences, 'r') as sentences_file:
                 for line in sentences_file:
                     sentences.append(line.rstrip())
-            paper_plain_text = '  '.join([sent.rstrip() for sent in sentences])
 
             for i in range(1, 4):
                 # And let's check out the events
-                ena_events_file = f"../input/ENA_validation_data/BioContext_corpus/corpus_data/annotator{i}/{paper_id}_events.tsv"
+                ena_corpus_dir = "../input/ENA_validation_data/BioContext_corpus/corpus_data"
+                ena_events_file = os.path.join(ena_corpus_dir, f"/annotator{i}/{paper_id}_events.tsv")
                 colnames = ['event_sent_idx', 'event_span_idx', 'assoc_context_terms']
                 events = pd.read_csv(ena_events_file, names=colnames, header=None, sep='\t')
                 annotator_events_dfs.append(events)
@@ -498,7 +485,6 @@ class DataLoader:
         :param biocxml_dir: directory where biocxml files are located
         :param biocxml_out_dir: directory to write biocxml files for specific papers
         """
-
         all_section_names = set()
         all_subsection_names = set()
         if biocxml_out_dir is None:
@@ -544,7 +530,7 @@ class DataLoader:
                     # Check out the subset of relation hits there are in this specific paper.
                     con_rel_file_doc_df = con_rel_file_df[con_rel_file_df.pmcid == pmcid]  # check types
 
-                    # If there are none (since each biocxml has potentially several papers), we can move on and not extract features
+                    # If there are none (since each biocxml has >= 1 papers), we can move on and not extract features
                     if len(con_rel_file_doc_df) == 0:
                         continue
                     elif pmid not in self.pmid2contexts:
@@ -576,14 +562,13 @@ class DataLoader:
                                                 entity1=None,  # not worrying about it now
                                                 entity2=None,
                                                 text=rel_reform,  # Remove XML tags
-                                                paper_pmcid=pmcid,  # TODO: fix these all being the same!
+                                                paper_pmcid=pmcid,
                                                 paper_pmid=pmid,
-                                                paper_doi=pmcid,  # NOTE: Using PMCID not PMID like in other places in code base
+                                                paper_doi=pmcid,  # NOTE: Using PMCID not PMID
                                                 start_idx=None,
                                                 end_idx=None,
                                                 sent_idx=None,
                                                 sentence=Sentence(rel_reform))
-                                                # TODO: Consider if need to retain distance to cite feature
 
                             paper.add_relation(relation)
 
@@ -595,7 +580,8 @@ class DataLoader:
                             # add in the plural in there
                             unique_con_terms = set(singularize_and_pluralize_list(unique_con_terms))
                             # get the subset of context terms identified in this paper
-                            context_hits = list(set(self.pmid2contexts[paper.get_pmid()]).intersection(unique_con_terms))
+                            paper_pmid = paper.get_pmid()
+                            context_hits = list(set(self.pmid2contexts[paper_pmid]).intersection(unique_con_terms))
                             # add in the plural version (simplified) to increase recall of context string matches
                             context_hits = singularize_and_pluralize_list(context_hits)
                         else:
@@ -618,7 +604,8 @@ class DataLoader:
                                 writer.close()
 
                             # Add it to the pile
-                            self.pubmed_ppi_paper_pile[pmcid] = paper  # NOTE PMCID not PMID  ## NOTE This is a hack to not have to do lemmatization but just look up direct matches
+                            # Note: not doing lemmatization, just looking up direct matches
+                            self.pubmed_ppi_paper_pile[pmcid] = paper  # NOTE PMCID not PMID
 
         return all_section_names, all_subsection_names
 
@@ -635,7 +622,6 @@ class DataLoader:
         :param context_type: type of context term to extract features for. Permissible: {"CTs", "tissues"}
         :param lexicon_filename: filename of lexicon of context terms we're filtering in
         """
-
         if biocxml_dir is None:
             biocxml_dir = BIOCXML_DIR_DEFAULT
 
@@ -657,7 +643,7 @@ class DataLoader:
 
         # First create the paper pile
         _, _ = self.generate_paper_pile_from_relation_subset(all_res_combined, biocxml_dir, biocxml_out_dir,
-                                                      con_terms_lexicon_filename)
+                                                             con_terms_lexicon_filename)
 
         # Finally, extract features from the paper!
         features_df = extract_features(self.pubmed_ppi_paper_pile,
@@ -691,13 +677,16 @@ class DataLoader:
 
         # First create the paper pile. The two returns are sets of tuples of section names and PMCIDs
         all_section_names, all_subsection_names = self.generate_paper_pile_from_relation_subset(all_res_combined,
-                                                                                                biocxml_dir, biocxml_out_dir,
+                                                                                                biocxml_dir,
+                                                                                                biocxml_out_dir,
                                                                                                 con_terms_lexicon_filename)
         section_names_df = pd.DataFrame(list(all_section_names), columns=['Section Name', 'PMCID'])
-        section_names_df.to_csv(os.path.join(section_names_out_dir, "insider_section_names.tsv"), index=False, sep='\t')
+        section_names_file = os.path.join(section_names_out_dir, "insider_section_names.tsv")
+        section_names_df.to_csv(section_names_file, index=False, sep='\t')
 
         subsection_names_df = pd.DataFrame(list(all_subsection_names), columns=['Subsection Name', 'PMCID'])
-        subsection_names_df.to_csv(os.path.join(section_names_out_dir, "insider_subsection_names.tsv"), index=False, sep='\t')
+        subsection_names_file = os.path.join(section_names_out_dir, "insider_subsection_names.tsv")
+        subsection_names_df.to_csv(subsection_names_file, index=False, sep='\t')
 
         return None
 
@@ -708,11 +697,10 @@ class DataLoader:
 
         :param lexicon_filename: filename of lexicon of context terms we're filtering in
         :param context_type: type of context term to extract features for. Permissible: {"CTs", "tissues"}
-        :param min_contexts: minimum number of unique contexts from the query lexicon that must occur in each paper  TODO: do plurals mess this up?
+        :param min_contexts: minimum number of unique contexts from the query lexicon that must occur in each paper
         :param max_len_token: longest n-gram to search for after splitting on whitespace
         :param paper_list_outfile: file path to write list of PMCIDs for looking for features later
         """
-
         if lexicon_filename is not None:
             con_terms_lexicon_filename = lexicon_filename
         else:
@@ -726,8 +714,6 @@ class DataLoader:
 
         con_terms_df = pd.read_csv(con_terms_lexicon_filename)
         context_terms_list = list(set(con_terms_df.context_term))
-        #context_term_set = set(singularize_and_pluralize_list(context_terms_list))
-        #print(f"With context type: {context_type} found {len(context_terms_list)} context terms and {len(context_term_set)} after finding singular/plural")
 
         # Get the context term set (e.g. Tabula) hits for a PMID where at least k occur
         def get_tabula_contexts(pmid, k=min_contexts):
@@ -758,8 +744,8 @@ class DataLoader:
             if len(context_insider_sentences_df_res) != 0:
                 # Return the context hit and the other contexts in the query list found in this paper
                 context_insider_sentences_df_res.loc[:, "con"] = context
-                context_insider_sentences_df_res.loc[:, "context_list"] = context_insider_sentences_df_res['pmid'].apply(
-                    get_tabula_contexts)
+                context_insider_sentences_df_res.loc[:, "context_list"] = context_insider_sentences_df_res['pmid'].\
+                    apply(get_tabula_contexts)
 
                 # How many unique papers contain an insider sentence
                 num_paper_hits = len(set(context_insider_sentences_df_res.pmcid))
@@ -798,9 +784,10 @@ class DataLoader:
         print(f"Total # insider sentences found in {context_type} (all): {n_insider_rels}")
 
         # Finally, drop cases where the citation is in insider sentence--dealing with citations is future work!
-        clean_insider_df = clean_insider_df[clean_insider_df['Citation Dist'] != 0].sample(frac=1).reset_index(drop=True)
-        n_insider_rels_NC = len(set(clean_insider_df['Extracted Relation']))
-        print(f"Total # insider sentences found in {context_type} (non-citing): {n_insider_rels_NC}")
+        clean_insider_df = clean_insider_df[clean_insider_df['Citation Dist'] != 0].sample(frac=1)
+        clean_insider_df = clean_insider_df.reset_index(drop=True)
+        n_insider_rels_nc = len(set(clean_insider_df['Extracted Relation']))
+        print(f"Total # insider sentences found in {context_type} (non-citing): {n_insider_rels_nc}")
 
         # Get the papers for querying later
         if paper_list_outfile is not None:
@@ -810,24 +797,26 @@ class DataLoader:
 
     def get_relation_subset_from_pmc_intersect(self, subset_df):
         """
-        Return the subset of relations based on PMCs in the subset DF
+        Return the subset of relations based on PMCs in the subset DF.
 
         :param subset_df: Pandas DF representing the subset corpus to be filtering on (e.g. Insider)
         """
         subset_pmc_df = subset_df.PMCID.drop_duplicates()
-        relation_subset = self.all_pubmed_relations_df.merge(subset_pmc_df, left_on="pmcid", right_on="PMCID", how="inner")
+        relation_subset = self.all_pubmed_relations_df.\
+            merge(subset_pmc_df, left_on="pmcid", right_on="PMCID", how="inner")
         n_papers = len(relation_subset.pmcid.drop_duplicates())
         print(f"After taking subset of relations, need to extract features from: {n_papers} papers")
         return relation_subset
 
     def get_relation_subset_from_ppi_intersect(self, subset_df):
         """
-        Return the subset of relations based on PPI combined_keys in the subset DF
+        Return the subset of relations based on PPI combined_keys in the subset DF.
 
         :param subset_df: Pandas DF representing the subset corpus to be filtering on (e.g. Dengue)
         """
         subset_ppis_df = subset_df.combined_entities_key.drop_duplicates()
-        relation_subset = self.all_pubmed_relations_df.merge(subset_ppis_df, on="combined_entities_key", how="inner")
+        relation_subset = self.all_pubmed_relations_df.\
+            merge(subset_ppis_df, on="combined_entities_key", how="inner")
         n_papers = len(relation_subset.pmcid.drop_duplicates())
         print(f"After taking subset of relations, need to extract features from: {n_papers} papers")
         return relation_subset

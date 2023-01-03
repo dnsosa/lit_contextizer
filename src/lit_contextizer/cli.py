@@ -2,11 +2,13 @@
 
 # -*- coding: utf-8 -*-
 
-import click
 import json
+import os
+
+import click
+
 import pandas as pd
 
-import os
 from .data_models.DataLoader import DataLoader
 from .data_models.DataLoaderUtilities import create_dengue_corpus
 
@@ -24,7 +26,6 @@ from .data_models.DataLoaderUtilities import create_dengue_corpus
 def main(out_dir, networks_dir, full_text_dir, paper_subset, insider_context_type, parse_files, dump_annots_context,
          load_max, min_conf):
     """Run main function."""
-
     dl = DataLoader()
     print("Done initializing")
 
@@ -79,14 +80,14 @@ def main(out_dir, networks_dir, full_text_dir, paper_subset, insider_context_typ
         features_df.to_csv(insider_full_filename, index=False, sep='\t')
 
     elif paper_subset == "dengue":
-        print(f"Finding the subset of relations from my input Dengue pairs I need to extract features about.")
+        print("Finding the subset of relations from my input Dengue pairs I need to extract features about.")
         dengue_ppis_df = create_dengue_corpus()
         print("PPI Dengue corpus created.")
         relation_subset = dl.get_relation_subset_from_ppi_intersect(subset_df=dengue_ppis_df)
         print("Got subset of Dengue relations")
         # dl.output_section_names(relation_subset, out_dir)  # output section names for normalizing
         features_df = dl.extract_features_from_all_pubmed_ppis(relation_subset, context_type="CTs")
-        features_df.to_csv(os.path.join(out_dir, f"dengue_papers_features_df.tsv"), index=False, sep='\t')
+        features_df.to_csv(os.path.join(out_dir, "dengue_papers_features_df.tsv"), index=False, sep='\t')
 
     elif paper_subset == "giant":
         context_list = ['adipose_tissue', 'liver', 'lung']
