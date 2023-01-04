@@ -1,8 +1,7 @@
-"""
-Collection of functions for visualizing results.
-"""
+"""Collection of functions for visualizing results."""
 
 # -*- coding: utf-8 -*-
+
 import itertools
 import os
 from collections import Counter
@@ -21,7 +20,7 @@ import pandas as pd
 import seaborn as sns
 
 from sklearn import metrics
-from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
+from sklearn.ensemble import GradientBoostingClassifier, RandomForestClassifier
 from sklearn.inspection import permutation_importance
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import ConfusionMatrixDisplay
@@ -46,9 +45,27 @@ def generate_analysis_figs(in_df,
                            out_dir=None,
                            filename="",
                            dpi=300):
+    """
+    Generate main analysis figures.
+
+    :param in_df: Input DF
+    :param grouped_analysis: If True, contexts considered as a group (concept-level) not individual mentions
+    :param downsample_maj: Downsample majority class?
+    :param upsample_min: Upsample minority class?
+    :param weight_imbalance: Incorporate weighting for class imbalance?
+    :param plot_roc_curve: Plot ROC curve?
+    :param plot_confusion_matrices: Plot confusion matrices?
+    :param plot_feature_analysis: Plot feature importance anlayses?
+    :param in_clf_list: Input list of pre-trained classifiers
+    :param recall_only: Only plot recall results?
+    :param in_loc: Location for legend
+    :param SEED: random seed
+    :param out_dir: Output directory
+    :param filename: Output filename
+    :param dpi: Image resolution
+    """
     # Pre-process the data
     if not grouped_analysis:
-        # TODO: Check if there are issues with plurals
         model_contra_df = in_df[
             ['rel', 'con_sent', 'con', 'sent_dist', 'sec_dist', 'norm_rel_sec', 'norm_con_sec',
              'num_con_mentions', 'con_mention_frac', 'con_mention_50', 'is_con_mention_max',
@@ -85,9 +102,12 @@ def generate_analysis_figs(in_df,
 
         # Need to recalculate the num_mentions_frac features
         in_df_grp_features_mentions_grp = in_df_grp_features.groupby(['rel'])['num_con_mentions']
-        in_df_grp_features['con_mention_frac'] = in_df_grp_features['num_con_mentions'] / in_df_grp_features_mentions_grp.transform('sum')
-        in_df_grp_features = in_df_grp_features.assign(num_con_mentions_max=in_df_grp_features_mentions_grp.transform(max))
-        in_df_grp_features["is_con_mention_max"] = (in_df_grp_features['num_con_mentions'] == in_df_grp_features['num_con_mentions_max'])
+        t1, t2 = in_df_grp_features['num_con_mentions'], in_df_grp_features_mentions_grp.transform('sum')
+        in_df_grp_features['con_mention_frac'] = t1 / t2
+        in_df_grp_features = in_df_grp_features.\
+            assign(num_con_mentions_max=in_df_grp_features_mentions_grp.transform(max))
+        t1, t2 = in_df_grp_features['num_con_mentions'], in_df_grp_features['num_con_mentions_max']
+        in_df_grp_features["is_con_mention_max"] = (t1 == t2)
         in_df_grp_features['con_mention_50'] = in_df_grp_features['con_mention_frac'] >= 0.5
 
         model_contra_df = in_df_grp_features[
@@ -119,17 +139,17 @@ def generate_analysis_figs(in_df,
         model_contra_df = pd.concat([mc_df_maj_down, mc_df_min])
 
     model_contra_df.con_in_mesh_headings = model_contra_df.con_in_mesh_headings.astype(int)
-    print(
-        f"N negatives - after up/down-weighting: {len(model_contra_df[model_contra_df.annotation == False].drop_duplicates())}")
-    print(
-        f"N positives - after up/down-weighting: {len(model_contra_df[model_contra_df.annotation == True].drop_duplicates())}")
+    n_negs = len(model_contra_df[~model_contra_df.annotation].drop_duplicates())
+    print(f"N negatives - after up/down-weighting: {n_negs}")
+    n_pos = len(model_contra_df[model_contra_df.annotation].drop_duplicates())
+    print(f"N positives - after up/down-weighting: {n_pos}")
     print(f"Total len of resulting DF: {len(model_contra_df)}")
 
     if not grouped_analysis:
-        df = pd.get_dummies(model_contra_df[
-                                ['sent_dist', 'sec_dist', 'norm_rel_sec', 'norm_con_sec',
-                                 'num_con_mentions', 'con_mention_frac', 'con_mention_50', 'is_con_mention_max',
-                                 'is_con_fp', 'is_closest_cont_by_sent', 'con_in_mesh_headings', 'annotation']])
+        df = pd.get_dummies(model_contra_df[['sent_dist', 'sec_dist', 'norm_rel_sec', 'norm_con_sec',
+                                             'num_con_mentions', 'con_mention_frac', 'con_mention_50',
+                                             'is_con_mention_max', 'is_con_fp', 'is_closest_cont_by_sent',
+                                             'con_in_mesh_headings', 'annotation']])
     else:
         df = pd.get_dummies(model_contra_df[['min_sent_dist', 'min_sec_dist',
                                              'num_con_mentions', 'con_mention_frac', 'con_mention_50',
@@ -141,7 +161,7 @@ def generate_analysis_figs(in_df,
         # Check that all the columns are present since the classifiers will expect the full number of columns
         r_section_names = ["title", "abstract", "background", "methods", "results", "discussion and conclusion"]
         c_section_names = ["title", "abstract", "background", "methods", "results", "disc_conc"]
-        for i, (r_sec, c_sec) in enumerate(zip(r_section_names, c_section_names)):
+        for _, (r_sec, c_sec) in enumerate(zip(r_section_names, c_section_names)):
             rel_col_name = f"norm_rel_sec_{r_sec}"
             if rel_col_name not in df.columns:
                 print(f"{rel_col_name} not found in column list. Assigning it a column of falses")
@@ -205,7 +225,7 @@ def generate_analysis_figs(in_df,
 
     # ROC Curve
     if plot_roc_curve:
-        fig = plt.figure(figsize=(10, 10))
+        _ = plt.figure(figsize=(10, 10))
         plt.rcParams.update({'font.size': 16})
 
         precs = []
@@ -213,7 +233,7 @@ def generate_analysis_figs(in_df,
         fs = []
         y_pred_list = []
         clf_names = []
-        for i, clf in enumerate(clf_list):
+        for clf in clf_list:
             clf_name = get_clf_name(clf)
             clf_names.append(clf_name)
             print(f"Looking at clf: {clf_name}")
@@ -257,26 +277,33 @@ def generate_analysis_figs(in_df,
         plt.show()
 
         # Overall metric values
-        fig = plt.figure(figsize=(12, 10))
+        _ = plt.figure(figsize=(12, 10))
         width = 0.2 if not recall_only else 0.7
         v_space = 0.045
         x = np.arange(len(recs))
         # Recall
         plt.bar(x, recs, width, color='green', label='Recall')
         for i, v in enumerate(recs):
-            t2 = plt.text(i, v + v_space, f"{round(v, 3):.3f}", color="black", ha='center', fontsize=20 if recall_only else 12)
-            t2.set_bbox(dict(facecolor='white', alpha=1, edgecolor='white'))
+            fs = 20 if recall_only else 12
+            t2 = plt.text(i, v + v_space, f"{round(v, 3):.3f}", color="black", ha='center', fontsize=fs)
+            t2.set_bbox({'facecolor': 'white',
+                         'alpha': 1,
+                         'edgecolor': 'white'})
         if not recall_only:
             # Precision
             plt.bar(x - 0.2, precs, width, color='orange', label='Precision')
             for i, v in enumerate(precs):
                 t1 = plt.text(i - .18, v + v_space, f"{round(v, 3):.3f}", color="black", ha='right', fontsize=12)
-                t1.set_bbox(dict(facecolor='white', alpha=1, edgecolor='white'))
+                t1.set_bbox({'facecolor': 'white',
+                             'alpha': 1,
+                             'edgecolor': 'white'})
             # F1
             plt.bar(x + 0.2, fs, width, color='blue', label='F1')
             for i, v in enumerate(fs):
                 t3 = plt.text(i + .18, v + v_space, f"{round(v, 3):.3f}", color="black", ha='left', fontsize=12)
-                t3.set_bbox(dict(facecolor='white', alpha=1, edgecolor='white'))
+                t3.set_bbox({'facecolor': 'white',
+                             'alpha': 1,
+                             'edgecolor': 'white'})
         clf_labels = [get_clf_name(clf) for clf in clf_list]
         plt.xticks(x, clf_labels, rotation=45, ha='right')
         if recall_only:
@@ -287,7 +314,6 @@ def generate_analysis_figs(in_df,
                        loc=in_loc, framealpha=1)
         plt.ylim([0, 1.1])
         plt.ylabel("Metric")
-        # plt.title("Classifier Metrics", size=20)
 
         if out_dir is not None:
             out_file = os.path.join(out_dir, f"{filename}_Metrics.png")
@@ -302,7 +328,7 @@ def generate_analysis_figs(in_df,
     if plot_confusion_matrices:
         fig, axes = plt.subplots(nrows=2, ncols=3, figsize=(22, 15))
 
-        for i, (clf, ax) in enumerate(zip(clf_list, axes.flatten())):
+        for _, (clf, ax) in enumerate(zip(clf_list, axes.flatten())):
             ConfusionMatrixDisplay.from_estimator(clf,
                                                   X_test,
                                                   y_test,
@@ -431,8 +457,10 @@ def draw_section_distribution(in_df,
 
     :param in_df: input dataframe with features extracted
     :param in_mesh: if True, show if the terms are in MeSH headings
+    :param alpha: transparency
+    :param out_dir: output directory
+    :
     """
-
     fig, axs = plt.subplots(1, 2, sharey=False, figsize=(17, 8))
     fig.suptitle("Section Locations for Extracted Contexts and Relations", y=1.1)
 
@@ -447,7 +475,7 @@ def draw_section_distribution(in_df,
 
     axs[0].bar(np.arange(len(labels)), values, width=1, color="green", edgecolor='black', linewidth=1.5)
     axs[0].set_title("Relation")
-    axs[0].set_xticks(np.arange(len(labels))+0)
+    axs[0].set_xticks(np.arange(len(labels)) + 0)
     axs[0].set_xticklabels(labels, fontsize=16, rotation=45, ha='right')
     axs[0].set_ylabel("Count")
 
@@ -464,10 +492,11 @@ def draw_section_distribution(in_df,
 
     axs[1].bar(np.arange(len(labels)), values, width=1, color="green", edgecolor='black', linewidth=1.5, alpha=alpha)
     if in_mesh:
-        axs[1].bar(np.arange(len(labels_mesh)), values_mesh, width=1, color="gold", edgecolor='white', linewidth=2.5, label="In MeSH Headings")
+        axs[1].bar(np.arange(len(labels_mesh)), values_mesh, width=1, color="gold", edgecolor='white', linewidth=2.5,
+                   label="In MeSH Headings")
         axs[1].legend()
     axs[1].set_title("Context")
-    axs[1].set_xticks(np.arange(len(labels))+0)
+    axs[1].set_xticks(np.arange(len(labels)) + 0)
     axs[1].set_xticklabels(labels, fontsize=16, rotation=45, ha='right')
 
     if out_dir is not None:
@@ -556,7 +585,7 @@ def draw_CTs_in_mesh_counts(in_df,
     coord_counts = {}
 
     # Find number of overlaps for each coordinate
-    for i, ct in enumerate(ct_list):
+    for i, _ in enumerate(ct_list):
         x, y = x_values[i], y_values[i]
         if (x, y) not in coord_counts:
             coord_counts[(x, y)] = 1
@@ -602,7 +631,6 @@ def draw_CTs_in_mesh_counts(in_df,
     plt.yscale('symlog')
     plt.xlabel("Term in MeSH (# Papers)")
     plt.ylabel("Term NOT in MeSH (# Papers)")
-    # plt.title("Cell Types Found in Filtered-in Insider Papers ")
 
     # Remove the left and bottom lines
     plt.box(on=False)
@@ -621,7 +649,17 @@ def plot_benchmark_fig(df,
                        out_dir=None,
                        filename="",
                        dpi=300):
+    """
+    Plot figure comparing against benchmarks.
 
+    :param df: input DF
+    :param best_model_name: Name of best model
+    :param best_model_stats: Statistics from the best model (to be plotted)
+    :param recall_only: Only show recall statistics?
+    :param out_dir: Output directory
+    :param filename: Output filename
+    :param dpi: Image resolution
+    """
     # Get a rel_con section match ?
     def any_rel_con_section_match(row):
         rel_sec = row["norm_rel_sec"]
@@ -631,12 +669,6 @@ def plot_benchmark_fig(df,
         return row[f"any_con_{sec_map[rel_sec]}"]  # If True, there's a context in this section
 
     df['any_rel_con_section_match'] = df.apply(any_rel_con_section_match, axis=1)
-
-    # Get context mention fraction
-    #df_mentions_grp = df.groupby(['rel'])['num_con_mentions']
-    #df['con_mention_frac'] = df['num_con_mentions'] / df_mentions_grp.transform('sum')
-    #df = df.assign(num_con_mentions_max=df_grp.transform(max))
-    #df["is_con_mention_max"] = (df['num_con_mentions'] == df['num_con_mentions_max'])
     df['con_mention_50'] = df['con_mention_frac'] >= 0.5
 
     # Get if the minimum sentence distance is <= k
@@ -668,7 +700,7 @@ def plot_benchmark_fig(df,
     precs = []
     recs = []
     fs = []
-    for i, benchmark in enumerate(benchmark_order):
+    for _, benchmark in enumerate(benchmark_order):
         print(f"Looking at benchmark: {benchmark}")
         y_pred = df[benchmark]
         y_test = df["annotation"]
@@ -688,7 +720,7 @@ def plot_benchmark_fig(df,
             fs = [best_model_stats[2]] + fs
 
     # Overall metric values
-    fig = plt.figure(figsize=(26, 15))
+    _ = plt.figure(figsize=(26, 15))
     width = 0.2 if not recall_only else 0.7
     v_space = .015
     h_space = .19
@@ -700,8 +732,11 @@ def plot_benchmark_fig(df,
     else:
         plt.bar(x, recs, width, color='green', label='Recall')
     for i, v in enumerate(recs):
-        t2 = plt.text(i, v + v_space, f"{round(v, 3):.3f}", color="black", ha='center', fontsize=20 if recall_only else 14)
-        t2.set_bbox(dict(facecolor='white', alpha=1, edgecolor='white'))
+        fs = 20 if recall_only else 14
+        t2 = plt.text(i, v + v_space, f"{round(v, 3):.3f}", color="black", ha='center', fontsize=fs)
+        t2.set_bbox({'facecolor': 'white',
+                     'alpha': 1,
+                     'edgecolor': 'white'})
 
     if not recall_only:
         # Precision
@@ -711,7 +746,9 @@ def plot_benchmark_fig(df,
             plt.bar(x - 0.2, precs, width, color='orange', label='Precision')
         for i, v in enumerate(precs):
             t1 = plt.text(i - h_space, v + v_space, f"{round(v, 3):.3f}", color="black", ha='right', fontsize=14)
-            t1.set_bbox(dict(facecolor='white', alpha=1, edgecolor='white'))
+            t1.set_bbox({'facecolor': 'white',
+                         'alpha': 1,
+                         'edgecolor': 'white'})
 
         # F1
         if best_model_stats is not None:
@@ -720,7 +757,9 @@ def plot_benchmark_fig(df,
             plt.bar(x + 0.2, fs, width, color='blue', label='F1')
         for i, v in enumerate(fs):
             t3 = plt.text(i + h_space, v + v_space, f"{round(v, 3):.3f}", color="black", ha='left', fontsize=14)
-            t3.set_bbox(dict(facecolor='white', alpha=1, edgecolor='white'))
+            t3.set_bbox({'facecolor': 'white',
+                         'alpha': 1,
+                         'edgecolor': 'white'})
 
     benchmark_labels = [benchmark_mapper[benchmark] for benchmark in benchmark_order]
     if best_model_stats is not None:
@@ -737,12 +776,10 @@ def plot_benchmark_fig(df,
     if recall_only:
         plt.legend(["Recall"], loc='lower right', framealpha=1)
     else:
-        #plt.legend(["Precision", "Recall", "F1"], loc='lower right', framealpha=1)
         plt.legend(*([x[i] for i in [1, 0, 2]] for x in plt.gca().get_legend_handles_labels()),
                    loc='lower right', framealpha=1)
     plt.ylim([0, 1.05])
     plt.ylabel("Metric")
-    # plt.title("Benchmark Metrics", size=20)
 
     if out_dir is not None:
         out_file = os.path.join(out_dir, f"{filename}_BenchmarkMetrics.png")
@@ -752,7 +789,15 @@ def plot_benchmark_fig(df,
 
 
 def plot_con_mention_frac_precision_plots(CT_df, tissue_df, combined_df, out_dir, dpi=300):
+    """
+    Plot context mention fraction precision plots.
 
+    :param CT_df: cell type DF
+    :param tissue_df: tissue DF
+    :param combined_df: combined DF with both context types
+    :param out_dir: output directory
+    :param dpi: image output resolution
+    """
     sns.set(style="white",
             rc={'figure.figsize': (15, 8)},
             font_scale=2)
@@ -764,9 +809,7 @@ def plot_con_mention_frac_precision_plots(CT_df, tissue_df, combined_df, out_dir
         print(f"Threshold for {P}% recall: {threshold_for_recall_p:.{digits}f}")
 
         tps = np.sum(positive_vals >= threshold_for_recall_p)
-        fns = len(positive_vals) - tps
         fps = np.sum(negative_vals >= threshold_for_recall_p)
-        tns = len(negative_vals) - fps
 
         precision_at_recall_p = round(tps / float(tps + fps), digits)
         print(f"Precision for {P}% recall: {precision_at_recall_p:.{digits}f}")
@@ -778,20 +821,20 @@ def plot_con_mention_frac_precision_plots(CT_df, tissue_df, combined_df, out_dir
     neg_alpha = alpha
 
     CT_pos_color, CT_neg_color = '#BDC00E', '#EDEEB0'
-    fig = sns.kdeplot(CT_df[CT_df.annotation].con_mention_frac, fill=True, linewidth=0, color=CT_pos_color,
-                      label="Cell Type - Pos", alpha=alpha)
-    fig = sns.kdeplot(CT_df[~CT_df.annotation].con_mention_frac, fill=True, linewidth=0, color=CT_neg_color,
-                      label="Cell Type - Neg", alpha=neg_alpha)
+    _ = sns.kdeplot(CT_df[CT_df.annotation].con_mention_frac, fill=True, linewidth=0, color=CT_pos_color,
+                    label="Cell Type - Pos", alpha=alpha)
+    _ = sns.kdeplot(CT_df[~CT_df.annotation].con_mention_frac, fill=True, linewidth=0, color=CT_neg_color,
+                    label="Cell Type - Neg", alpha=neg_alpha)
     CTs_thresh, CTs_prec_at_90 = precisionAtRecallP(CT_df, 90, digits)
     plt.axvline(x=CTs_thresh, color=CT_pos_color)
     plt.text(CTs_thresh + 0.02, 9, f'Prec @ 90% Rec = {CTs_prec_at_90:.{digits}f}', color=CT_pos_color, ha='left',
              fontsize=16)
 
     tissues_pos_color, tissues_neg_color = "#11A7FF", "#C2DDEB"
-    fig = sns.kdeplot(tissue_df[tissue_df.annotation].con_mention_frac, fill=True, linewidth=0, color=tissues_pos_color,
-                      label="Tissue - Pos", alpha=alpha)
-    fig = sns.kdeplot(tissue_df[~tissue_df.annotation].con_mention_frac, fill=True, linewidth=0,
-                      color=tissues_neg_color, label="Tissue - Neg", alpha=neg_alpha)
+    _ = sns.kdeplot(tissue_df[tissue_df.annotation].con_mention_frac, fill=True, linewidth=0, color=tissues_pos_color,
+                    label="Tissue - Pos", alpha=alpha)
+    _ = sns.kdeplot(tissue_df[~tissue_df.annotation].con_mention_frac, fill=True, linewidth=0,
+                    color=tissues_neg_color, label="Tissue - Neg", alpha=neg_alpha)
     tissues_thresh, tissues_prec_at_90 = precisionAtRecallP(tissue_df, 90, digits)
     plt.axvline(x=tissues_thresh, color=tissues_pos_color)
     plt.text(tissues_thresh - 0.02, 9, f'Prec @ 90% Rec = {tissues_prec_at_90:.{digits}f}', color=tissues_pos_color,
@@ -801,15 +844,15 @@ def plot_con_mention_frac_precision_plots(CT_df, tissue_df, combined_df, out_dir
     plt.ylim([0, 10])
     plt.legend(prop={'size': 16})
 
-    out_file = os.path.join(out_dir, f"MentionFracSeparated.png")
+    out_file = os.path.join(out_dir, "MentionFracSeparated.png")
     plt.savefig(out_file, dpi=dpi, bbox_inches="tight")
     plt.show()
 
     combined_pos_color, combined_neg_color = "#50CF17", "#CCF1BB"
-    fig = sns.kdeplot(combined_df[combined_df.annotation].con_mention_frac, fill=True, linewidth=0,
-                      color=combined_pos_color, label="Combined - Pos", alpha=alpha)
-    fig = sns.kdeplot(combined_df[~combined_df.annotation].con_mention_frac, fill=True, linewidth=0,
-                      color=combined_neg_color, label="Combined - Neg", alpha=alpha)
+    _ = sns.kdeplot(combined_df[combined_df.annotation].con_mention_frac, fill=True, linewidth=0,
+                    color=combined_pos_color, label="Combined - Pos", alpha=alpha)
+    _ = sns.kdeplot(combined_df[~combined_df.annotation].con_mention_frac, fill=True, linewidth=0,
+                    color=combined_neg_color, label="Combined - Neg", alpha=alpha)
     combined_thresh, combined_prec_at_90 = precisionAtRecallP(combined_df, 90, digits)
     plt.axvline(x=combined_thresh, color=combined_pos_color)
     plt.text(combined_thresh + 0.02, 9, f'Prec @ 90% Rec = {combined_prec_at_90:.{digits}f}', color=combined_pos_color,
@@ -819,12 +862,18 @@ def plot_con_mention_frac_precision_plots(CT_df, tissue_df, combined_df, out_dir
     plt.ylim([0, 10])
     plt.legend(prop={'size': 16})
 
-    out_file = os.path.join(out_dir, f"MentionFracCombined.png")
+    out_file = os.path.join(out_dir, "MentionFracCombined.png")
     plt.savefig(out_file, dpi=dpi, bbox_inches="tight")
     plt.show()
 
 
 def plot_mac_hep_neu_venn(dengue_edgelist, fig_out_dir, dpi=300):
+    """
+    Plot venn diagram for 3 biggest cell types.
+
+    :param dengue_edgelist: Edge list of dengue-relevant PPIs
+    :param fig_out_dir: Output directory
+    """
     plt.rcParams["figure.figsize"] = (20, 20)
 
     font = {'family': 'normal',
@@ -855,13 +904,22 @@ def plot_mac_hep_neu_venn(dengue_edgelist, fig_out_dir, dpi=300):
                    len(all_three)),
           set_labels=('Macrophage', 'Hepatocyte', 'Neutrophil'))
 
-    out_file = os.path.join(fig_out_dir, f"Dengue3CTVenn.png")
+    out_file = os.path.join(fig_out_dir, "Dengue3CTVenn.png")
     plt.savefig(out_file, dpi=dpi, bbox_inches="tight")
 
     plt.show()
 
 
 def plot_dengue_networks(dengue_edgelist, fig_out_dir, min_deg=5, max_deg=15, dpi=300):
+    """
+    Plot dengue subnetworks.
+
+    :param dengue_edgelist: DF of dengue PPIs
+    :param fig_out_dir: output directory for fig
+    :param min_deg: minimum degree for nodes included in subnetwork
+    :param max_deg: maximum degree for nodes included in subnetwork
+    :param dpi: image resolution
+    """
     plt.rcParams["figure.figsize"] = (20, 20)
 
     G_dengue = nx.from_pandas_edgelist(dengue_edgelist, 'entity1_text', 'entity2_text', ['con'])
@@ -902,7 +960,7 @@ def plot_dengue_networks(dengue_edgelist, fig_out_dir, min_deg=5, max_deg=15, dp
                 edge_widths.append(1)
         nx.draw_networkx_edges(Gcc, pos, alpha=0.5, edge_color=edge_colors, width=edge_widths, label=ct)
 
-        ct_edge_set = set([(e[0], e[1]) for e in Gcc.edges(data=True) if e[2]['con'] == ct])
+        ct_edge_set = {(e[0], e[1]) for e in Gcc.edges(data=True) if e[2]['con'] == ct}
         ct_node_set = set(itertools.chain(*ct_edge_set))
 
         labels = {k: k for k in ct_node_set}

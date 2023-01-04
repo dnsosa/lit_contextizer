@@ -92,19 +92,19 @@ class DataLoader:
                             elif annot_type == "CellContext":
                                 context = in2str(annot.infons["normalized"]).lower()
                                 if pmid not in self.pmid2contexts:
-                                    self.pmid2contexts[pmid] = set([context])
+                                    self.pmid2contexts[pmid] = {context}
                                 else:
                                     self.pmid2contexts[pmid].add(context)
 
                                 if context not in self.contexts2pmid:
-                                    self.contexts2pmid[context] = set([pmid])
+                                    self.contexts2pmid[context] = {pmid}
                                 else:
                                     self.contexts2pmid[context].add(pmid)
                             elif annot_type == "Species":
                                 species = in2str(annot.infons["conceptid"])
                                 if pmid not in self.pmid2species:
-                                    self.pmid2species[pmid] = set([species])
-                                    self.pmid2speciesText[pmid] = set([annot.text])
+                                    self.pmid2species[pmid] = {species}
+                                    self.pmid2speciesText[pmid] = {annot.text}
                                 else:
                                     self.pmid2species[pmid].add(species)
                                     self.pmid2speciesText[pmid].add(annot.text)
@@ -676,10 +676,9 @@ class DataLoader:
             biocxml_out_dir = BIOCXML_OUT_DIR_DEFAULT
 
         # First create the paper pile. The two returns are sets of tuples of section names and PMCIDs
-        all_section_names, all_subsection_names = self.generate_paper_pile_from_relation_subset(all_res_combined,
-                                                                                                biocxml_dir,
-                                                                                                biocxml_out_dir,
-                                                                                                con_terms_lexicon_filename)
+        all_section_names, all_subsection_names = self.\
+            generate_paper_pile_from_relation_subset(all_res_combined, biocxml_dir, biocxml_out_dir,
+                                                     con_terms_lexicon_filename)
         section_names_df = pd.DataFrame(list(all_section_names), columns=['Section Name', 'PMCID'])
         section_names_file = os.path.join(section_names_out_dir, "insider_section_names.tsv")
         section_names_df.to_csv(section_names_file, index=False, sep='\t')

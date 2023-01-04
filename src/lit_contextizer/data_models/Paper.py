@@ -244,8 +244,8 @@ class Paper:
         :param relation: Relation object to which we're trying to find the closest context object
         :return is_closest: Boolean, is this context text the closest to the input relation?
         """
-        sent_dist_list = list(map(lambda cont: self.sentence_distance(cont, relation), self.context_list))
-        cont_text_list = list(map(lambda cont: cont.get_text(), self.context_list))
+        sent_dist_list = [self.sentence_distance(cont, relation) for cont in self.context_list]
+        cont_text_list = [cont.get_text() for cont in self.context_list]
 
         if None not in sent_dist_list:
             closest_idx = sent_dist_list.index(min(sent_dist_list))
@@ -297,12 +297,7 @@ class Paper:
                 pmis.append(pmi_entity_cont)
 
             entity_and_conts.append(entity_and_cont)
-            # print(f"no_entity_no_cont: {no_entity_no_cont}")
-            # print(f"entity_no_cont: {entity_no_cont}")
-            # print(f"cont_no_entity: {cont_no_entity}")
-            # print(f"entity_and_cont: {entity_and_cont}")
 
-        # NEED TO UPDATE THIS FOR RETURNING BOTH
         return pmis[0], entity_and_conts[0], pmis[1], entity_and_conts[1]
 
     def get_title(self) -> str:
