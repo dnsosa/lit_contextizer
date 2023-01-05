@@ -29,6 +29,7 @@ def main(out_dir, networks_dir, full_text_dir, paper_subset, insider_context_typ
     dl = DataLoader()
     print("Done initializing")
 
+    # Need to parse the annotated full text documents from scratch
     if parse_files:
         dl.parse_pubmed_full_texts(load_max=load_max, in_dir=full_text_dir)
         print("Done with full texts")
@@ -40,6 +41,7 @@ def main(out_dir, networks_dir, full_text_dir, paper_subset, insider_context_typ
                 return list(obj)
             raise TypeError
 
+        # Can save the outputs of this analyses
         if dump_annots_context:
             with open(os.path.join(out_dir, "annot_id2entrez.csv"), 'w') as fp:
                 json.dump(dl.annot_id2entrez, fp, default=set_default)
@@ -52,6 +54,7 @@ def main(out_dir, networks_dir, full_text_dir, paper_subset, insider_context_typ
             with open(os.path.join(out_dir, "pmid2species.csv"), 'w') as fp:
                 json.dump(dl.pmid2species, fp, default=set_default)
 
+    # If done before, just load them up
     else:
         all_relations_file = os.path.join(out_dir, "all_pubmed_relations_citationDist_v2.tsv")
         dl.all_pubmed_relations_df = pd.read_csv(all_relations_file, sep='\t').astype({'pmid': 'string'})
@@ -61,7 +64,9 @@ def main(out_dir, networks_dir, full_text_dir, paper_subset, insider_context_typ
         dl.contexts2pmid = json.load(open(f'{out_dir}/contexts2pmid.csv'))
         dl.pmid2species = json.load(open(f'{out_dir}/pmid2species.csv'))
 
+    # Create the Insider corpus
     if paper_subset == "insider":
+        # First find the subset of relevant from the full collection of identified relations and contexts
         print(f"Creating insider corpus for insider context type: {insider_context_type}")
         insider_df = dl.create_insider_corpus(context_type=insider_context_type)
         relation_subset = dl.get_relation_subset_from_pmc_intersect(subset_df=insider_df)
@@ -70,6 +75,8 @@ def main(out_dir, networks_dir, full_text_dir, paper_subset, insider_context_typ
             biocxml_out_dir = os.path.join(full_text_dir, "../biocxml_out")
         else:
             biocxml_out_dir = None
+
+        # Extract features
         features_df = dl.extract_features_from_all_pubmed_ppis(relation_subset,
                                                                biocxml_dir=full_text_dir,
                                                                biocxml_out_dir=biocxml_out_dir,
@@ -79,17 +86,23 @@ def main(out_dir, networks_dir, full_text_dir, paper_subset, insider_context_typ
         insider_full_filename = os.path.join(out_dir, f"{context_type_filename}_insider_papers_features_df.tsv")
         features_df.to_csv(insider_full_filename, index=False, sep='\t')
 
+    # Create the Dengue corpus
     elif paper_subset == "dengue":
+        # Get the relevant relations and contexts
         print("Finding the subset of relations from my input Dengue pairs I need to extract features about.")
         dengue_ppis_df = create_dengue_corpus()
         print("PPI Dengue corpus created.")
         relation_subset = dl.get_relation_subset_from_ppi_intersect(subset_df=dengue_ppis_df)
         print("Got subset of Dengue relations")
         # dl.output_section_names(relation_subset, out_dir)  # output section names for normalizing
+
+        # Extract features
         features_df = dl.extract_features_from_all_pubmed_ppis(relation_subset, context_type="CTs")
         features_df.to_csv(os.path.join(out_dir, "dengue_papers_features_df.tsv"), index=False, sep='\t')
 
+    # Create the GIANT tissue-PPI corpus
     elif paper_subset == "giant":
+        # Get the relations from 3 tissue types
         context_list = ['adipose_tissue', 'liver', 'lung']
         context_lookup_list = ['adipo', 'liver', 'lung']
 
@@ -115,6 +128,8 @@ def main(out_dir, networks_dir, full_text_dir, paper_subset, insider_context_typ
         lung_res["context_term_prefix"] = "lung"
 
         all_res_combined = pd.concat([adipose_res, liver_res, lung_res], ignore_index=True)
+
+        # Extract features
         features_df = dl.extract_features_from_all_pubmed_ppis(all_res_combined, context_type="tissues")
         features_df.to_csv(os.path.join(out_dir, f"ppi_pmc_tissues_features_df_conf{min_conf}.csv"), index=False)
 

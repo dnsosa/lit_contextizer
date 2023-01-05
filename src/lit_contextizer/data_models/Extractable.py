@@ -123,5 +123,3 @@ class Relation(Extractable):
     def get_entity2(self):
         """Gett enity 2."""
         return self.entity2
-
-    # maybe will have more functionality later

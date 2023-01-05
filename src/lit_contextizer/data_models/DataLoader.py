@@ -2,12 +2,8 @@
 
 # -*- coding: utf-8 -*-
 
-import io
-import json
 import os
 import re
-from functools import reduce
-from xml.sax import SAXParseException, make_parser  # noqa: S406
 
 import bioc
 
@@ -15,11 +11,9 @@ from lit_contextizer.data_models.Extractable import Relation
 from lit_contextizer.data_models.Paper import Paper
 from lit_contextizer.data_models.PaperUtilities import extract_features, in2str
 from lit_contextizer.data_models.Sentence import Sentence
-from lit_contextizer.data_models.Utilities import create_contexts, drop_the_s, fix_xml, load_all_groundings, \
-    singularize_and_pluralize_list, two_common
-from lit_contextizer.data_models.Xml2PseudoJson import Xml2PseudoJson
+from lit_contextizer.data_models.Utilities import create_contexts, drop_the_s, singularize_and_pluralize_list
 from lit_contextizer.data_models.constants import BIOCXML_DIR_DEFAULT, BIOCXML_OUT_DIR_DEFAULT, \
-    CON_TERMS_LEXICON_PATH, CT_TERMS_LEXICON_PATH, FULL_TEXTS_FILE, RELATIONSHIPS_FILE, TISSUE_TERMS_LEXICON_PATH
+    CON_TERMS_LEXICON_PATH, CT_TERMS_LEXICON_PATH, TISSUE_TERMS_LEXICON_PATH
 
 
 import pandas as pd
@@ -32,11 +26,7 @@ class DataLoader:
     """This object stores representations of papers, extracted events, and extracted relationships."""
 
     def __init__(self):
-        """
-        Create a DataLoader object. Note currently the relationships and paper_pile attributes are redundant.
-
-        TODO: Revisit redundancy?
-        """
+        """Create a DataLoader object. Note currently the relationships and paper_pile attributes are redundant."""
         self.events = {}
         self.relationships = {}
         self.paper_pile = {}
@@ -205,276 +195,6 @@ class DataLoader:
                                                                             right_on="query_genes",
                                                                             how="inner")
         return relations_df_pmid_genes_filtered
-        # Still need to now be able to process and extract features from those papers in the paper pile.......
-
-    def parse_annotated_full_texts(self,
-                                   in_file: str = FULL_TEXTS_FILE,
-                                   load_max=float("inf"),
-                                   cell_type_only: bool = False):
-        """
-        Load the JSON file containing the full annotated texts and create corresponding objects.
-
-        :param in_file: input JSON file containing annotations
-        :param load_max: input for determining number of papers to load--strictly for debugging purposes
-        :param in_keys: set of keys for which to parse annotated full text and extract context mentions
-        :param cell_type_only: if True, only extract contexts that are of type cell type.
-        """
-        # Read in the raw records
-        with open(in_file) as doc_json_file:
-            count = 0
-
-            # For each file, create a new paper object
-            for line in doc_json_file:
-                record = json.loads(line)
-
-                if count % 1000 == 0:
-                    print(f"{count} full texts read (of 21243)")
-
-                # idk why sometimes there's no PMC ID
-                if 'pmc' not in record.keys():
-                    print(f"No PMC for record {count}")
-                    continue
-
-                if 'title' not in record['plain_text'].keys():
-                    print(f"No title for record {record['pmc']}")
-                    continue
-
-                if 'abstract' not in record['plain_text'].keys():
-                    print(f"No abstract for record {record['pmc']}")
-                    continue
-
-                if 'text' not in record['plain_text'].keys():
-                    print(f"No text for record {record['pmc']}")
-                    continue
-
-                # TODO: Need to remove the PM at the beginning
-                pmid = record['doc_id'].split("|")[0][2:]
-
-                paper = Paper(title=record['plain_text']['title'],
-                              abstract=record['plain_text']['abstract'],
-                              full_text=record['plain_text']['text'],
-                              pmcid=record['pmc'],
-                              pmid=pmid,
-                              doi=record['doi'],
-                              journal=record['journal'])
-
-                count += 1
-
-                # Parse annotated full text or abstract, whatever's available. Make it a well-formatted XML with tags.
-                if 'text' in record['annotated_text'].keys():
-                    in_str = f"<root>{record['annotated_text']['text']}</root>"
-                elif 'abstract' in record['annotated_text'].keys():
-                    in_str = f"<root>{record['annotated_text']['abstract']}</root>"
-
-                # Set up parser for handling XML
-                parser = make_parser()  # noqa: S317
-                handler = Xml2PseudoJson()
-                parser.setContentHandler(handler)
-                parsed_in_str = fix_xml(in_str)
-                in_xml = io.StringIO(parsed_in_str)
-
-                try:
-                    # Parse the XML -- resulting dictionary of events is now in handler.event_dict
-                    parser.parse(in_xml)
-
-                    if cell_type_only:
-                        just_ct_events = {}
-                        for event in handler.event_dict:
-                            if handler.event_dict[event]["type"] in ["CellType", "CellLine", "Tissue"]:
-                                just_ct_events[event] = handler.event_dict[event]
-                        create_contexts(paper, just_ct_events)
-                    else:
-                        # Create context objects by cross-referencing document with extracted events dictionary
-                        create_contexts(paper, handler.event_dict)
-
-                    # Store this event dictionary and paper
-                    self.events[record['pmc']] = handler.event_dict
-                    self.paper_pile[record['pmc']] = paper
-
-                except SAXParseException as exc:
-                    # Likely from superfluous unescaped character. This is for debugging and creating regexes.
-                    print("Malformatted XML!")  # noqa: T001
-                    # width = 50
-                    # loc = 31683
-                    # print(in_str[loc - width:loc + width])
-                    # print(parsed_in_str[loc - width:loc + width])
-                    print(in_str)
-                    raise exc
-                    break
-
-                if count > load_max:
-                    # Limit number of files loaded for debugging.
-                    break
-
-        return None
-
-    def parse_relationships_file(self, in_file: str = RELATIONSHIPS_FILE, load_max=float("inf")):
-        """
-        Load the relationships file. This file contains protein-protein interactions and indications of polarity.
-
-        :param in_file: input .csv file
-        :param load_max: input for determining number of papers to load--strictly for debugging purposes
-        """
-        # Load file of relations
-        svo_contra_df = pd.read_csv(in_file, index_col=[0])
-
-        # Iterate over relations and associate them with the proper paper object
-        count = 0
-        for _index, row in svo_contra_df.iterrows():
-            pmcid = f"PMC{row['pmcid']}"
-            pmid = f"PM{row['pmid']}"
-            relation = Relation(main_verb=row['predicate'],
-                                entity1=row["entity1_standardised"],
-                                entity2=row["entity2_standardised"],
-                                text=row['text'],
-                                paper_doi=row['doi'],
-                                paper_pmcid=pmcid,
-                                paper_pmid=pmid,
-                                start_idx=row['entity1_begin_index'],
-                                end_idx=row['entity2_end_index'],
-                                sent_idx=row['sentence_index'],
-                                sentence=Sentence(row['text']))  # NOTE This index might not agree with our indices
-
-            # If we've found a new paper, create a new object. Presumably this doesn't happen since the set of
-            # papers in the annotated set is larger? Might not be the case because of PMC vs Elsevier etc.
-            if relation.get_paper_pmcid() not in self.paper_pile:
-                paper = Paper(title=row['doc_title_string'],
-                              abstract=None,
-                              full_text=None,
-                              doi=row['doi'],
-                              pmcid=pmcid,
-                              pmid=pmid,
-                              journal=row['journal_string'])
-                self.paper_pile[pmcid] = paper
-
-            self.paper_pile[pmcid].add_relation(relation)
-
-            # Add the relation to the relation list. Again this feature might be redundant.
-            if pmcid in self.relationships:
-                self.relationships[pmcid].append(relation)
-            else:
-                self.relationships[pmcid] = [relation]
-
-            if count > load_max:
-                break
-
-            count += 1
-
-        return None
-
-    def parse_annotation_files_for_ena(self, conservative_join: bool = False):
-        """
-        Create a paper pile to be used as a training and validation set based on ENA's related work.
-
-        :param conservative_join: if True, look only at pairs where all annotators annotated a specific event
-        :return: (df of all annotators' annotation pairs, indications of annotator identified (con,rel) pairs)
-        """
-        pd.set_option('display.max_colwidth', -1)
-
-        paper_ids = ["PMC2156142", "PMC3032653", "PMC3135394", "PMC3198449", "PMC3233644", "PMC3461631", "PMC4052680",
-                     "PMC4250046", "PMC4746590", "PMC534114"]
-
-        paper_dfs = []
-        annotated_connects = set()
-        onto2texts, text2ontos = load_all_groundings()
-
-        for paper_id in paper_ids:
-
-            paper_event_dict = {}
-            ena_full_text_file = f"/Users/dnsosa/Desktop/AltmanLab/bai/biotext/full_texts/{paper_id}.txt"
-
-            # Open the full text
-            with open(ena_full_text_file, 'r') as f:
-                pmc_txt = f.read()
-
-            # Create the paper
-            paper = Paper(title=paper_id,
-                          abstract=None,
-                          full_text=re.sub('\n\n', '. ', pmc_txt),
-                          doi=paper_id,
-                          pmcid=paper_id,
-                          pmid=None,  # DO NOT HAVE PMID FOR THESE
-                          journal=None)
-
-            annotator_events_dfs = []
-
-            # Open the sentences
-            sentences = []
-            ena_sentences = f"../input/ENA_validation_data/sentences/{paper_id}_sentences.txt"
-            with open(ena_sentences, 'r') as sentences_file:
-                for line in sentences_file:
-                    sentences.append(line.rstrip())
-
-            for i in range(1, 4):
-                # And let's check out the events
-                ena_corpus_dir = "../input/ENA_validation_data/BioContext_corpus/corpus_data"
-                ena_events_file = os.path.join(ena_corpus_dir, f"/annotator{i}/{paper_id}_events.tsv")
-                colnames = ['event_sent_idx', 'event_span_idx', 'assoc_context_terms']
-                events = pd.read_csv(ena_events_file, names=colnames, header=None, sep='\t')
-                annotator_events_dfs.append(events)
-
-            # Dropping NA because some events have no annotated context associated.
-            # Conservative join means all annotators had to annotated the same relation event. Not conservative means
-            # the union of individual annotators' events.
-            # TODO: Check if there's a different file I should be looking at...?
-            if conservative_join:
-                df = reduce(lambda x, y: pd.merge(x.dropna(), y.dropna(), on='event_sent_idx', how='inner'),
-                            annotator_events_dfs)[
-                    ["event_sent_idx", "assoc_context_terms_x", "assoc_context_terms_y", "assoc_context_terms"]]
-            else:
-                df = reduce(lambda x, y: pd.merge(x.dropna(), y.dropna(), on='event_sent_idx', how='outer'),
-                            annotator_events_dfs)[
-                    ["event_sent_idx", "assoc_context_terms_x", "assoc_context_terms_y", "assoc_context_terms"]]
-            df = df.assign(annot1_ctx_terms=df['assoc_context_terms_x'].str.split(',')).explode('annot1_ctx_terms')[:]
-            df = df.reset_index().reindex(df.columns, axis=1)
-            df = df.assign(annot2_ctx_terms=df['assoc_context_terms_y'].str.split(',')).explode('annot2_ctx_terms')[:]
-            df = df.reset_index().reindex(df.columns, axis=1)
-            df = df.assign(annot3_ctx_terms=df['assoc_context_terms'].str.split(',')).explode('annot3_ctx_terms')[:]
-            df["two_agree"] = df.apply(
-                lambda row: two_common(row.annot1_ctx_terms, row.annot2_ctx_terms, row.annot3_ctx_terms), 1)
-            # df = df[["event_sent_idx", "annot1_ctx_terms", "annot2_ctx_terms", "annot3_ctx_terms",
-            #          "two_agree"]].dropna().groupby(["event_sent_idx", "two_agree"]).apply(pd.DataFrame.sample, n=1)
-            df["paper_id"] = paper_id
-            paper_dfs.append(df)
-
-            # Create the relation objects
-            sent_idxs = list(set(df["event_sent_idx"]))
-            sent_idxs.sort()
-            for sent_idx in sent_idxs:
-                relation = Relation(main_verb=None,
-                                    entity1=None,
-                                    entity2=None,
-                                    text=sentences[sent_idx].rstrip(),
-                                    paper_pmcid=paper_id,  # TODO: fix these all being the same!
-                                    paper_pmid=paper_id,
-                                    paper_doi=paper_id,
-                                    start_idx=None,
-                                    end_idx=None,
-                                    sent_idx=sent_idx,
-                                    sentence=Sentence(sentences[sent_idx]))
-
-                paper.add_relation(relation)
-
-            generic_filler_attributes = {"type": None, "pos": -9999}
-            for _, row in df.iterrows():
-                sent = sentences[row["event_sent_idx"]]
-                for i in [1, 2, 3]:
-                    term_i_id = row[f"annot{i}_ctx_terms"]
-                    if term_i_id in onto2texts:
-                        # for example, annotated manual:HCE, but grounding is manual:HCE-cells. Accepting the loss here.
-                        term_i_text_list = onto2texts[term_i_id]
-                        for term in term_i_text_list:
-                            annotated_connects.add((paper_id, sent, drop_the_s(term)))
-                            paper_event_dict[drop_the_s(term.lower())] = generic_filler_attributes
-
-            # Create a context list based on the events at the intersection
-            create_contexts(paper, paper_event_dict)
-            self.ena_paper_pile[paper_id] = paper
-
-        # Combine the DFs across papers
-        all_annotators_df = pd.concat(paper_dfs)
-
-        return all_annotators_df, annotated_connects
 
     def generate_paper_pile_from_relation_subset(self, all_res_combined, biocxml_dir, biocxml_out_dir,
                                                  con_terms_lexicon_filename):
@@ -510,7 +230,6 @@ class DataLoader:
             # Get the subset of the relation subset that can be found in a specific biocxml file
             con_rel_file_df = all_res_combined[all_res_combined.filename == filename]
 
-            # TODO: Remove this
             if not os.path.exists(os.path.join(biocxml_dir, filename)):
                 print(f"skipping {os.path.join(biocxml_dir, filename)}...")
                 continue
@@ -585,7 +304,7 @@ class DataLoader:
                             # add in the plural version (simplified) to increase recall of context string matches
                             context_hits = singularize_and_pluralize_list(context_hits)
                         else:
-                            context_hits = list(con_rel_file_doc_df.context_term.unique())  # TODO: double check this
+                            context_hits = list(con_rel_file_doc_df.context_term.unique())
 
                         for con in context_hits:
                             generic_filler_attributes = {"type": None, "pos": -9999}
@@ -777,7 +496,6 @@ class DataLoader:
         print(f"Total # insider papers found in {context_type} (all) -- WITH context filter: {n_insider_papers}")
 
         # Third, drop cases where the PMID wasn't found in the PMID2Context dictionary for some reason
-        # TODO: Why does this happen?
         clean_insider_df = clean_insider_df[clean_insider_df['All Tabula Contexts in Paper'] != 'PMID not found!']
         n_insider_rels = len(set(clean_insider_df['Extracted Relation']))
         print(f"Total # insider sentences found in {context_type} (all): {n_insider_rels}")

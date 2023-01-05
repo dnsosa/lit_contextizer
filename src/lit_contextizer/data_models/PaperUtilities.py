@@ -11,8 +11,8 @@ import bioc
 from lit_contextizer.data_models.Extractable import Context, Extractable, Relation
 from lit_contextizer.data_models.Paper import Paper
 from lit_contextizer.data_models.Utilities import drop_the_s
-from lit_contextizer.data_models.constants import BACKGROUND_SYNS_PATH, DISCCONC_SYNS_PATH, METHODS_SYNS_PATH, \
-    RESULTS_SYNS_PATH
+from lit_contextizer.data_models.constants import BACKGROUND_SYNS_PATH, DISCCONC_SYNS_PATH, LOCAL_BIOCXML_DIR, \
+    METHODS_SYNS_PATH, RESULTS_SYNS_PATH
 
 import numpy as np
 
@@ -20,7 +20,6 @@ import pandas as pd
 
 from rapidfuzz import fuzz, process
 
-local_biocxml_dir = "/Users/dnsosa/Desktop/AltmanLab/bai/biotext/full_texts/PM_files"
 
 background_syns = set(pd.read_csv(BACKGROUND_SYNS_PATH).synonyms)
 methods_syns = set(pd.read_csv(METHODS_SYNS_PATH).synonyms)
@@ -32,8 +31,8 @@ def extract_features(paper_pile,
                      do_calculate_pmi=False,
                      do_calculate_in_mesh=False,
                      mesh_headings_in_pmc=False,
-                     biocxmls_pmc_dir=local_biocxml_dir,
-                     biocxmls_pubmed_dir=local_biocxml_dir,
+                     biocxmls_pmc_dir=LOCAL_BIOCXML_DIR,
+                     biocxmls_pubmed_dir=LOCAL_BIOCXML_DIR,
                      annotated_connects=None,
                      no_cell_line=True,
                      stop_count=float("inf"),
