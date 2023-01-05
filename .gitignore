@@ -1,2 +1,6 @@
 src/lit_contextizer/data_models/resources/dengue_target-target_paras.csv
 notebooks/old_notebooks
+notebooks/.ipynb_checkpoints
+input/
+output/
+.idea/
