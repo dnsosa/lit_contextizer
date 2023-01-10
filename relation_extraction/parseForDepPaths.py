@@ -328,15 +328,14 @@ def main():
 	args.mode = args.mode.lower()
 	assert args.mode.lower() in ['tsv','bioc']
 	
-	with open(args.inBioC,'rb') as inF:
-		parser = bioc.BioCXMLDocumentReader(inF)
+	with bioc.biocxml.iterparse(args.inBioC) as reader:
 
 		if args.mode == 'bioc':
-			writer = bioc.BioCXMLDocumentWriter(args.outFile)
+			writer = bioc.biocxml.BioCXMLDocumentWriter(args.outFile)
 		elif args.mode == 'tsv':
 			writer = open(args.outFile,'w')
 
-		for i,doc in enumerate(parser):
+		for i,doc in enumerate(reader):
 			#if doc.infons['pmid'] != '31388315':
 			#	continue
 

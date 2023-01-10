@@ -22,9 +22,9 @@ def main():
 
 	print("Filtering...")
 
-	writer = bioc.BioCXMLDocumentWriter(args.outBioc)
+	writer = bioc.biocxml.BioCXMLDocumentWriter(args.outBioc)
 	with open(args.inBioc,'rb') as inF:
-		parser = bioc.BioCXMLDocumentReader(inF)
+		parser = bioc.biocxml.BioCXMLDocumentReader(inF)
 		
 		for doc in parser:
 			if not 'pmid' in doc.infons or doc.infons['pmid'] in ['','None']:

@@ -24,7 +24,7 @@ def main():
 			print("  Processing %s" % input_file)
 			sys.stdout.flush()
 
-			parser = bioc.BioCXMLDocumentReader(inF)
+			parser = bioc.biocxml.BioCXMLDocumentReader(inF)
 			
 			for doc in parser:
 				if not 'pmid' in doc.infons or doc.infons['pmid'] in ['','None']:
@@ -46,7 +46,7 @@ def main():
 
 	print("Fetching documents with sampled PMID list from %d files" % len(chosen_files_with_nice_order))
 
-	writer = bioc.BioCXMLDocumentWriter(args.outFile)
+	writer = bioc.biocxml.BioCXMLDocumentWriter(args.outFile)
 	for input_file in chosen_files_with_nice_order:
 		if len(chosen_pmids) == 0:
 			break
@@ -55,7 +55,7 @@ def main():
 			print("  Processing %s. Got %d to find" % (input_file,len(chosen_pmids)))
 			sys.stdout.flush()
 
-			parser = bioc.BioCXMLDocumentReader(inF)
+			parser = bioc.biocxml.BioCXMLDocumentReader(inF)
 			
 			for doc in parser:
 				if not 'pmid' in doc.infons or doc.infons['pmid'] in ['','None']:
