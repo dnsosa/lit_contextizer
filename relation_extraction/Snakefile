@@ -19,7 +19,7 @@ deppath_files = [ '%s/deppaths/%s' % (work_dir,f.replace('.bioc.xml','.tsv')) fo
 deppath_bioc_files = [ '%s/deppaths_bioc/%s' % (work_dir,f) for f in os.listdir(source_dir) ]
 filter_bioc_files = [ '%s/deppaths_bioc_filtered/%s' % (work_dir,f) for f in os.listdir(source_dir) ]
 
-final_files = [ '%s/with_citation_distances/%s' % (work_dir,f) for f in os.listdir(source_dir) ]
+final_files = [ '%s/with_tidy_citation_distances/%s' % (work_dir,f) for f in os.listdir(source_dir) ]
 
 matrix_files,embedding_files,countdeppath_files = [],[],[]
 if os.path.isdir("%s/split" % work_dir):
@@ -63,17 +63,18 @@ rule filter_bioc_complete:
 rule contextualize:
 	input: '%s/deppaths_bioc_filtered/{f}.bioc.xml' % work_dir
 	output: '%s/with_context/{f}.bioc.xml' % work_dir
-	shell: "python ../context_terms/extractContextTerms.py --inBioc {input} --context ../context_terms/contexts.tsv --outBioc {output}"
+	#shell: "python ../context_terms/extractContextTerms.py --inBioc {input} --contextsWithIDs ../context_terms/contexts.tsv --outBioc {output}"
+	shell: "python ../context_terms/extractContextTerms.py --inBioc {input} --contextsWithoutIDs ../context_terms/tabula_tissues_CTs.txt --outBioc {output}"
 
 rule add_metadata:
 	input: '%s/with_context/{f}.bioc.xml' % work_dir
 	output: '%s/with_metadata/{f}.bioc.xml' % work_dir
 	shell: "python ../metadata/integrateMetadataIntoDocs.py --inBioc {input} --outBioc {output} --db ../metadata/metadata.db"
 
-rule add_citation_distances:
+rule tidy_and_citation_distances:
 	input: '%s/with_metadata/{f}.bioc.xml' % work_dir
-	output: '%s/with_citation_distances/{f}.bioc.xml' % work_dir
-	shell: "python addCitationDistances.py --inBioc {input} --outBioc {output}"
+	output: '%s/with_tidy_citation_distances/{f}.bioc.xml' % work_dir
+	shell: "python tidyAndCitationDistances.py --inBioc {input} --outBioc {output}"
 
 rule split:
 	input: deppath_files
