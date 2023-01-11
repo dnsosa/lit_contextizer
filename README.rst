@@ -46,7 +46,7 @@ If you'd like to process the data from scratch all the way through extracting fe
 
 **Step 1: Extracting all relationships from PubMed full text articles using dependency parsing**
 
-To build the relation data from scratch, you will need to use the Biotext project to download PubMed/PMC, convert to BioC files and match entity mentions against data from PubTator. Follow the instructions on the BioText page to create the PubTator aligned files. You should then complete the BIOTEXT and CORES variable in the shell commands below.
+To build the relation data from scratch, you will need to use the `Biotext project <https://github.com/jakelever/biotext>`_ to download PubMed/PMC, convert to BioC files and match entity mentions against data from PubTator. Follow the instructions on the `Biotext page <https://github.com/jakelever/biotext>`_ to create the PubTator aligned files. You should then complete the BIOTEXT and CORES variable in the shell commands below.
 
 Input: PubMed and PMC files converted to BioC XML files and aligned with PubTator entity extractions
 
