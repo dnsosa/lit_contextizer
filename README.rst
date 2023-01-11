@@ -46,15 +46,21 @@ If you'd like to process the data from scratch all the way through extracting fe
 
 **Step 1: Extracting all relationships from PubMed full text articles using dependency parsing**
 
-Input: TO DO
+To build the relation data from scratch, you will need to use the Biotext project to download PubMed/PMC, convert to BioC files and match entity mentions against data from PubTator. Follow the instructions on the BioText page to create the PubTator aligned files. You should then complete the BIOTEXT and CORES variable in the shell commands below.
+
+Input: PubMed and PMC files converted to BioC XML files and aligned with PubTator entity extractions
 
 Process:
 
 .. code-block::
 
-    $ TO DO
+    $ export BIOTEXT=/path/to/pubtator/bioc/files
+    $ export CORES=1
+    $ cd metadata && sh gather_metadata.sh
+    $ cd relation_extraction
+    $ MODE=full BIOTEXT=$BIOTEXT snakemake --cores $CORES
 
-Output: TO DO
+Output: ``relation_extraction/working/with_tidy_citation_distances/*.bioc.xml`` (BioC XML files with PPI relations extracted and context words extracted.)
 
 In subsequent steps, processes are executed via the command-line interface (CLI) provided in the ``lit_contextizer`` package.
 
