@@ -1,0 +1,27 @@
+
+import os
+
+localrules: final_files
+
+assert os.getenv('MODE') in ['full','test'], "Must set environmental variable MODE to full or test"
+
+if os.getenv('MODE') == 'full':
+	source_dir = os.getenv('BIOTEXT')
+	assert source_dir and os.path.isdir(source_dir), "For full run, must set environmental variable BIOTEXT to directory with BIOTEXT BioC XML files"
+	source_dir = source_dir.rstrip('/')
+	work_dir = 'working'
+elif os.getenv('MODE') == 'test':
+	source_dir = 'test_data'
+	work_dir = 'test_working'
+
+
+db_files = [ '%s/%s' % (work_dir,f.replace('.bioc.xml','.db')) for f in os.listdir(source_dir) if f.startswith('pubmed') ]
+
+rule final_files:
+	input: db_files
+
+rule metadata_extraction:
+	input: '%s/{f}.bioc.xml' % source_dir
+	output: '%s/{f}.db' % work_dir
+	shell: "python makeMetadataDB.py --inBioc {input} --outDB {output}"
+
