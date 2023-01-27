@@ -66,13 +66,13 @@ In subsequent steps, processes are executed via the command-line interface (CLI)
 
 **Step 2: Identifying contexts mentioned in papers containing one of the extracted relations**
 
-Input: Directory ``input/annotated_text_dir/files`` containing the annotated full texts
+Input: Directory ``relation_extraction/working/with_tidy_citation_distances`` containing the annotated full texts
 
 Process:
 
 .. code-block::
 
-    $ python -m lit_contextizer --output_folder output --full_text_dir input/annotated_text_dir/files --parse_files --dump_annots_context
+    $ python -m lit_contextizer --output_folder output --full_text_dir relation_extraction/working/with_tidy_citation_distances --parse_files --dump_annots_context
 
 Output: ``output/pmid2contexts.csv``, ``output/contexts2pmid.csv``
 
@@ -80,13 +80,13 @@ Output: ``output/pmid2contexts.csv``, ``output/contexts2pmid.csv``
 **Step 3: Create the Insider corpora and extract features from Insider documents**
 Repeat this process for each of ``{CTs, tissues, combined}``.
 
-Input: ``output/pmid2contexts.csv``, ``output/contexts2pmid.csv``, ``output/all_pubmed_relations_df``, ``input/annotated_text_dir/files``
+Input: ``output/pmid2contexts.csv``, ``output/contexts2pmid.csv``, ``output/all_pubmed_relations_df``, ``relation_extraction/working/with_tidy_citation_distances``
 
 Process:
 
 .. code-block::
 
-    $ python -m lit_contextizer --no_parse_files --insider_context_type {CTs, tissues, combined} --output_folder output --full_text_dir input/annotated_text_dir/files
+    $ python -m lit_contextizer --no_parse_files --insider_context_type {CTs, tissues, combined} --output_folder output --full_text_dir relation_extraction/working/with_tidy_citation_distances
 
 Output: ``output/{CTs, tissues, combined}_insider_papers_features_df.tsv``
 
