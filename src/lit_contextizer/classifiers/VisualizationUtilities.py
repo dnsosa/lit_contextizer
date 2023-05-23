@@ -17,6 +17,8 @@ import numpy as np
 
 import pandas as pd
 
+from scipy.special import softmax
+
 import seaborn as sns
 
 from sklearn import metrics
@@ -29,8 +31,10 @@ from sklearn.neural_network import MLPClassifier
 from sklearn.svm import SVC
 from sklearn.utils import resample
 
+from .TrainTransformers import train_transformers
 
-def generate_analysis_figs(in_df,
+
+def generate_analysis_figs(in_df, data_id, tf_model_root_dir,
                            grouped_analysis=False,
                            downsample_maj=True,
                            upsample_min=False,
@@ -39,6 +43,7 @@ def generate_analysis_figs(in_df,
                            plot_confusion_matrices=True,
                            plot_feature_analysis=True,
                            in_clf_list=None,
+                           fit_transformers=True,
                            recall_only=False,
                            in_loc='lower right',
                            SEED=44,
@@ -49,6 +54,8 @@ def generate_analysis_figs(in_df,
     Generate main analysis figures.
 
     :param in_df: Input DF
+    :param data_id: ID for the dataset and condition for which the figures are being created
+    :param tf_model_root_dir: root directory for saving TF models
     :param grouped_analysis: If True, contexts considered as a group (concept-level) not individual mentions
     :param downsample_maj: Downsample majority class?
     :param upsample_min: Upsample minority class?
@@ -104,7 +111,7 @@ def generate_analysis_figs(in_df,
         in_df_grp_features_mentions_grp = in_df_grp_features.groupby(['rel'])['num_con_mentions']
         t1, t2 = in_df_grp_features['num_con_mentions'], in_df_grp_features_mentions_grp.transform('sum')
         in_df_grp_features['con_mention_frac'] = t1 / t2
-        in_df_grp_features = in_df_grp_features.\
+        in_df_grp_features = in_df_grp_features. \
             assign(num_con_mentions_max=in_df_grp_features_mentions_grp.transform(max))
         t1, t2 = in_df_grp_features['num_con_mentions'], in_df_grp_features['num_con_mentions_max']
         in_df_grp_features["is_con_mention_max"] = (t1 == t2)
@@ -175,8 +182,8 @@ def generate_analysis_figs(in_df,
         X_train, X_test, y_train, y_test = train_test_split(df.drop(["annotation"], axis=1), df["annotation"],
                                                             test_size=1.0 / 3, random_state=SEED)
     else:
-        X_test = df.drop(["annotation"], axis=1)
-        y_test = df["annotation"]
+        X_test = df.drop(["annotation"], axis=1).values
+        y_test = df["annotation"].values
 
     # Train the classifiers
     if in_clf_list is None:
@@ -206,10 +213,15 @@ def generate_analysis_figs(in_df,
                      "SVC_rbf": "SVC - Gaussian",
                      "RandomForestClassifier": "Random Forest",
                      "MLPClassifier": "Feedforward Neural Net",
-                     "GradientBoostingClassifier": "Gradient Boosted Trees"}
+                     "GradientBoostingClassifier": "Gradient Boosted Trees",
+                     "biobert": "BioBERT",
+                     "pubmedbert": "PubMedBERT",
+                     "roberta": "RoBERTa"}
 
     colors = ["#E69F00", "#67C8FF", "#00A77F", "#F0E442", "#0072B2", "#CE4646"]
     clf_color_map = dict(zip(clf_label_map.values(), colors))
+
+    tf_color_map = {"biobert": "#21B930", "pubmedbert": "#A230A7", "roberta": "#DAB973"}
 
     def get_clf_name(clf, mapper=clf_label_map):
         raw_clf_name = str(clf).split('(')[0]
@@ -222,6 +234,13 @@ def generate_analysis_figs(in_df,
         for clf in clf_list:
             print(f"Fitting model: {get_clf_name(clf)}")
             clf.fit(X_train, y_train)
+
+    if fit_transformers:
+        trainer_list, test_dataset_list, tf_names = train_transformers(model_contra_df, data_id, tf_model_root_dir,
+                                                                       test_frac=1/3 if in_clf_list is None else 1,
+                                                                       truncation=True, epochs=1, batch_size=2,
+                                                                       learning_rate=1e-6,
+                                                                       SEED=42)
 
     # ROC Curve
     if plot_roc_curve:
@@ -241,6 +260,8 @@ def generate_analysis_figs(in_df,
             y_pred_list.append(y_pred)
             print("Accuracy", metrics.accuracy_score(y_test, y_pred))
             prec, rec, f, _ = metrics.precision_recall_fscore_support(y_test, y_pred, average='binary')
+            print("PRINTING METRICS!")
+            print(metrics.precision_recall_fscore_support(y_test, y_pred, average='binary'))
             precs.append(prec)
             recs.append(rec)
             fs.append(f)
@@ -253,6 +274,28 @@ def generate_analysis_figs(in_df,
                 plt.plot(fpr, tpr, label=f"{get_clf_name(clf)}, AUC={round(auc, 3)}",
                          color=clf_color_map[get_clf_name(clf)])
                 plt.legend(loc=4, prop={'size': 16})
+
+        if fit_transformers:
+            for tf_idx, trainer in enumerate(trainer_list):
+                raw_y_pred, _, _ = trainer.predict(test_dataset_list[tf_idx])
+                y_pred = np.argmax(raw_y_pred, axis=1)
+                y_pred_list.append(y_pred)
+                y_test = test_dataset_list[tf_idx]['labels']
+                print("Accuracy", metrics.accuracy_score(y_test, y_pred))
+                prec, rec, f, _ = metrics.precision_recall_fscore_support(y_test, y_pred, average='binary')
+                print("PRINTING METRICS!")
+                print(metrics.precision_recall_fscore_support(y_test, y_pred, average='binary'))
+                precs.append(prec)
+                recs.append(rec)
+                fs.append(f)
+                y_pred_proba = softmax(raw_y_pred, axis=1)[:, 1]
+                fpr, tpr, _ = metrics.roc_curve(y_test, y_pred_proba)
+
+                if len(set(y_test)) >= 2:
+                    auc = metrics.roc_auc_score(y_test, y_pred_proba)
+                    plt.plot(fpr, tpr, label=f"{clf_label_map[tf_names[tf_idx]]}, AUC={auc:.3f}",
+                             color=tf_color_map[tf_names[tf_idx]])
+                    plt.legend(loc=4, prop={'size': 16})
 
         # Only plot if both classes represented
         if len(set(y_test)) >= 2:
@@ -270,41 +313,60 @@ def generate_analysis_figs(in_df,
                                   f"Pred: {clf_names[1]}": y_pred_list[1],
                                   f"Pred: {clf_names[2]}": y_pred_list[2],
                                   f"Pred: {clf_names[3]}": y_pred_list[3],
-                                  f"Pred: {clf_names[4]}": y_pred_list[4]})
+                                  f"Pred: {clf_names[4]}": y_pred_list[4],
+                                  f"Pred: {tf_names[0]}": y_pred_list[5],
+                                  f"Pred: {tf_names[1]}": y_pred_list[6]})
+        if in_clf_list is not None:
+                X_test = df.drop(["annotation"], axis=1)  # return back to a dataframe
         X_test_rel_con_df = pd.merge(model_contra_df[['rel', 'con']], X_test, left_index=True, right_index=True)
         predictions_df = pd.merge(X_test_rel_con_df, annots_df, left_index=True, right_index=True)
 
         plt.show()
 
         # Overall metric values
-        _ = plt.figure(figsize=(12, 10))
-        width = 0.2 if not recall_only else 0.7
-        v_space = 0.045
+        # _ = plt.figure(figsize=(12, 10))
+        # width = 0.2 if not recall_only else 0.7
+        _ = plt.figure(figsize=(20, 10))
+        width = .3
+        print("Here are the fs")
+        print(fs)
+        print("Here are the recs")
+        print(recs)
+        v_space = 0.03
         x = np.arange(len(recs))
         # Recall
         plt.bar(x, recs, width, color='green', label='Recall')
         for i, v in enumerate(recs):
-            fs = 20 if recall_only else 12
-            t2 = plt.text(i, v + v_space, f"{round(v, 3):.3f}", color="black", ha='center', fontsize=fs)
+            fontsize = 20 if recall_only else 14
+            t2 = plt.text(i, v + v_space, f"{round(v, 3):.3f}", color="black", ha='center', fontsize=fontsize)
             t2.set_bbox({'facecolor': 'white',
                          'alpha': 1,
+                         'boxstyle': 'square,pad=0',
                          'edgecolor': 'white'})
         if not recall_only:
             # Precision
-            plt.bar(x - 0.2, precs, width, color='orange', label='Precision')
+            plt.bar(x - width, precs, width, color='orange', label='Precision')
             for i, v in enumerate(precs):
-                t1 = plt.text(i - .18, v + v_space, f"{round(v, 3):.3f}", color="black", ha='right', fontsize=12)
+                t1 = plt.text(i - width * .65, v + v_space, f"{round(v, 3):.3f}", color="black", ha='right',
+                              fontsize=fontsize)
                 t1.set_bbox({'facecolor': 'white',
                              'alpha': 1,
+                             'boxstyle': 'square,pad=0',
                              'edgecolor': 'white'})
             # F1
-            plt.bar(x + 0.2, fs, width, color='blue', label='F1')
+            plt.bar(x + width, fs, width, color='blue', label='F1')
+            print("Enumerating fs")
+            print(enumerate(fs))
             for i, v in enumerate(fs):
-                t3 = plt.text(i + .18, v + v_space, f"{round(v, 3):.3f}", color="black", ha='left', fontsize=12)
+                t3 = plt.text(i + width * .65, v + v_space, f"{round(v, 3):.3f}", color="black", ha='left',
+                              fontsize=fontsize)
                 t3.set_bbox({'facecolor': 'white',
                              'alpha': 1,
+                             'boxstyle': 'square,pad=0',
                              'edgecolor': 'white'})
         clf_labels = [get_clf_name(clf) for clf in clf_list]
+        if fit_transformers:
+            clf_labels += [clf_label_map[tf] for tf in tf_names]
         plt.xticks(x, clf_labels, rotation=45, ha='right')
         if recall_only:
             plt.legend(["Recall"], loc=in_loc, framealpha=1)
@@ -677,13 +739,13 @@ def plot_benchmark_fig(df,
 
     benchmark_mapper = {"any_rel_con_section_match": "Any Con-Rel Section Match",
                         "is_con_mention_max": "Is Max Con Mentioned",
-                        "con_mention_50": "Con Mention Frac > 50%",
-                        "min_sent_dist_1": "Min sent $d$ <= 1",
-                        "min_sent_dist_2": "Min sent $d$ <= 2",
-                        "min_sent_dist_3": "Min sent $d$ <= 3",
-                        "min_sent_dist_4": "Min sent $d$ <= 4",
-                        "min_sent_dist_5": "Min sent $d$ <= 5",
-                        "min_sent_dist_6": "Min sent $d$ <= 6",
+                        "con_mention_50": "Con Mention Frac $>$ 50%",
+                        "min_sent_dist_1": "Min sent $d \leq 1$",
+                        "min_sent_dist_2": "Min sent $d \leq 2$",
+                        "min_sent_dist_3": "Min sent $d \leq 3$",
+                        "min_sent_dist_4": "Min sent $d \leq 4$",
+                        "min_sent_dist_5": "Min sent $d \leq 5$",
+                        "min_sent_dist_6": "Min sent $d \leq 6$",
                         "con_in_mesh_headings": "In MeSH"}
 
     benchmark_order = ["any_rel_con_section_match",
@@ -720,10 +782,10 @@ def plot_benchmark_fig(df,
             fs = [best_model_stats[2]] + fs
 
     # Overall metric values
-    _ = plt.figure(figsize=(26, 15))
-    width = 0.2 if not recall_only else 0.7
+    _ = plt.figure(figsize=(32, 12))
+    width = 0.25 if not recall_only else 0.7
     v_space = .015
-    h_space = .19
+    h_space = width*.6
     x = np.arange(len(recs))
 
     # Recall
@@ -732,33 +794,36 @@ def plot_benchmark_fig(df,
     else:
         plt.bar(x, recs, width, color='green', label='Recall')
     for i, v in enumerate(recs):
-        fs = 20 if recall_only else 14
-        t2 = plt.text(i, v + v_space, f"{round(v, 3):.3f}", color="black", ha='center', fontsize=fs)
+        fontsize = 20 if recall_only else 13
+        t2 = plt.text(i, v + v_space, f"{round(v, 3):.3f}", color="black", ha='center', fontsize=fontsize)
         t2.set_bbox({'facecolor': 'white',
                      'alpha': 1,
+                     'boxstyle': 'square,pad=0',
                      'edgecolor': 'white'})
 
     if not recall_only:
         # Precision
         if best_model_stats is not None:
-            plt.bar(x - 0.2, precs, width, color='orange', edgecolor='grey', hatch='/', alpha=.3, label='Precision')
+            plt.bar(x - width, precs, width, color='orange', edgecolor='grey', hatch='/', alpha=.3, label='Precision')
         else:
-            plt.bar(x - 0.2, precs, width, color='orange', label='Precision')
+            plt.bar(x - width, precs, width, color='orange', label='Precision')
         for i, v in enumerate(precs):
-            t1 = plt.text(i - h_space, v + v_space, f"{round(v, 3):.3f}", color="black", ha='right', fontsize=14)
+            t1 = plt.text(i - h_space, v + v_space, f"{round(v, 3):.3f}", color="black", ha='right', fontsize=fontsize)
             t1.set_bbox({'facecolor': 'white',
                          'alpha': 1,
+                         'boxstyle': 'square,pad=0',
                          'edgecolor': 'white'})
 
         # F1
         if best_model_stats is not None:
-            plt.bar(x + 0.2, fs, width, color='blue', edgecolor='grey', hatch='/', alpha=.3, label='F1')
+            plt.bar(x + width, fs, width, color='blue', edgecolor='grey', hatch='/', alpha=.3, label='F1')
         else:
-            plt.bar(x + 0.2, fs, width, color='blue', label='F1')
+            plt.bar(x + width, fs, width, color='blue', label='F1')
         for i, v in enumerate(fs):
-            t3 = plt.text(i + h_space, v + v_space, f"{round(v, 3):.3f}", color="black", ha='left', fontsize=14)
+            t3 = plt.text(i + h_space, v + v_space, f"{round(v, 3):.3f}", color="black", ha='left', fontsize=fontsize)
             t3.set_bbox({'facecolor': 'white',
                          'alpha': 1,
+                         'boxstyle': 'square,pad=0',
                          'edgecolor': 'white'})
 
     benchmark_labels = [benchmark_mapper[benchmark] for benchmark in benchmark_order]
@@ -769,15 +834,15 @@ def plot_benchmark_fig(df,
 
         plt.bar(x[0], recs[0], width, color='green')
         if not recall_only:
-            plt.bar(x[0] - 0.2, precs[0], width, color='orange')
-            plt.bar(x[0] + 0.2, fs[0], width, color='blue')
+            plt.bar(x[0] - width, precs[0], width, color='orange')
+            plt.bar(x[0] + width, fs[0], width, color='blue')
 
     plt.xticks(x, benchmark_labels, rotation=20, ha='right')
     if recall_only:
-        plt.legend(["Recall"], loc='lower right', framealpha=1)
+        plt.legend(["Recall"], loc='lower left', framealpha=1)
     else:
         plt.legend(*([x[i] for i in [1, 0, 2]] for x in plt.gca().get_legend_handles_labels()),
-                   loc='lower right', framealpha=1)
+                   loc='lower left', framealpha=1)
     plt.ylim([0, 1.05])
     plt.ylabel("Metric")
 
