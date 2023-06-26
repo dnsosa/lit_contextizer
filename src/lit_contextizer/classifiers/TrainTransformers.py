@@ -1,17 +1,26 @@
+"""Collection of functions for training Transformer-based models."""
+
+# -*- coding: utf-8 -*-
+
 import os
 import re
-
 from collections import OrderedDict
 
-from datasets import ClassLabel, Dataset, DatasetDict, load_dataset
+
+from datasets import Dataset, DatasetDict
+
 import evaluate
+
 import numpy as np
+
 import pandas as pd
+
 from sklearn.model_selection import train_test_split
+
 import torch
 
 from transformers import AutoModelForSequenceClassification, AutoTokenizer, DataCollatorWithPadding, \
-    get_scheduler, TrainingArguments, Trainer
+    Trainer, TrainingArguments
 
 
 def ablate_context(input_df):
@@ -23,7 +32,7 @@ def ablate_context(input_df):
     return input_df
 
 
-def train_transformers(input_df, data_id, root_out_dir, test_frac=1.0/3, do_ablate_context=True,
+def train_transformers(input_df, data_id, root_out_dir, test_frac=(1.0 / 3), do_ablate_context=True,
                        truncation=True, epochs=3, batch_size=2, learning_rate=1e-6,
                        SEED=42):
     """
@@ -134,7 +143,7 @@ def train_transformers(input_df, data_id, root_out_dir, test_frac=1.0/3, do_abla
         def compute_metrics(eval_pred):
             predictions, labels = eval_pred
             predictions = np.argmax(predictions, axis=1)
-            return accuracy.compute(predictions=predictions, references=labels)
+            return accuracy.compute(predictions=predictions, references=labels)  # noqa: B023
 
         # Create collator for feeding in data
         data_collator = DataCollatorWithPadding(tokenizer=tokenizer)

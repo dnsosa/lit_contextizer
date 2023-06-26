@@ -109,7 +109,6 @@ def extract_features(paper_pile,
             con_in_mesh_headings = {}
 
             # Build the Pandas DF here
-
             for rel in paper.get_relations():
                 sent_dists = {}
                 sec_dists = {}

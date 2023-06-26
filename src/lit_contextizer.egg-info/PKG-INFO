@@ -1,3 +1,23 @@
+Metadata-Version: 2.1
+Name: lit-contextizer
+Version: 0.0.1.dev0
+Summary: A package for representing contextual features (e.g. cell type, species) from literature and detecting context-relationship associations
+Home-page: https://github.com/BenevolentAI/Stanford-Collab
+Author: Daniel Sosa and Jake Lever
+Author-email: dnsosa@stanford.edu
+Maintainer: Daniel Sosa
+Maintainer-email: dnsosa@stanford.edu
+License: MIT
+Keywords: deep learning,NLP,context,protein-protein interactions,genetics
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3.8
+Requires-Python: >=3.6
+Provides-Extra: docs
+Provides-Extra: testing
+
 Literature Context (lit_contextizer) Package README
 ===================================================
 A package for extracting protein-protein relations and biological contexts (e.g. cell type,
@@ -78,7 +98,7 @@ Output: ``output/pmid2contexts.csv``, ``output/contexts2pmid.csv``
 
 
 **Step 3: Create the Insider corpora and extract features from Insider documents**
-In this step, features are extracted from papers which capture structure surrounding the context mentions and the identified relations as described in the manuscript. To build this step, repeat the following command-line process for each of ``{CTs, tissues, combined}``.
+Repeat this process for each of ``{CTs, tissues, combined}``.
 
 Input: ``output/pmid2contexts.csv``, ``output/contexts2pmid.csv``, ``output/all_pubmed_relations_df``, ``relation_extraction/working/with_tidy_citation_distances``
 

@@ -237,7 +237,7 @@ def generate_analysis_figs(in_df, data_id, tf_model_root_dir,
 
     if fit_transformers:
         trainer_list, test_dataset_list, tf_names = train_transformers(model_contra_df, data_id, tf_model_root_dir,
-                                                                       test_frac=1/3 if in_clf_list is None else 1,
+                                                                       test_frac=(1 / 3) if in_clf_list is None else 1,
                                                                        truncation=True, epochs=1, batch_size=2,
                                                                        learning_rate=1e-6,
                                                                        SEED=42)
@@ -317,7 +317,7 @@ def generate_analysis_figs(in_df, data_id, tf_model_root_dir,
                                   f"Pred: {tf_names[0]}": y_pred_list[5],
                                   f"Pred: {tf_names[1]}": y_pred_list[6]})
         if in_clf_list is not None:
-                X_test = df.drop(["annotation"], axis=1)  # return back to a dataframe
+            X_test = df.drop(["annotation"], axis=1)  # return back to a dataframe
         X_test_rel_con_df = pd.merge(model_contra_df[['rel', 'con']], X_test, left_index=True, right_index=True)
         predictions_df = pd.merge(X_test_rel_con_df, annots_df, left_index=True, right_index=True)
 
@@ -740,12 +740,12 @@ def plot_benchmark_fig(df,
     benchmark_mapper = {"any_rel_con_section_match": "Any Con-Rel Section Match",
                         "is_con_mention_max": "Is Max Con Mentioned",
                         "con_mention_50": "Con Mention Frac $>$ 50%",
-                        "min_sent_dist_1": "Min sent $d \leq 1$",
-                        "min_sent_dist_2": "Min sent $d \leq 2$",
-                        "min_sent_dist_3": "Min sent $d \leq 3$",
-                        "min_sent_dist_4": "Min sent $d \leq 4$",
-                        "min_sent_dist_5": "Min sent $d \leq 5$",
-                        "min_sent_dist_6": "Min sent $d \leq 6$",
+                        "min_sent_dist_1": "Min sent $d \leq 1$",  # noqa: W605
+                        "min_sent_dist_2": "Min sent $d \leq 2$",  # noqa: W605
+                        "min_sent_dist_3": "Min sent $d \leq 3$",  # noqa: W605
+                        "min_sent_dist_4": "Min sent $d \leq 4$",  # noqa: W605
+                        "min_sent_dist_5": "Min sent $d \leq 5$",  # noqa: W605
+                        "min_sent_dist_6": "Min sent $d \leq 6$",  # noqa: W605
                         "con_in_mesh_headings": "In MeSH"}
 
     benchmark_order = ["any_rel_con_section_match",
@@ -785,7 +785,7 @@ def plot_benchmark_fig(df,
     _ = plt.figure(figsize=(32, 12))
     width = 0.25 if not recall_only else 0.7
     v_space = .015
-    h_space = width*.6
+    h_space = width * .6
     x = np.arange(len(recs))
 
     # Recall
