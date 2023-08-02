@@ -33,7 +33,7 @@ def ablate_context(input_df):
 
 
 def train_transformers(input_df, data_id, root_out_dir, test_frac=(1.0 / 3), do_ablate_context=True,
-                       truncation=True, epochs=3, batch_size=2, learning_rate=1e-6,
+                       truncation=True, epochs=3, batch_size=32, learning_rate=2e-5,
                        SEED=42):
     """
     Train the transformer models.
