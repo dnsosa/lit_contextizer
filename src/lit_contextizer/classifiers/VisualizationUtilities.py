@@ -238,8 +238,8 @@ def generate_analysis_figs(in_df, data_id, tf_model_root_dir,
     if fit_transformers:
         trainer_list, test_dataset_list, tf_names = train_transformers(model_contra_df, data_id, tf_model_root_dir,
                                                                        test_frac=(1 / 3) if in_clf_list is None else 1,
-                                                                       truncation=True, epochs=1, batch_size=2,
-                                                                       learning_rate=1e-6,
+                                                                       truncation=True, epochs=1, batch_size=32,
+                                                                       learning_rate=2e-5,
                                                                        SEED=42)
 
     # ROC Curve
@@ -308,14 +308,22 @@ def generate_analysis_figs(in_df, data_id, tf_model_root_dir,
             plt.savefig(out_file, dpi=dpi, bbox_inches="tight")
 
         # Make an output dataframe of the labels and the predictions
-        annots_df = pd.DataFrame({"Label": y_test,
-                                  f"Pred: {clf_names[0]}": y_pred_list[0],
-                                  f"Pred: {clf_names[1]}": y_pred_list[1],
-                                  f"Pred: {clf_names[2]}": y_pred_list[2],
-                                  f"Pred: {clf_names[3]}": y_pred_list[3],
-                                  f"Pred: {clf_names[4]}": y_pred_list[4],
-                                  f"Pred: {tf_names[0]}": y_pred_list[5],
-                                  f"Pred: {tf_names[1]}": y_pred_list[6]})
+        if fit_transformers:
+            annots_df = pd.DataFrame({"Label": y_test,
+                                      f"Pred: {clf_names[0]}": y_pred_list[0],
+                                      f"Pred: {clf_names[1]}": y_pred_list[1],
+                                      f"Pred: {clf_names[2]}": y_pred_list[2],
+                                      f"Pred: {clf_names[3]}": y_pred_list[3],
+                                      f"Pred: {clf_names[4]}": y_pred_list[4],
+                                      f"Pred: {tf_names[0]}": y_pred_list[5],
+                                      f"Pred: {tf_names[1]}": y_pred_list[6]})
+        else:
+            annots_df = pd.DataFrame({"Label": y_test,
+                                      f"Pred: {clf_names[0]}": y_pred_list[0],
+                                      f"Pred: {clf_names[1]}": y_pred_list[1],
+                                      f"Pred: {clf_names[2]}": y_pred_list[2],
+                                      f"Pred: {clf_names[3]}": y_pred_list[3],
+                                      f"Pred: {clf_names[4]}": y_pred_list[4]})
         if in_clf_list is not None:
             X_test = df.drop(["annotation"], axis=1)  # return back to a dataframe
         X_test_rel_con_df = pd.merge(model_contra_df[['rel', 'con']], X_test, left_index=True, right_index=True)
